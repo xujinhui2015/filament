@@ -30,6 +30,18 @@ https://laravel-lang.com/packages-common.html
 https://github.com/opcodesio/log-viewer
 访问地址 {APP_URL}/log-viewer
 
+# 创建模型工厂
+php artisan make:factory PostFactory
+
+# 创建数据填充
+php artisan make:seeder UserSeeder
+
+# 运行 Seeders
+php artisan db:seed
+
+# 创建软连接
+php artisan storage:link
+
 -----------------------Filament插件相关-----------------------
 配置扩展包：https://filamentphp.com/plugins/outerweb-settings
 composer require outerweb/filament-settings

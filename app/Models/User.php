@@ -13,24 +13,21 @@ use Spatie\Permission\Traits\HasRoles;
 /**
  * @property int|null $id
  * @property string|null $name
+ * @property string $avatar_url 用户头像
  * @property string|null $email
  * @property Carbon $email_verified_at
  * @property string|null $password
  * @property string $remember_token
  * @property Carbon $created_at
  * @property Carbon $updated_at
- *
  * @method static Builder|User query()
  */
 class User extends Authenticatable
 {
     use HasFactory, HasRoles, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    protected $table = 'users';
+
     protected $fillable = [
         'name',
         'email',
@@ -38,21 +35,11 @@ class User extends Authenticatable
         'avatar_url',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
