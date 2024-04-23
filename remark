@@ -1,0 +1,48 @@
+-----------------------Filament工具方法-----------------------
+# 根据模型创建CURD
+php artisan make:filament-resource Customer/Customer --simple --generate --soft-deletes --view
+--simple 新增编辑弹框
+--generate 自动生成表单和表格
+--soft-deletes 处理软删除
+--view 生成查看页面
+
+# 配置关联管理器
+php artisan make:filament-relation-manager OrderResource funds money
+
+# 创建导出器
+php artisan make:filament-exporter Order --generate
+
+# 配置子导航关联
+php artisan make:filament-page ShowOperationLog --resource=OrderResource --type=ManageRelatedRecords
+
+-----------------------权限相关-----------------------
+# 如果你开发了新页面，则需要为Filament实体生成策略和/或策略后，权限才会生效
+php artisan shield:generate --all
+
+# 置顶某个系统用户具有super_admin角色的用户
+php artisan shield:super-admin --user=1
+
+-----------------------Laravel相关-----------------------
+# 翻译相关
+https://laravel-lang.com/packages-common.html
+
+# 日志查看
+https://github.com/opcodesio/log-viewer
+访问地址 {APP_URL}/log-viewer
+
+-----------------------Filament插件相关-----------------------
+配置扩展包：https://filamentphp.com/plugins/outerweb-settings
+composer require outerweb/filament-settings
+php artisan settings:install
+
+-----------------------常见问题-----------------------
+# 提示The POST method is not supported for route admin/login. Supported methods: GET, HEAD. 用下面的方案解决
+php artisan vendor:publish --force --tag=livewire:assets
+
+# 代码上线
+更新代码包： sudo -u www composer update --no-dev
+优化laravel配置： sudo -u www php artisan optimize
+缓存 Blade 图标：sudo -u www php artisan icons:cache
+缓存 Filament 组件：sudo -u www php artisan filament:clear-cached-components
+清空配置：sudo -u www php artisan config:clear
+
