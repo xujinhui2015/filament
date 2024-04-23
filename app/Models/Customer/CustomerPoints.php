@@ -21,6 +21,8 @@ class CustomerPoints extends Model
 {
     protected $table = 'customer_points';
 
+    const UPDATED_AT = null;
+
     protected $fillable = [
         'customer_id',
         'change_explain',

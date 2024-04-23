@@ -2,6 +2,7 @@
 
 namespace App\Models\Customer;
 
+use App\Casts\MoneyCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -23,6 +24,12 @@ class CustomerBalances extends Model
     use HasFactory;
 
     protected $table = 'customer_balances';
+
+    const UPDATED_AT = null;
+
+    protected $casts = [
+        'balance' => MoneyCast::class,
+    ];
 
     protected $fillable = [
         'customer_id',

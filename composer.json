@@ -14,7 +14,8 @@
         "jiannei/laravel-response": "6.0",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
-        "spatie/laravel-route-attributes": "^1.22"
+        "spatie/laravel-route-attributes": "^1.22",
+        "ext-bcmath": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

@@ -18,7 +18,7 @@ class CustomerFactory extends Factory
         $phoneNumber = $randomPrefix . str_pad(mt_rand(10000000, 99999999), 8, '0', STR_PAD_LEFT);
         return [
             'nickname' =>  fake()->name(),
-            'avatar' => '',
+            'avatar_url' => '',
             'phone' => $phoneNumber,
             'balance' => random_int(0, 100000),
             'points' => random_int(0, 100000),

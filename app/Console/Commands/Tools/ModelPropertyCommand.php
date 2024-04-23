@@ -1,18 +1,17 @@
 <?php
 
-namespace App\Console\Commands\Tool;
+namespace App\Console\Commands\Tools;
 
 use Doctrine\DBAL\Exception;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use ReflectionClass;
 use ReflectionMethod;
 use SplFileObject;
 
-class ModelProperty extends Command
+class ModelPropertyCommand extends Command
 {
     /**
      * The name and signature of the console command.

@@ -5,6 +5,7 @@ namespace App\Models\Customer;
 use App\Casts\MoneyCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
@@ -38,4 +39,14 @@ class Customer extends Model
         'balance',
         'points',
     ];
+
+    public function balance(): HasMany
+    {
+        return $this->hasMany(CustomerBalances::class);
+    }
+
+    public function points(): HasMany
+    {
+        return $this->hasMany(CustomerPoints::class);
+    }
 }
