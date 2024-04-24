@@ -75,13 +75,13 @@ class ModelPropertyCommand extends Command
             if ($dir == '.' || $dir == '..') {
                 continue;
             }
-            $path = $appModelPath . '/' . $dir;
+            $path = $appModelPath.'/'.$dir;
             if (is_dir($path)) {
                 foreach (scandir($path) as $value) {
                     if ($value == '.' || $value == '..') {
                         continue;
                     }
-                    $filePath = $path . "/" . $value;
+                    $filePath = $path.'/'.$value;
                     if (is_file($filePath)) {
                         $this->parseSingleFile($filePath);
                     }
@@ -108,14 +108,14 @@ class ModelPropertyCommand extends Command
         preg_match('/class (.*?) extends/', $fileContent, $classMatch);
 
         $className = $classMatch[1];
-        $class = $spaceName . "\\" . $className;
+        $class = $spaceName.'\\'.$className;
 
-        if (!class_exists($class)) {
+        if (! class_exists($class)) {
             return;
         }
 
         $instance = new $class();
-        if (!($instance instanceof Model)) {
+        if (! ($instance instanceof Model)) {
             return;
         }
 
@@ -128,14 +128,14 @@ class ModelPropertyCommand extends Command
         foreach ($columnList as $column) {
             $columnComment = $column['comment'];
             if ($columnComment) {
-                $columnComment = ' ' . $column['comment'];
+                $columnComment = ' '.$column['comment'];
             }
             $columnType = $this->columnMapping[$column['type_name']];
             $columnTypes[] = $columnType;
-            if (!$column['nullable']) {
+            if (! $column['nullable']) {
                 $columnType .= '|null';
             }
-            $comments[$column['name']] = " * @property " . $columnType . " $" . $column['name'] . $columnComment;
+            $comments[$column['name']] = ' * @property '.$columnType.' $'.$column['name'].$columnComment;
         }
 
         // 扫描表的关联
@@ -146,7 +146,7 @@ class ModelPropertyCommand extends Command
                 continue;
             }
             $methodName = $method->getName();
-            if (!($fileContent && strpos($fileContent, "function " . $methodName))) {
+            if (! ($fileContent && strpos($fileContent, 'function '.$methodName))) {
                 continue;
             }
             if (preg_match('/get(.*?)Attribute/', $methodName, $match)) {
@@ -154,7 +154,7 @@ class ModelPropertyCommand extends Command
                 if (isset($comments[$var])) {
                     unset($comments[$var]);
                 }
-                $comments[$var] = " * @property $" . $var;
+                $comments[$var] = ' * @property $'.$var;
             } else {
                 // 模型关联渲染
                 $startLine = $method->getStartLine();
@@ -183,7 +183,7 @@ class ModelPropertyCommand extends Command
                         break;
                     }
                 }
-                if (!$isRelation) {
+                if (! $isRelation) {
                     continue;
                 }
                 preg_match('/return.*?->(.*?)\(,?(.*?)::class/', $methodContent, $match);
@@ -197,16 +197,18 @@ class ModelPropertyCommand extends Command
                     '$this->morphToMany',
                     '$this->hasManyThrough',
                 ]);
-                $comments[] = " * @property " . $match[2] . ($isMany ? '[]' : '') . " $" . $methodName . ' ' .  $this->getDocTitle($method->getDocComment());
+                $docTitle = $this->getDocTitle($method->getDocComment());
+                $comments[] = ' * @property '.$match[2].($isMany ? '[]' : '').' $'.$methodName.($docTitle ? ' '.$docTitle : '');
             }
         }
 
         // 额外追加条目
-        $comments[] = ' * @method static Builder|' . $className . ' query()';
+        $comments[] = ' *';
+        $comments[] = ' * @method static Builder|'.$className.' query()';
 
         // 获取代码中所有的Use语句
         $tokens = token_get_all($fileContent);
-        $useStatements = array();
+        $useStatements = [];
         foreach ($tokens as $key => $token) {
             if ($token[0] == T_USE) {
                 $useStatement = '';
@@ -224,20 +226,20 @@ class ModelPropertyCommand extends Command
                 continue;
             }
             // 判断是否是要设置use
-            if (!$isAttribute) {
-                $useClass = explode("\\", $appendNamespace);
-                if (!in_array(end($useClass), $columnTypes)) {
+            if (! $isAttribute) {
+                $useClass = explode('\\', $appendNamespace);
+                if (! in_array(end($useClass), $columnTypes)) {
                     continue;
                 }
             }
-            $useAppendNamespaceCodes[] = 'use ' . $appendNamespace . ';';
+            $useAppendNamespaceCodes[] = 'use '.$appendNamespace.';';
         }
 
-        $classComments = "\n\n/**\n" . implode("\n", array_values($comments)) . "\n */\n";
+        $classComments = "\n\n/**\n".implode("\n", array_values($comments))."\n */\n";
 
         // 添加use
         if (isset($useAppendNamespaceCodes)) {
-            $classComments = "\n". implode("\n", $useAppendNamespaceCodes) . $classComments;
+            $classComments = "\n".implode("\n", $useAppendNamespaceCodes).$classComments;
         }
         $fileContent = preg_replace('/^([\s\S]*;)([\s\S]*?)(class.*?extends[\s\S]*)$/', "$1$classComments$3", $fileContent);
 
@@ -246,36 +248,33 @@ class ModelPropertyCommand extends Command
 
     /**
      * 读取文件的指定内容
-     * @param $file_name
-     * @param $start
-     * @param $end
-     * @return string
      */
     protected function readFile($file_name, $start, $end): string
     {
         $limit = $end - $start;
         $f = new SplFileObject($file_name, 'r');
         $f->seek($start);
-        $ret = "";
+        $ret = '';
         for ($i = 0; $i < $limit; $i++) {
             $ret .= $f->current();
             $f->next();
         }
+
         return $ret;
     }
 
     /**
      * 获取类或者方法注释的标题，第一行
-     * @param $docComment
-     * @return string
      */
     protected function getDocTitle($docComment): string
     {
         if ($docComment !== false) {
             $docCommentArr = explode("\n", $docComment);
             $comment = trim($docCommentArr[1]);
+
             return trim(substr($comment, strpos($comment, '*') + 1));
         }
+
         return '';
     }
 }

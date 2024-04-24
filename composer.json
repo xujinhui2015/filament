@@ -9,13 +9,16 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "ext-bcmath": "*",
         "bezhansalleh/filament-shield": "^3.2",
         "filament/filament": "^3.2",
         "jiannei/laravel-response": "6.0",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
-        "spatie/laravel-route-attributes": "^1.22",
-        "ext-bcmath": "*"
+        "overtrue/laravel-wechat": "^7.3",
+        "spatie/laravel-json-api-paginate": "^1.14",
+        "spatie/laravel-query-builder": "^5.8",
+        "spatie/laravel-route-attributes": "^1.22"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

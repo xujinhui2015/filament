@@ -3,9 +3,9 @@
 namespace App\Models\Customer;
 
 use App\Casts\MoneyCast;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 
 /**
@@ -17,6 +17,7 @@ use Illuminate\Support\Carbon;
  * @property int|null $relation_id 关联ID
  * @property string $remark 备注
  * @property Carbon $created_at
+ *
  * @method static Builder|CustomerBalances query()
  */
 class CustomerBalances extends Model

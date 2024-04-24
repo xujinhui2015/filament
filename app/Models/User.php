@@ -20,6 +20,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string $remember_token
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ *
  * @method static Builder|User query()
  */
 class User extends Authenticatable

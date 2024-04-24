@@ -2,8 +2,8 @@
 
 namespace App\Models\Customer;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
 /**
@@ -15,6 +15,7 @@ use Illuminate\Support\Carbon;
  * @property int|null $relation_id 关联ID
  * @property string $remark 备注
  * @property Carbon $created_at
+ *
  * @method static Builder|CustomerPoints query()
  */
 class CustomerPoints extends Model

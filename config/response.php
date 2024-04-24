@@ -47,10 +47,10 @@ return [
         'class' => \Jiannei\Response\Laravel\Support\Format::class,
         'config' => [
             // key => config
-            'status' => ['alias' => 'status', 'show' => true],
+            'status' => ['alias' => 'status', 'show' => false],
             'code' => ['alias' => 'code', 'show' => true],
             'message' => ['alias' => 'message', 'show' => true],
-            'error' => ['alias' => 'error', 'show' => true],
+            'error' => ['alias' => 'error', 'show' => false],
             'data' => ['alias' => 'data', 'show' => true],
             'data.data' => ['alias' => 'data.data', 'show' => true], // rows/items/list
         ],
