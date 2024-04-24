@@ -32,15 +32,14 @@ class LoginController extends Controller
             $result = $app->getUtils()->codeToSession($request->post('code'));
         } catch (HttpException|ClientExceptionInterface|DecodingExceptionInterface
             |RedirectionExceptionInterface|ServerExceptionInterface|TransportExceptionInterface) {
-            return $this->fail('登录失败');
-        }
+                return $this->fail('登录失败');
+            }
 
         // 返回示例
-//        dump($result);
-//        [
-//            "session_key" => "nfQZDTK0VEMaBe4IPy3Hvg=="
-//            "openid" => "osQykt6-oHsTRfF2Fr5PzJjRi8Ho"
-//        ]
+        //        dump($result);
+        //        [
+        //            "session_key" => "nfQZDTK0VEMaBe4IPy3Hvg=="
+        //            "openid" => "osQykt6-oHsTRfF2Fr5PzJjRi8Ho"
+        //        ]
     }
-
 }

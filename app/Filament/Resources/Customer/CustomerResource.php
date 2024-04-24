@@ -3,9 +3,8 @@
 namespace App\Filament\Resources\Customer;
 
 use App\Filament\Resources\Customer\CustomerResource\Pages;
-use App\Filament\Resources\Customer\CustomerResource\RelationManagers;
 use App\Models\Customer\Customer;
-use Filament\Forms;
+use Exception;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -33,6 +32,9 @@ class CustomerResource extends Resource
             ]);
     }
 
+    /**
+     * @throws Exception
+     */
     public static function table(Table $table): Table
     {
         return $table
@@ -54,7 +56,7 @@ class CustomerResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+//                Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
                 Tables\Actions\ForceDeleteAction::make(),
                 Tables\Actions\RestoreAction::make(),

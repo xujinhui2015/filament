@@ -16,7 +16,6 @@
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
         "overtrue/laravel-wechat": "^7.3",
-        "spatie/laravel-json-api-paginate": "^1.14",
         "spatie/laravel-query-builder": "^5.8",
         "spatie/laravel-route-attributes": "^1.22"
     },

@@ -2,8 +2,8 @@
 
 namespace App\Models\Customer;
 
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
 /**
@@ -18,8 +18,9 @@ use Illuminate\Support\Carbon;
  *
  * @method static Builder|CustomerPoints query()
  */
-class CustomerPoints extends Model
+class CustomerPoints extends BaseModel
 {
+
     protected $table = 'customer_points';
 
     const UPDATED_AT = null;

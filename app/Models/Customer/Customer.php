@@ -3,9 +3,9 @@
 namespace App\Models\Customer;
 
 use App\Casts\MoneyCast;
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
@@ -20,12 +20,12 @@ use Illuminate\Support\Carbon;
  * @property Carbon $deleted_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * @property CustomerBalances[] $customerBalances 
- * @property CustomerPoints[] $customerPoints 
+ * @property CustomerBalances[] $customerBalances
+ * @property CustomerPoints[] $customerPoints
  *
  * @method static Builder|Customer query()
  */
-class Customer extends Model
+class Customer extends BaseModel
 {
     use HasFactory,SoftDeletes;
 

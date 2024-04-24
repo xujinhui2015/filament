@@ -14,17 +14,18 @@ class ClearTableCommand extends Command
 
     protected $description = '清理表数据';
 
-
     public function handle()
     {
-        if (!$this->confirm('确认要清理表数据吗?')) {
+        if (! $this->confirm('确认要清理表数据吗?')) {
             $this->info('已取消');
-            return ;
+
+            return;
         }
 
-        if (!$this->confirm('再次确认要清理表数据吗?')) {
+        if (! $this->confirm('再次确认要清理表数据吗?')) {
             $this->info('已取消');
-            return ;
+
+            return;
         }
 
         // 用户相关信息

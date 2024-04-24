@@ -2,6 +2,7 @@
 
 namespace App\Models\Customer;
 
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,7 +18,7 @@ use Illuminate\Support\Carbon;
  *
  * @method static Builder|CustomerWechat query()
  */
-class CustomerWechat extends Model
+class CustomerWechat extends BaseModel
 {
     use SoftDeletes;
 

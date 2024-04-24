@@ -17,7 +17,7 @@ trait EnumTraits
      */
     public function isNeq($value): bool
     {
-        return !$this->isEq($value);
+        return ! $this->isEq($value);
     }
 
     /**
@@ -30,6 +30,7 @@ trait EnumTraits
         foreach ($cases as $case) {
             $result[$case->value] = $case->text();
         }
+
         return $result;
     }
 

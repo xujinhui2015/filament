@@ -31,7 +31,7 @@ class ModelPropertyCommand extends Command
      * 需要排除生成的文件名称
      */
     protected array $excludeFile = [
-
+        'BaseModel.php',
     ];
 
     /**
