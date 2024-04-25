@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Table;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Table::configureUsing(function (Table $table): void {
+            $table
+                ->paginationPageOptions([10, 25, 50, 100]);
+        });
     }
 }
