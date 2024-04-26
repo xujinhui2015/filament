@@ -38,7 +38,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('customer_points', function (Blueprint $table) {
+        Schema::create('customer_points_records', function (Blueprint $table) {
             $table->id();
 
             $table->unsignedInteger('customer_id')->comment('会员ID');
@@ -53,7 +53,7 @@ return new class extends Migration
             $table->timestamp('created_at')->nullable();
         });
 
-        Schema::create('customer_balances', function (Blueprint $table) {
+        Schema::create('customer_balance_records', function (Blueprint $table) {
             $table->id();
 
             $table->unsignedInteger('customer_id')->comment('会员ID');

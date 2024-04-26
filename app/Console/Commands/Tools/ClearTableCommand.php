@@ -3,8 +3,8 @@
 namespace App\Console\Commands\Tools;
 
 use App\Models\Customer\Customer;
-use App\Models\Customer\CustomerBalances;
-use App\Models\Customer\CustomerPoints;
+use App\Models\Customer\CustomerBalanceRecord;
+use App\Models\Customer\CustomerPointsRecord;
 use App\Models\Customer\CustomerWechat;
 use Illuminate\Console\Command;
 
@@ -30,8 +30,8 @@ class ClearTableCommand extends Command
 
         // 用户相关信息
         Customer::query()->truncate();
-        CustomerPoints::query()->truncate();
-        CustomerBalances::query()->truncate();
+        CustomerPointsRecord::query()->truncate();
+        CustomerBalanceRecord::query()->truncate();
         CustomerWechat::query()->truncate();
 
         $this->info('操作成功!');

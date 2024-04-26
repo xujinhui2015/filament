@@ -18,13 +18,13 @@ use Illuminate\Support\Carbon;
  * @property string $remark 备注
  * @property Carbon $created_at
  *
- * @method static Builder|CustomerBalances query()
+ * @method static Builder|CustomerBalanceRecord query()
  */
-class CustomerBalances extends BaseModel
+class CustomerBalanceRecord extends BaseModel
 {
     use HasFactory;
 
-    protected $table = 'customer_balances';
+    protected $table = 'customer_balance_records';
 
     const UPDATED_AT = null;
 

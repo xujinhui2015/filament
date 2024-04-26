@@ -3,8 +3,8 @@
 namespace App\Filament\Resources\Customer;
 
 use App\Filament\Resources\Customer\CustomerResource\Pages;
-use App\Filament\Resources\Customer\CustomerResource\RelationManagers\CustomerBalancesRelationManager;
-use App\Filament\Resources\Customer\CustomerResource\RelationManagers\CustomerPointsRelationManager;
+use App\Filament\Resources\Customer\CustomerResource\RelationManagers\CustomerBalancesRecordsRelationManager;
+use App\Filament\Resources\Customer\CustomerResource\RelationManagers\CustomerPointsRecordsRelationManager;
 use App\Models\Customer\Customer;
 use Exception;
 use Filament\Forms\Form;
@@ -55,7 +55,7 @@ class CustomerResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')->toggleable(true, true)->label('注册时间'),
             ])
             ->filters([
-                //
+
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -89,8 +89,8 @@ class CustomerResource extends Resource
     public static function getRelations(): array
     {
         return [
-            CustomerBalancesRelationManager::class,
-            CustomerPointsRelationManager::class,
+            CustomerBalancesRecordsRelationManager::class,
+            CustomerPointsRecordsRelationManager::class,
         ];
     }
 

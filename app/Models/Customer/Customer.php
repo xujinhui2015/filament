@@ -20,8 +20,8 @@ use Illuminate\Support\Carbon;
  * @property Carbon $deleted_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * @property CustomerBalances[] $customerBalances
- * @property CustomerPoints[] $customerPoints
+ * @property CustomerBalanceRecord[] $customerBalances
+ * @property CustomerPointsRecord[] $customerPoints
  *
  * @method static Builder|Customer query()
  */
@@ -43,13 +43,13 @@ class Customer extends BaseModel
         'points',
     ];
 
-    public function customerBalances(): HasMany
+    public function customerBalanceRecords(): HasMany
     {
-        return $this->hasMany(CustomerBalances::class);
+        return $this->hasMany(CustomerBalanceRecord::class);
     }
 
-    public function customerPoints(): HasMany
+    public function customerPointsRecords(): HasMany
     {
-        return $this->hasMany(CustomerPoints::class);
+        return $this->hasMany(CustomerPointsRecord::class);
     }
 }

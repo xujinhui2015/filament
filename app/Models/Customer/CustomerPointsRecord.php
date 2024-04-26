@@ -16,12 +16,12 @@ use Illuminate\Support\Carbon;
  * @property string $remark 备注
  * @property Carbon $created_at
  *
- * @method static Builder|CustomerPoints query()
+ * @method static Builder|CustomerPointsRecord query()
  */
-class CustomerPoints extends BaseModel
+class CustomerPointsRecord extends BaseModel
 {
 
-    protected $table = 'customer_points';
+    protected $table = 'customer_points_records';
 
     const UPDATED_AT = null;
 
