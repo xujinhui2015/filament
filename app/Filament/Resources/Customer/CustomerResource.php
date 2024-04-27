@@ -7,6 +7,7 @@ use App\Filament\Resources\Customer\CustomerResource\RelationManagers\CustomerBa
 use App\Filament\Resources\Customer\CustomerResource\RelationManagers\CustomerPointsRecordsRelationManager;
 use App\Models\Customer\Customer;
 use Exception;
+use Filament\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Infolists;
 use Filament\Infolists\Infolist;
@@ -65,7 +66,7 @@ class CustomerResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])->recordUrl(null);
     }
 
     public static function infolist(Infolist $infolist): Infolist
