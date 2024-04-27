@@ -5,13 +5,9 @@ namespace App\Filament\Resources\Customer\CustomerResource\RelationManagers;
 use App\Enums\Customer\CustomerBalanceSceneTypeEnum;
 use App\Services\FilamentCommonService;
 use Exception;
-use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CustomerBalancesRecordsRelationManager extends RelationManager
 {
@@ -20,14 +16,6 @@ class CustomerBalancesRecordsRelationManager extends RelationManager
     protected static ?string $title =  '余额变动';
 
     protected static ?string $modelLabel = '余额变动';
-
-    public function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-
-            ]);
-    }
 
     /**
      * @throws Exception

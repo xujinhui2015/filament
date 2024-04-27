@@ -7,7 +7,6 @@ use App\Filament\Resources\Customer\CustomerResource\RelationManagers\CustomerBa
 use App\Filament\Resources\Customer\CustomerResource\RelationManagers\CustomerPointsRecordsRelationManager;
 use App\Models\Customer\Customer;
 use Exception;
-use Filament\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Infolists;
 use Filament\Infolists\Infolist;
@@ -26,14 +25,6 @@ class CustomerResource extends Resource
     protected static ?string $modelLabel = '会员';
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
-
-    public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                //
-            ]);
-    }
 
     /**
      * @throws Exception
@@ -60,7 +51,6 @@ class CustomerResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -100,7 +90,6 @@ class CustomerResource extends Resource
         return [
             'index' => Pages\ListCustomers::route('/'),
             'view' => Pages\ViewCustomer::route('/{record}'),
-            'edit' => Pages\EditCustomer::route('/{record}/edit'),
         ];
     }
 }
