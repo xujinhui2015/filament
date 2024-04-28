@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Customer\CustomerBalanceSceneTypeEnum;
 use App\Models\Customer\Customer;
+use App\Models\Customer\CustomerBalanceRecord;
 use Illuminate\Database\Seeder;
 use Random\RandomException;
 
@@ -19,19 +21,20 @@ class DatabaseSeeder extends Seeder
             die('生产环境禁止执行');
         }
 
-//        // 生成用户信息
+        // 生成用户信息
 //        Customer::factory()
 //            ->count(50)
 //            ->create();
-//
-//        // 生成用户余额和积分记录
+
+        // 生成用户余额和积分记录
 //        Customer::all()->each(function (Customer $customer) {
 //            // 生成余额记录
 //            $balance = $customer->balance;
 //            $selfBalance = 0;
 //
+//            $balances = [];
 //            while (bccomp($balance, $selfBalance, 2) == 1) {
-//                $selfBalance = bcdiv(random_int(0, 3000), 100, 2);
+//                $selfBalance = bcdiv(random_int(0, 5000), 100, 2);
 //                $balance = bcsub($balance, $selfBalance, 2);
 //                $balances[] = $selfBalance;
 //            }
@@ -40,7 +43,7 @@ class DatabaseSeeder extends Seeder
 //            }
 //
 //            if (isset($balances)) {
-//                $customer->balance()->createMany(array_map(function ($balance) {
+//                $customer->customerBalanceRecords()->createMany(array_map(function ($balance) {
 //                    return [
 //                        'change_explain' => '自动生成',
 //                        'scene_type' => 0,
@@ -55,6 +58,7 @@ class DatabaseSeeder extends Seeder
 //            $points = $customer->points;
 //            $selfPoints = 0;
 //
+//            $pointsMany = [];
 //            while ($points > $selfPoints) {
 //                $selfPoints = random_int(0, 3000);
 //                $points = $points - $selfPoints;
@@ -64,7 +68,7 @@ class DatabaseSeeder extends Seeder
 //                $pointsMany[] = $points;
 //            }
 //            if (isset($pointsMany)) {
-//                $customer->points()->createMany(array_map(function ($points) {
+//                $customer->customerPointsRecords()->createMany(array_map(function ($points) {
 //                    return [
 //                        'change_explain' => '自动生成',
 //                        'scene_type' => 0,

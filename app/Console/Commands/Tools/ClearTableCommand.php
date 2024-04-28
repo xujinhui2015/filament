@@ -14,7 +14,7 @@ class ClearTableCommand extends Command
 
     protected $description = '清理表数据';
 
-    public function handle()
+    public function handle(): void
     {
         if (! $this->confirm('确认要清理表数据吗?')) {
             $this->info('已取消');

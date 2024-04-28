@@ -20,7 +20,7 @@ class CustomerFactory extends Factory
             'nickname' =>  fake()->name(),
             'avatar_url' => '',
             'phone' => $phoneNumber,
-            'balance' => random_int(0, 100000),
+            'balance' => random_int(0, 1000),
             'points' => random_int(0, 100000),
         ];
     }
