@@ -3,8 +3,8 @@
 namespace App\Filament\Resources\Customer;
 
 use App\Filament\Resources\Customer\CustomerResource\Pages;
-use App\Filament\Resources\Customer\CustomerResource\RelationManagers\CustomerBalancesRecordsRelationManager;
-use App\Filament\Resources\Customer\CustomerResource\RelationManagers\CustomerPointsRecordsRelationManager;
+use App\Filament\Resources\Customer\CustomerResource\RelationManagers\BalancesRecordsRelationManager;
+use App\Filament\Resources\Customer\CustomerResource\RelationManagers\PointsRecordsRelationManager;
 use App\Models\Customer\Customer;
 use Exception;
 use Filament\Forms\Form;
@@ -80,8 +80,8 @@ class CustomerResource extends Resource
     public static function getRelations(): array
     {
         return [
-            CustomerBalancesRecordsRelationManager::class,
-            CustomerPointsRecordsRelationManager::class,
+            BalancesRecordsRelationManager::class,
+            PointsRecordsRelationManager::class,
         ];
     }
 

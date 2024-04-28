@@ -43,7 +43,7 @@ class DatabaseSeeder extends Seeder
 //            }
 //
 //            if (isset($balances)) {
-//                $customer->customerBalanceRecords()->createMany(array_map(function ($balance) {
+//                $customer->balanceRecords()->createMany(array_map(function ($balance) {
 //                    return [
 //                        'change_explain' => '自动生成',
 //                        'scene_type' => 0,
@@ -68,7 +68,7 @@ class DatabaseSeeder extends Seeder
 //                $pointsMany[] = $points;
 //            }
 //            if (isset($pointsMany)) {
-//                $customer->customerPointsRecords()->createMany(array_map(function ($points) {
+//                $customer->pointsRecords()->createMany(array_map(function ($points) {
 //                    return [
 //                        'change_explain' => '自动生成',
 //                        'scene_type' => 0,

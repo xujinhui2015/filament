@@ -43,12 +43,12 @@ class Customer extends BaseModel
         'points',
     ];
 
-    public function customerBalanceRecords(): HasMany
+    public function balanceRecords(): HasMany
     {
         return $this->hasMany(CustomerBalanceRecord::class);
     }
 
-    public function customerPointsRecords(): HasMany
+    public function pointsRecords(): HasMany
     {
         return $this->hasMany(CustomerPointsRecord::class);
     }
