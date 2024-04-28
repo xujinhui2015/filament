@@ -20,8 +20,8 @@ use Illuminate\Support\Carbon;
  * @property Carbon $deleted_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * @property CustomerBalanceRecord[] $customerBalances
- * @property CustomerPointsRecord[] $customerPoints
+ * @property CustomerBalanceRecord[] $balanceRecords
+ * @property CustomerPointsRecord[] $pointsRecords
  *
  * @method static Builder|Customer query()
  */
