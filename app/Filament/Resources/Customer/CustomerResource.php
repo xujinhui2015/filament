@@ -7,7 +7,6 @@ use App\Filament\Resources\Customer\CustomerResource\RelationManagers\BalancesRe
 use App\Filament\Resources\Customer\CustomerResource\RelationManagers\PointsRecordsRelationManager;
 use App\Models\Customer\Customer;
 use Exception;
-use Filament\Forms\Form;
 use Filament\Infolists;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
@@ -91,5 +90,10 @@ class CustomerResource extends Resource
             'index' => Pages\ListCustomers::route('/'),
             'view' => Pages\ViewCustomer::route('/{record}'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return Customer::query()->count();
     }
 }
