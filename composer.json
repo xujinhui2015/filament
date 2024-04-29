@@ -15,6 +15,7 @@
         "jiannei/laravel-response": "6.0",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
+        "opcodesio/log-viewer": "^3.8",
         "overtrue/laravel-wechat": "^7.3",
         "spatie/laravel-query-builder": "^5.8",
         "spatie/laravel-route-attributes": "^1.22"

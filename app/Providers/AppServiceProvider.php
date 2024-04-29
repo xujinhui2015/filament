@@ -5,6 +5,7 @@ namespace App\Providers;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
 use Illuminate\Support\ServiceProvider;
+use Opcodes\LogViewer\Facades\LogViewer;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +25,11 @@ class AppServiceProvider extends ServiceProvider
         Table::configureUsing(function (Table $table): void {
             $table
                 ->paginationPageOptions([10, 25, 50, 100]);
+        });
+
+        LogViewer::auth(function ($request) {
+            return $request->user()
+                && $request->user()->id == 1;
         });
     }
 }
