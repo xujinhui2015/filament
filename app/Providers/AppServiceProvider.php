@@ -27,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
                 ->paginationPageOptions([10, 25, 50, 100]);
         });
 
+        // 访问日志限制权限
         LogViewer::auth(function ($request) {
             return $request->user()
                 && $request->user()->id == 1;
