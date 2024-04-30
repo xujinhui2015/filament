@@ -39,9 +39,6 @@ php artisan make:seeder UserSeeder
 # 运行 Seeders
 php artisan db:seed
 
-# 创建软连接
-php artisan storage:link
-
 -----------------------Laravel插件相关-----------------------
 
 https://github.com/barryvdh/laravel-ide-helper
