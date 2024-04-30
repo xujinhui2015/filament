@@ -7,8 +7,10 @@ use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Laravel\Sanctum\HasApiTokens;
 
 /**
  * @property int|null $id
@@ -22,12 +24,13 @@ use Illuminate\Support\Carbon;
  * @property Carbon $updated_at
  * @property CustomerBalanceRecord[] $balanceRecords
  * @property CustomerPointsRecord[] $pointsRecords
+ * @property CustomerWechat $wechat
  *
  * @method static Builder|Customer query()
  */
 class Customer extends BaseModel
 {
-    use HasFactory,SoftDeletes;
+    use HasApiTokens,HasFactory,SoftDeletes;
 
     protected $table = 'customers';
 
@@ -51,5 +54,10 @@ class Customer extends BaseModel
     public function pointsRecords(): HasMany
     {
         return $this->hasMany(CustomerPointsRecord::class);
+    }
+
+    public function wechat(): HasOne
+    {
+        return $this->hasOne(CustomerWechat::class);
     }
 }

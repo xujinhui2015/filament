@@ -4,7 +4,7 @@ namespace App\Models\Customer;
 
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
@@ -15,6 +15,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon $deleted_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property Customer $customer
  *
  * @method static Builder|CustomerWechat query()
  */
@@ -28,4 +29,9 @@ class CustomerWechat extends BaseModel
         'customer_id',
         'mini_openid',
     ];
+
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Customer::class);
+    }
 }
