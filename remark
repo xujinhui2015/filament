@@ -55,8 +55,8 @@ php artisan settings:install
 # 提示The POST method is not supported for route admin/login. Supported methods: GET, HEAD. 用下面的方案解决
 php artisan vendor:publish --force --tag=livewire:assets
 
-# 富文本去掉标题
-安装好后在public/css/app.css中添加 figcaption {display: none;}
+# 富文本去掉图片标题
+在public/css/app.css中添加 figcaption {display: none;}
 
 # 代码上线
 更新代码包： sudo -u www composer update --no-dev
