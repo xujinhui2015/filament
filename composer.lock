@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bcf562cd2f10de6982685b6c395a4d11",
+    "content-hash": "adc9e269cd38dc48312b5f0eba24f9e5",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -5467,6 +5467,79 @@
                 }
             ],
             "time": "2024-04-27T21:32:50+00:00"
+        },
+        {
+            "name": "rawilk/filament-quill",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rawilk/filament-quill.git",
+                "reference": "078282f526411fd67925e13b02f37303daedc9ae"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rawilk/filament-quill/zipball/078282f526411fd67925e13b02f37303daedc9ae",
+                "reference": "078282f526411fd67925e13b02f37303daedc9ae",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^10.0|^11.0",
+                "php": "^8.1|^8.2|^8.3",
+                "spatie/laravel-package-tools": "^1.14"
+            },
+            "require-dev": {
+                "awcodes/html-faker": "^0.2.1",
+                "filament/filament": "^3.0",
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^7.9|^8.0",
+                "orchestra/testbench": "^8.8|^9.0",
+                "pestphp/pest": "^2.20",
+                "pestphp/pest-plugin-laravel": "^2.2",
+                "pestphp/pest-plugin-livewire": "^2.1",
+                "spatie/laravel-ray": "^1.31"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Rawilk\\FilamentQuill\\FilamentQuillServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Rawilk\\FilamentQuill\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Randall Wilk",
+                    "email": "randall@randallwilk.dev",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Quill rich text editor for Filament.",
+            "homepage": "https://github.com/rawilk/filament-quill",
+            "keywords": [
+                "filament-quill",
+                "laravel",
+                "rawilk"
+            ],
+            "support": {
+                "issues": "https://github.com/rawilk/filament-quill/issues",
+                "source": "https://github.com/rawilk/filament-quill/tree/v1.0.3"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/rawilk",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-03-10T23:24:49+00:00"
         },
         {
             "name": "ryangjchandler/blade-capture-directive",

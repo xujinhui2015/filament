@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\FilePathDispose;
 use App\Http\Controllers\Controller;
 use App\Models\Customer\Customer;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Rawilk\FilamentQuill\Filament\Forms\Components\QuillEditor;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\RouteAttributes\Attributes\Any;
@@ -23,6 +25,14 @@ class TestController extends Controller
             // 传sort=id表示正序，传sort=-id表示倒序
             ->allowedSorts(['id', 'points'])
             ->paginate();
+
+
+        // 富文本编辑器, 放到Resource中的form里面
+//        QuillEditor::make('content')
+//            ->required()
+//            ->label('内容')
+//            ->fileAttachmentsDirectory(FilePathDispose::uploadDir(FilePathDispose::DEFAULT))
+//            ->columnSpanFull(),
 
         return $this->success($list);
 

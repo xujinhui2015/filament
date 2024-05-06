@@ -6,6 +6,8 @@ use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
 use Illuminate\Support\ServiceProvider;
 use Opcodes\LogViewer\Facades\LogViewer;
+use Rawilk\FilamentQuill\Enums\ToolbarButton;
+use Rawilk\FilamentQuill\Filament\Forms\Components\QuillEditor;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Table::configureUsing(function (Table $table): void {
+            // 默认分页配置
             $table
                 ->paginationPageOptions([10, 25, 50, 100]);
         });
@@ -31,6 +34,14 @@ class AppServiceProvider extends ServiceProvider
         LogViewer::auth(function ($request) {
             return $request->user()
                 && $request->user()->id == 1;
+        });
+
+        // 富文本默认配置
+        QuillEditor::configureUsing(function (QuillEditor $quillEditor) {
+            // 默认禁用字体
+            $quillEditor->disableToolbarButtons([
+                ToolbarButton::Font,
+            ]);
         });
     }
 }

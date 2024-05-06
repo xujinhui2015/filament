@@ -11,6 +11,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Rawilk\FilamentQuill\Filament\Forms\Components\QuillEditor;
 
 class UserResource extends Resource implements HasShieldPermissions
 {
@@ -67,6 +68,11 @@ class UserResource extends Resource implements HasShieldPermissions
                     ->autocomplete('new-password')
                     ->revealable()
                     ->label('密码'),
+                QuillEditor::make('content')
+                    ->required()
+                    ->label('内容')
+                    ->fileAttachmentsDirectory(FilePathDispose::uploadDir(FilePathDispose::DEFAULT))
+                    ->columnSpanFull(),
             ]);
     }
 
