@@ -62,6 +62,7 @@ return [
         'delete'    => 'Delete :name',
         'duplicate' => 'Duplicate :name',
         'edit'      => 'Edit :name',
+        'export'    => 'Export :name',
         'hide'      => 'Hide :name',
         'import'    => 'Import :name',
         'new'       => 'New :name',

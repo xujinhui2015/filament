@@ -62,6 +62,7 @@ return [
         'delete'    => '删除 :name 个',
         'duplicate' => '重复：名称',
         'edit'      => '编辑:name',
+        'export'    => 'Export :name',
         'hide'      => '隐藏 :name',
         'import'    => '进口 :name',
         'new'       => '新 :name',
