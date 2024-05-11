@@ -13,6 +13,7 @@ use Spatie\Permission\Traits\HasRoles;
 /**
  * @property int|null $id
  * @property string|null $name
+ * @property string $phone 手机号
  * @property string $avatar_url 用户头像
  * @property string|null $email
  * @property Carbon $email_verified_at
@@ -34,6 +35,7 @@ class User extends Authenticatable
         'email',
         'password',
         'avatar_url',
+        'phone',
     ];
 
     protected $hidden = [
@@ -47,5 +49,13 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * 是否超级管理员
+     */
+    public function isSupperAdmin()
+    {
+
     }
 }

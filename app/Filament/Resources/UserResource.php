@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Support\Helpers\FilePathHelper;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -46,27 +47,31 @@ class UserResource extends Resource implements HasShieldPermissions
                     ->getUploadedFileNameForStorageUsing(FilePathHelper::uploadUsing(FilePathHelper::AVATAR))
                     ->columnSpanFull()
                     ->label('头像'),
-                Forms\Components\TextInput::make('email')
-                    ->required()
-                    ->maxLength(255)
-                    ->label('登录邮箱'),
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255)
                     ->label('用户昵称'),
+                Forms\Components\TextInput::make('phone')
+                    ->required()
+                    ->maxLength(32)
+                    ->label('手机号'),
+                Forms\Components\TextInput::make('email')
+                    ->required()
+                    ->maxLength(255)
+                    ->label('邮箱'),
+                Forms\Components\TextInput::make('password')
+                    ->password()
+                    ->dehydrated(fn (?string $state): bool => filled($state))
+                    ->helperText('空表示不修改密码')
+                    ->autocomplete('new-password')
+                    ->revealable()
+                    ->label('密码'),
                 Forms\Components\Select::make('roles')
                     ->relationship('roles', 'name')
                     ->multiple()
                     ->preload()
                     ->searchable()
                     ->label('所属角色'),
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->dehydrated(fn (?string $state): bool => filled($state))
-                    ->placeholder('空表示不修改密码')
-                    ->autocomplete('new-password')
-                    ->revealable()
-                    ->label('密码'),
             ]);
     }
 
@@ -74,17 +79,21 @@ class UserResource extends Resource implements HasShieldPermissions
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('email')
-                    ->searchable()
-                    ->label('登录邮箱'),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->label('用户昵称'),
+                Tables\Columns\TextColumn::make('phone')
+                    ->searchable()
+                    ->label('手机号'),
+                Tables\Columns\TextColumn::make('email')
+                    ->searchable()
+                    ->label('登录邮箱'),
                 Tables\Columns\ImageColumn::make('avatar_url')
                     ->circular()
                     ->label('头像'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->sortable()
+                    ->toggleable(true, true)
                     ->label('注册时间'),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->sortable()

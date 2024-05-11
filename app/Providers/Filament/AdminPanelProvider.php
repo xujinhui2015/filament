@@ -2,12 +2,15 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Auth\CustomEditProfile;
+use App\Filament\Pages\Auth\CustomLogin;
 use App\Filament\Pages\Dashboard;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Enums\ThemeMode;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Pages\Auth\EditProfile;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -60,6 +63,8 @@ class AdminPanelProvider extends PanelProvider
             ->plugins([
                 FilamentShieldPlugin::make(),
             ])
+            ->profile(CustomEditProfile::class, false) // 个人资料页配置
+            ->login(CustomLogin::class) // 登录页配置
             ->defaultThemeMode(ThemeMode::Light) // 默认主题
             ->databaseNotifications() // 开启数据库通知
             ->spa();
