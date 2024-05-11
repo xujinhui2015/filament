@@ -2,11 +2,11 @@
 
 namespace App\Enums\Customer;
 
-use App\Traits\EnumTraits;
+use App\Support\Traits\EnumTrait;
 
 enum CustomerPointsSceneTypeEnum: int
 {
-    use EnumTraits;
+    use EnumTrait;
 
     case Unknown = 0;
 

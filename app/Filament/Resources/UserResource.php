@@ -3,15 +3,14 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
-use App\Helpers\FilePathDispose;
 use App\Models\User;
+use App\Support\Helpers\FilePathHelper;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Rawilk\FilamentQuill\Filament\Forms\Components\QuillEditor;
 
 class UserResource extends Resource implements HasShieldPermissions
 {
@@ -44,7 +43,7 @@ class UserResource extends Resource implements HasShieldPermissions
                 Forms\Components\FileUpload::make('avatar_url')
                     ->avatar()
                     ->imageEditor()
-                    ->getUploadedFileNameForStorageUsing(FilePathDispose::uploadUsing(FilePathDispose::AVATAR))
+                    ->getUploadedFileNameForStorageUsing(FilePathHelper::uploadUsing(FilePathHelper::AVATAR))
                     ->columnSpanFull()
                     ->label('头像'),
                 Forms\Components\TextInput::make('email')
@@ -68,11 +67,6 @@ class UserResource extends Resource implements HasShieldPermissions
                     ->autocomplete('new-password')
                     ->revealable()
                     ->label('密码'),
-                QuillEditor::make('content')
-                    ->required()
-                    ->label('内容')
-                    ->fileAttachmentsDirectory(FilePathDispose::uploadDir(FilePathDispose::DEFAULT))
-                    ->columnSpanFull(),
             ]);
     }
 

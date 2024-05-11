@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers;
+namespace App\Support\Helpers;
 
 use Carbon\Carbon;
 use Closure;
@@ -8,9 +8,9 @@ use Illuminate\Support\Str;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 /**
- * 文件路径处理
+ * 文件路径
  */
-class FilePathDispose
+class FilePathHelper
 {
     const DEFAULT = 'default';
 

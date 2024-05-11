@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Traits;
+namespace App\Support\Traits;
 
 use DateTimeInterface;
 
-trait FormatModelDateTraits
+trait FormatModelDateTrait
 {
     protected function serializeDate(DateTimeInterface $date): string
     {

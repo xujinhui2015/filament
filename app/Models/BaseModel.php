@@ -1,12 +1,12 @@
 <?php
 namespace App\Models;
 
-use App\Traits\FormatModelDateTraits;
+use App\Support\Traits\FormatModelDateTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class BaseModel extends Model
 {
-    use FormatModelDateTraits;
+    use FormatModelDateTrait;
 
     /**
      * 基础分页方法, 超过100条数据返回100条

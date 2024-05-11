@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Traits;
+namespace App\Support\Traits;
 
-trait EnumTraits
+trait EnumTrait
 {
     /**
      * 判断枚举是否等于值
