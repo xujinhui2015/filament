@@ -19,6 +19,7 @@
         "opcodesio/log-viewer": "^3.8",
         "overtrue/laravel-wechat": "^7.3",
         "rawilk/filament-quill": "^1.0",
+        "solution-forest/filament-tree": "^2.0",
         "spatie/laravel-query-builder": "^5.8",
         "spatie/laravel-route-attributes": "^1.22"
     },

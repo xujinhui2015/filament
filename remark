@@ -15,6 +15,9 @@ php artisan make:filament-exporter Order --generate
 # 配置子导航关联
 php artisan make:filament-page ShowOperationLog --resource=OrderResource --type=ManageRelatedRecords
 
+# 创建树形页面
+php artisan make:filament-tree-page Mall/MallGoodsCategoryTree --resource=MallGoodsCategory
+
 -----------------------权限相关-----------------------
 # 如果你开发了新页面，则需要为Filament实体生成策略和/或策略后，权限才会生效
 php artisan shield:generate --all

@@ -2,13 +2,8 @@
 
 namespace App\Filament\Resources\Mall;
 
-use App\Enums\MenuTypeEnum;
-use App\Enums\StatusEnum;
 use App\Filament\Resources\Mall\MallGoodsCategoryResource\Pages;
-use App\Filament\Resources\Mall\MallGoodsCategoryResource\RelationManagers;
-use App\Models\Mall\MallGoods;
 use App\Models\Mall\MallGoodsCategory;
-use App\Models\Menu;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -36,45 +31,17 @@ class MallGoodsCategoryResource extends Resource
                     ->default(0)
                     ->searchable()
                     ->required(),
-                Forms\Components\TextInput::make('category_name')
+                Forms\Components\TextInput::make('title')
                     ->required()
                     ->maxLength(100)
                     ->label('商品分类名称'),
             ]);
     }
 
-    public static function table(Table $table): Table
-    {
-        return $table
-            ->columns([
-                Tables\Columns\TextColumn::make('category_name')
-                    ->searchable()
-                    ->label('商品分类名称'),
-                Tables\Columns\ToggleColumn::make('is_disabled')
-                    ->label('是否禁用'),
-            ])
-            ->filters([
-                Tables\Filters\TrashedFilter::make(),
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\ForceDeleteAction::make(),
-                Tables\Actions\RestoreAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
-                ]),
-            ]);
-    }
-
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageMallGoodsCategories::route('/'),
+            'index' => Pages\MallGoodsCategoryTree::route('/'),
         ];
     }
 
@@ -91,10 +58,11 @@ class MallGoodsCategoryResource extends Resource
         $parentMenu = MallGoodsCategory::query()
             ->where('parent_id', 0)
             ->where('is_disabled', false)
-            ->pluck('category_name', 'id');
+            ->pluck('title', 'id');
         if ($isTop) {
             $parentMenu->offsetSet(0, '一级菜单');
         }
+
         return $parentMenu->sortKeys();
     }
 }
