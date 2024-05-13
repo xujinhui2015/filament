@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('customers', function (Blueprint $table) {
+        Schema::create('customer', function (Blueprint $table) {
             $table->id();
 
             $table->string('nickname', 32)->nullable()->comment('昵称');
@@ -29,7 +29,7 @@ return new class extends Migration
         Schema::create('customer_wechat', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedInteger('customer_id')->comment('会员ID');
+            $table->foreignId('customer_id')->comment('会员ID');
             $table->string('mini_openid', 128)->comment('小程序openid');
 
             $table->comment('会员微信表');
@@ -38,14 +38,14 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('customer_points_records', function (Blueprint $table) {
+        Schema::create('customer_points_record', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedInteger('customer_id')->comment('会员ID');
+            $table->foreignId('customer_id')->comment('会员ID');
             $table->string('change_explain')->comment('说明');
             $table->string('scene_type', 32)->comment('场景类型');
             $table->integer('points')->comment('变动积分');
-            $table->unsignedInteger('relation_id')->comment('关联ID');
+            $table->foreignId('relation_id')->comment('关联ID');
             $table->string('remark')->nullable()->comment('备注');
 
             $table->comment('会员积分记录表');
@@ -53,14 +53,14 @@ return new class extends Migration
             $table->timestamp('created_at')->nullable();
         });
 
-        Schema::create('customer_balance_records', function (Blueprint $table) {
+        Schema::create('customer_balance_record', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedInteger('customer_id')->comment('会员ID');
+            $table->foreignId('customer_id')->comment('会员ID');
             $table->string('change_explain')->comment('说明');
             $table->string('scene_type', 32)->comment('场景类型');
             $table->integer('balance')->comment('变动金额');
-            $table->unsignedInteger('relation_id')->comment('关联ID');
+            $table->foreignId('relation_id')->comment('关联ID');
             $table->string('remark')->nullable()->comment('备注');
 
             $table->comment('会员金额记录表');

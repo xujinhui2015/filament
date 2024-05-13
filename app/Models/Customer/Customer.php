@@ -32,7 +32,7 @@ class Customer extends BaseModel
 {
     use HasApiTokens,HasFactory,SoftDeletes;
 
-    protected $table = 'customers';
+    protected $table = 'customer';
 
     protected $casts = [
         'balance' => MoneyCast::class,

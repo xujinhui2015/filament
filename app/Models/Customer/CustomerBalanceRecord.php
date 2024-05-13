@@ -24,7 +24,7 @@ class CustomerBalanceRecord extends BaseModel
 {
     use HasFactory;
 
-    protected $table = 'customer_balance_records';
+    protected $table = 'customer_balance_record';
 
     const UPDATED_AT = null;
 

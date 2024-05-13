@@ -21,7 +21,7 @@ use Illuminate\Support\Carbon;
 class CustomerPointsRecord extends BaseModel
 {
 
-    protected $table = 'customer_points_records';
+    protected $table = 'customer_points_record';
 
     const UPDATED_AT = null;
 

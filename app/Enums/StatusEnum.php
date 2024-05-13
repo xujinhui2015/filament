@@ -10,4 +10,12 @@ enum StatusEnum: int
 
     case Open = 1;
     case Clone = 0;
+
+    public function text(): string
+    {
+        return match ($this) {
+            self::Open => '开启',
+            self::Clone => '关闭',
+        };
+    }
 }
