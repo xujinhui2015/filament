@@ -3,9 +3,6 @@
 namespace App\Filament\Resources\Mall\MallGoodsCategoryResource\Pages;
 
 use App\Filament\Resources\Mall\MallGoodsCategoryResource;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
 use SolutionForest\FilamentTree\Resources\Pages\TreePage;
 
 class MallGoodsCategoryTree extends TreePage

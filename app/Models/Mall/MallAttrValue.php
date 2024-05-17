@@ -7,10 +7,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class MallOrderAdjust extends BaseModel
+class MallAttrValue extends BaseModel
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'mall_order_adjusts';
+    protected $table = 'mall_attr_value';
+
+    protected $fillable = [
+        'attr_id',
+        'attr_value_name',
+        'is_disabled',
+        'sort',
+    ];
 
 }

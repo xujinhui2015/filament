@@ -49,12 +49,12 @@ return new class extends Migration
         Schema::create('mall_attr', function (Blueprint $table) {
             $table->id();
 
-            $table->string('attr_name', 100)->comment('商品属性名称');
+            $table->string('attr_name', 100)->comment('规格名称');
 
             $table->boolean('is_disabled')->default(false);
             $table->unsignedInteger('sort')->default(0);
 
-            $table->comment('商城商品规格属性表');
+            $table->comment('商城商品规格表');
 
             $table->softDeletes();
             $table->timestamps();
@@ -64,12 +64,12 @@ return new class extends Migration
             $table->id();
 
             $table->string('attr_id');
-            $table->string('attr_name', 100)->comment('商品属性名称');
+            $table->string('attr_value_name', 100)->comment('规格值名称');
 
             $table->boolean('is_disabled')->default(false);
             $table->unsignedInteger('sort')->default(0);
 
-            $table->comment('商城商品规格属性值表');
+            $table->comment('商城商品规格值表');
 
             $table->softDeletes();
             $table->timestamps();
@@ -79,7 +79,7 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('goods_id')->comment('商品ID');
-            $table->string('attr_name', 100)->comment('商品属性名称');
+            $table->string('attr_name', 100)->comment('规格名称');
 
             $table->boolean('is_disabled')->default(false);
             $table->unsignedInteger('sort')->default(0);
@@ -93,8 +93,8 @@ return new class extends Migration
         Schema::create('mall_goods_attr_value', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('goods_attr_id')->comment('商城商品规格属性表ID');
-            $table->string('attr_value_name', 100)->comment('商品属性值名称');
+            $table->foreignId('goods_attr_id')->comment('商城商品规格表ID');
+            $table->string('attr_value_name', 100)->comment('商品规格值名称');
 
             $table->boolean('is_disabled')->default(false);
             $table->unsignedInteger('sort')->default(0);

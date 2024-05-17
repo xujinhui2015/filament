@@ -11,6 +11,7 @@
         "php": "^8.2",
         "ext-bcmath": "*",
         "bezhansalleh/filament-shield": "^3.2",
+        "codewithdennis/filament-select-tree": "^3.1",
         "filament/filament": "^3.2",
         "jiannei/laravel-response": "6.0",
         "laravel/framework": "^11.0",

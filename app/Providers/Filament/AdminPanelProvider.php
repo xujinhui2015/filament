@@ -31,7 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
+            ->login(CustomLogin::class) // 登录页配置
             ->colors([
 //                'primary' => Color::Amber,
                 'primary' => Color::Green,
@@ -64,7 +64,6 @@ class AdminPanelProvider extends PanelProvider
                 FilamentShieldPlugin::make(),
             ])
             ->profile(CustomEditProfile::class, false) // 个人资料页配置
-            ->login(CustomLogin::class) // 登录页配置
             ->defaultThemeMode(ThemeMode::Light) // 默认主题
             ->databaseNotifications() // 开启数据库通知
             ->spa();

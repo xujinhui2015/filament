@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources\Mall;
 
+use App\Enums\IsYesOrNoEnum;
 use App\Filament\Resources\Mall\MallGoodsResource\Pages;
-use App\Filament\Resources\Mall\MallGoodsResource\RelationManagers;
 use App\Models\Mall\MallGoods;
+use App\Support\Helpers\FilePathHelper;
+use CodeWithDennis\FilamentSelectTree\SelectTree;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,6 +14,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Rawilk\FilamentQuill\Filament\Forms\Components\QuillEditor;
 
 class MallGoodsResource extends Resource
 {
@@ -30,27 +33,47 @@ class MallGoodsResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('goods_sn')
                     ->required()
-                    ->maxLength(100),
-                Forms\Components\TextInput::make('goods_category_id')
-                    ->required()
-                    ->numeric(),
+                    ->maxLength(100)
+                    ->label('商品代码'),
                 Forms\Components\TextInput::make('goods_name')
                     ->required()
-                    ->maxLength(100),
+                    ->maxLength(100)
+                    ->label('商品名称'),
+                SelectTree::make('goods_category_id')
+                    ->required()
+                    ->relationship('category', 'title', 'parent_id')
+                    ->emptyLabel('没有商品分类')
+                    ->searchable()
+                    ->parentNullValue(0)
+                    ->label('商品分类'),
                 Forms\Components\TextInput::make('subtitle')
                     ->required()
-                    ->maxLength(100),
-                Forms\Components\TextInput::make('main_img')
+                    ->maxLength(100)
+                    ->label('商品副标题'),
+                Forms\Components\FileUpload::make('main_img')
                     ->required()
-                    ->maxLength(1000),
-                Forms\Components\TextInput::make('images')
+                    ->imageEditor()
+                    ->getUploadedFileNameForStorageUsing(FilePathHelper::uploadUsing(FilePathHelper::MALL_GOODS))
+                    ->columnSpanFull()
+                    ->label('商品主图'),
+                Forms\Components\FileUpload::make('images')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('content')
+                    ->imageEditor()
+                    ->getUploadedFileNameForStorageUsing(FilePathHelper::uploadUsing(FilePathHelper::MALL_GOODS))
+                    ->columnSpanFull()
+                    ->multiple()
+                    ->label('商品轮播图'),
+                QuillEditor::make('content')
                     ->required()
-                    ->columnSpanFull(),
-                Forms\Components\Toggle::make('is_sale')
-                    ->required(),
+                    ->fileAttachmentsDirectory(FilePathHelper::uploadDir(FilePathHelper::MALL_GOODS))
+                    ->columnSpanFull()
+                    ->label('内容'),
+                Forms\Components\Radio::make('is_sale')
+                    ->required()
+                    ->inline()
+                    ->options(IsYesOrNoEnum::options())
+                    ->label('是否上架'),
+
             ]);
     }
 
@@ -59,32 +82,37 @@ class MallGoodsResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('goods_sn')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('goods_category_id')
+                    ->searchable()
+                    ->label('商品编号'),
+                Tables\Columns\TextColumn::make('category.title')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('商品分类'),
                 Tables\Columns\TextColumn::make('goods_name')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('商品名称'),
                 Tables\Columns\TextColumn::make('subtitle')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('main_img')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('images')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('商品副标题'),
+                Tables\Columns\ImageColumn::make('main_img'),
                 Tables\Columns\IconColumn::make('is_sale')
-                    ->boolean(),
+                    ->boolean()
+                    ->label('上架状态'),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->label('删除时间'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->label('创建时间'),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->label('更新时间'),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
@@ -107,7 +135,9 @@ class MallGoodsResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageMallGoods::route('/'),
+            'index' => Pages\ListMallGoods::route('/'),
+            'create' => Pages\CreateMallGoods::route('/create'),
+            'edit' => Pages\EditMallGoods::route('/{record}/edit'),
         ];
     }
 

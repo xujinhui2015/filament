@@ -2,11 +2,12 @@
 
 namespace App\Models\Mall;
 
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class MallGoodsAttrValue extends Model
+class MallGoodsAttrValue extends BaseModel
 {
     use HasFactory, SoftDeletes;
 

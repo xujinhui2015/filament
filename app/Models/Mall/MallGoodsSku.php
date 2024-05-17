@@ -2,11 +2,12 @@
 
 namespace App\Models\Mall;
 
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class MallGoodsSku extends Model
+class MallGoodsSku extends BaseModel
 {
     use HasFactory, SoftDeletes;
 

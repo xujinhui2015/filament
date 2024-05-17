@@ -3,10 +3,10 @@
 namespace App\Filament\Resources\Mall\MallGoodsResource\Pages;
 
 use App\Filament\Resources\Mall\MallGoodsResource;
+use Filament\Resources\Pages\ListRecords;
 use Filament\Actions;
-use Filament\Resources\Pages\ManageRecords;
 
-class ManageMallGoods extends ManageRecords
+class ListMallGoods extends ListRecords
 {
     protected static string $resource = MallGoodsResource::class;
 
