@@ -7,6 +7,7 @@ use App\Filament\Resources\Mall\MallGoodsResource\Pages;
 use App\Models\Mall\MallGoods;
 use App\Support\Helpers\FilePathHelper;
 use CodeWithDennis\FilamentSelectTree\SelectTree;
+use Exception;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -35,10 +36,6 @@ class MallGoodsResource extends Resource
                     ->required()
                     ->maxLength(100)
                     ->label('商品代码'),
-                Forms\Components\TextInput::make('goods_name')
-                    ->required()
-                    ->maxLength(100)
-                    ->label('商品名称'),
                 SelectTree::make('goods_category_id')
                     ->required()
                     ->relationship('category', 'title', 'parent_id')
@@ -46,6 +43,10 @@ class MallGoodsResource extends Resource
                     ->searchable()
                     ->parentNullValue(0)
                     ->label('商品分类'),
+                Forms\Components\TextInput::make('goods_name')
+                    ->required()
+                    ->maxLength(100)
+                    ->label('商品名称'),
                 Forms\Components\TextInput::make('subtitle')
                     ->required()
                     ->maxLength(100)
@@ -63,6 +64,9 @@ class MallGoodsResource extends Resource
                     ->columnSpanFull()
                     ->multiple()
                     ->label('商品轮播图'),
+//                Forms\Components\Select::make('attr')
+//                    ->options()
+//                    ->label('商品规格'),
                 QuillEditor::make('content')
                     ->required()
                     ->fileAttachmentsDirectory(FilePathHelper::uploadDir(FilePathHelper::MALL_GOODS))
@@ -74,9 +78,13 @@ class MallGoodsResource extends Resource
                     ->options(IsYesOrNoEnum::options())
                     ->label('是否上架'),
 
+
             ]);
     }
 
+    /**
+     * @throws Exception
+     */
     public static function table(Table $table): Table
     {
         return $table
