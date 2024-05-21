@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreignId('goods_category_id')->comment('商品分类ID');
             $table->string('goods_name', 100)->comment('商品名称');
             $table->string('subtitle', 100)->comment('商品副标题');
-            $table->string('main_img', 1000)->comment('商品主图');
-            $table->string('images')->comment('商品轮播图');
+            $table->string('main_img')->comment('商品主图');
+            $table->string('images', 1000)->comment('商品轮播图');
             $table->longText('content')->comment('商品详情');
             $table->boolean('is_sale')->default(false)->comment('是否上架0否1是');
 
@@ -111,7 +111,7 @@ return new class extends Migration
             $table->foreignId('goods_id');
             $table->string('spec', 500)->comment('规格明细');
             $table->unsignedInteger('price')->comment('单价');
-            $table->unsignedInteger('sku_img')->nullable()->comment('规格图片');
+            $table->string('sku_img')->nullable()->comment('规格图片');
             $table->unsignedMediumInteger('stock')->comment('库存');
 
             $table->comment('商城Sku表');

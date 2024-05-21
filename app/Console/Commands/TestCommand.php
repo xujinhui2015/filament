@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Mall\MallAttr;
 use App\Models\Mall\MallGoodsCategory;
+use App\Models\Mall\MallGoodsSku;
 use App\Models\User;
 use Filament\Notifications\Notification;
 use Illuminate\Console\Command;
@@ -17,29 +18,11 @@ class TestCommand extends Command
 
     public function handle(): void
     {
-        $attrArray = [
-            [
-                1,2
-            ],
-            [
-                9,10,11
-            ],
-        ];
+        $a = MallGoodsSku::query()
+            ->find(1);
 
-        $result = [[]];
-        foreach ($attrArray as $values) {
-            $temp = [];
-            foreach ($result as $combination) {
-                foreach ($values as $value) {
-                    $temp[] = array_merge($combination, [$value]);
-                }
-            }
-            $result = $temp;
-        }
-
-        dump($result);
-
-
+        dump($a->specName);
+        dump(11);
 
         exit;
 
@@ -47,8 +30,8 @@ class TestCommand extends Command
 
         $recipient->notifyNow(
             Notification::make()
-            ->title('Saved successfully')
-            ->toDatabase()
+                ->title('Saved successfully')
+                ->toDatabase()
         );
     }
 

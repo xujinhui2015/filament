@@ -43,5 +43,8 @@ class AppServiceProvider extends ServiceProvider
                 ToolbarButton::Font,
             ]);
         });
+
+        // 商城模块
+
     }
 }

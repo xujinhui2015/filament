@@ -5,9 +5,11 @@ namespace App\Models\Mall;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
 /**
  * @property int|null $id
@@ -23,6 +25,8 @@ use Illuminate\Support\Carbon;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property MallGoodsCategory $category
+ * @property Collection|MallGoodsAttr[] $attr
+ * @property Collection|MallGoodsSku[] $sku
  *
  * @method static Builder|MallGoods query()
  */
@@ -32,16 +36,19 @@ class MallGoods extends BaseModel
 
     protected $table = 'mall_goods';
 
+    protected $casts = [
+        'images' => 'array',
+    ];
+
     protected $fillable = [
-      'id',
-      'goods_sn',
-      'goods_category_id',
-      'goods_name',
-      'subtitle',
-      'main_img',
-      'images',
-      'content',
-      'is_sale',
+        'goods_sn',
+        'goods_category_id',
+        'goods_name',
+        'subtitle',
+        'main_img',
+        'images',
+        'content',
+        'is_sale',
     ];
 
     public function category(): BelongsTo
@@ -49,6 +56,15 @@ class MallGoods extends BaseModel
         return $this->belongsTo(MallGoodsCategory::class, 'goods_category_id');
     }
 
+    public function attr(): HasMany
+    {
+        return $this->hasMany(MallGoodsAttr::class, 'goods_id');
+    }
+
+    public function sku(): HasMany
+    {
+        return $this->hasMany(MallGoodsSku::class, 'goods_id');
+    }
 
 
 }
