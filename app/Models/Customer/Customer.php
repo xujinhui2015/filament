@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Collection;
 
 /**
  * @property int|null $id
@@ -22,8 +23,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @property Carbon $deleted_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * @property CustomerBalanceRecord[] $balanceRecords
- * @property CustomerPointsRecord[] $pointsRecords
+ * @property Collection|CustomerBalanceRecord[] $balanceRecords
+ * @property Collection|CustomerPointsRecord[] $pointsRecords
  * @property CustomerWechat $wechat
  *
  * @method static Builder|Customer query()

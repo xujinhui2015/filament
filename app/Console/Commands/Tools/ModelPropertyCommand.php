@@ -5,6 +5,7 @@ namespace App\Console\Commands\Tools;
 use Doctrine\DBAL\Exception;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use ReflectionClass;
@@ -57,11 +58,12 @@ class ModelPropertyCommand extends Command
     ];
 
     /**
-     * 需要追加的命名空间 $value 表示是否不经过属性使用判断直接追加命名
+     * 需要追加的命名空间 $value 表示是否不经过属性使用判断直接追加命名, null表示存在多属性才添加
      */
     protected array $appendNamespaceList = [
         'Illuminate\Database\Eloquent\Builder' => true,
         'Illuminate\Support\Carbon' => false,
+        'Illuminate\Support\Collection' => null,
     ];
 
     /**
@@ -141,6 +143,7 @@ class ModelPropertyCommand extends Command
         // 扫描表的关联
         $classReflect = new ReflectionClass($instance);
         $methods = $classReflect->getMethods(ReflectionMethod::IS_PUBLIC);
+        $isTotalMany = false;
         foreach ($methods as $method) {
             if ($method->isAbstract() || $method->isStatic()) {
                 continue;
@@ -198,7 +201,10 @@ class ModelPropertyCommand extends Command
                     '$this->hasManyThrough',
                 ]);
                 $docTitle = $this->getDocTitle($method->getDocComment());
-                $comments[] = ' * @property '.$match[2].($isMany ? '[]' : '').' $'.$methodName.($docTitle ? ' '.$docTitle : '');
+                if ($isMany) {
+                    $isTotalMany = true;
+                }
+                $comments[] = ' * @property '.($isMany ? 'Collection|' : '').$match[2].($isMany ? '[]' : '').' $'.$methodName.($docTitle ? ' '.$docTitle : '');
             }
         }
 
@@ -226,9 +232,14 @@ class ModelPropertyCommand extends Command
                 continue;
             }
             // 判断是否是要设置use
-            if (! $isAttribute) {
+            if ($isAttribute === false) {
                 $useClass = explode('\\', $appendNamespace);
                 if (! in_array(end($useClass), $columnTypes)) {
+                    continue;
+                }
+            } elseif ($isAttribute === null) {
+                // 存在多属性才添加
+                if (!$isTotalMany) {
                     continue;
                 }
             }

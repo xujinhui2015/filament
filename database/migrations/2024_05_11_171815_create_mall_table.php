@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('main_img', 1000)->comment('商品主图');
             $table->string('images')->comment('商品轮播图');
             $table->longText('content')->comment('商品详情');
-            $table->boolean('is_sale')->comment('是否上架0否1是');
+            $table->boolean('is_sale')->default(false)->comment('是否上架0否1是');
 
             $table->comment('商城商品表');
 
