@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use App\Filament\Pages\Auth\CustomEditProfile;
 use App\Filament\Pages\Auth\CustomLogin;
 use App\Filament\Pages\Dashboard;
+use App\Filament\Resources\Mall\MallGoodsCategoryResource;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Enums\ThemeMode;
 use Filament\Http\Middleware\Authenticate;
@@ -66,6 +67,9 @@ class AdminPanelProvider extends PanelProvider
             ->profile(CustomEditProfile::class, false) // 个人资料页配置
             ->defaultThemeMode(ThemeMode::Light) // 默认主题
             ->databaseNotifications() // 开启数据库通知
-            ->spa();
+            ->spa()
+            ->spaUrlExceptions(fn (): array => [
+                MallGoodsCategoryResource::getUrl(), // 商品分类使用了Tree组件，需要禁用spa导航才能正常拖拽
+            ]);
     }
 }
