@@ -18,6 +18,9 @@ php artisan make:filament-page ShowOperationLog --resource=OrderResource --type=
 # 创建树形页面
 php artisan make:filament-tree-page Mall/MallGoodsCategoryTree --resource=MallGoodsCategory
 
+# 创建小部件,它要是问你是否创建资源，直接回车即可,表示不要创建在资源里面。
+php artisan make:filament-widget GlobalOverview
+
 -----------------------权限相关-----------------------
 # 如果你开发了新页面，则需要为Filament实体生成策略和/或策略后，权限才会生效
 php artisan shield:generate --all

@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class MoneyCast implements CastsAttributes
 {
-    public function get(Model $model, string $key, mixed $value, array $attributes): mixed
+    public function get(Model $model, string $key, mixed $value, array $attributes): float
     {
-        return round(floatval($value) / 100, precision: 2);
+        return money_cast_get($value);
     }
 
-    public function set(Model $model, string $key, mixed $value, array $attributes): mixed
+    public function set(Model $model, string $key, mixed $value, array $attributes): float
     {
-        return round(floatval($value) * 100);
+        return money_cast_set($value);
     }
 }

@@ -29,3 +29,20 @@ function fake_phone(): string
     $randomPrefix = $prefixes[array_rand($prefixes)];
     return $randomPrefix . str_pad(mt_rand(10000000, 99999999), 8, '0', STR_PAD_LEFT);
 }
+
+
+/**
+ * 金额转换函数：将分转换成元
+ */
+function money_cast_get($value): float
+{
+    return round(floatval($value) / 100, precision: 2);
+}
+
+/**
+ * 金额转换函数：将元转换成分
+ */
+function money_cast_set($value): float
+{
+    return round(floatval($value) * 100);
+}

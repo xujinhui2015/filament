@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Mall;
 
 use App\Enums\Mall\MallOrderOrderStatusEnum;
 use App\Filament\Resources\Mall\MallOrderResource\Pages;
+use App\Filament\Resources\Mall\MallOrderResource\Widgets\MallOrderStatOverview;
 use App\Models\Mall\MallOrder;
 use Exception;
 use Filament\Forms;
@@ -186,5 +187,17 @@ class MallOrderResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return MallOrder::query()->count();
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            MallOrderStatOverview::class
+        ];
     }
 }
