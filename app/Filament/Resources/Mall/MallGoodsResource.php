@@ -7,6 +7,7 @@ use App\Filament\Resources\Mall\MallGoodsResource\Pages;
 use App\Models\Mall\MallAttr;
 use App\Models\Mall\MallAttrValue;
 use App\Models\Mall\MallGoods;
+use App\Models\Mall\MallGoodsAttrValue;
 use App\Support\Helpers\FilePathHelper;
 use CodeWithDennis\FilamentSelectTree\SelectTree;
 use Exception;
@@ -225,6 +226,9 @@ BLADE
                             Forms\Components\Repeater::make('value')
                                 ->relationship()
                                 ->schema([
+                                    Forms\Components\Placeholder::make('attr_value_name')
+                                        ->content(fn (MallGoodsAttrValue $record): string => $record->attr_value_name)
+                                        ->label(''),
                                     Forms\Components\Radio::make('is_disabled')
                                         ->options(IsYesOrNoEnum::options())
                                         ->inline()
