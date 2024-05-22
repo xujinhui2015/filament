@@ -153,12 +153,14 @@ class MallGoodsResource extends Resource
                             ->schema([
                                 Forms\Components\FileUpload::make('main_img')
                                     ->required()
+                                    ->image()
                                     ->imageEditor()
                                     ->getUploadedFileNameForStorageUsing(FilePathHelper::uploadUsing(FilePathHelper::MALL_GOODS))
                                     ->columnSpanFull()
                                     ->label('商品主图'),
                                 Forms\Components\FileUpload::make('images')
                                     ->required()
+                                    ->image()
                                     ->imageEditor()
                                     ->getUploadedFileNameForStorageUsing(FilePathHelper::uploadUsing(FilePathHelper::MALL_GOODS))
                                     ->columnSpanFull()
@@ -204,12 +206,14 @@ BLADE))),
                         ->label('商品副标题'),
                     Forms\Components\FileUpload::make('main_img')
                         ->required()
+                        ->image()
                         ->imageEditor()
                         ->getUploadedFileNameForStorageUsing(FilePathHelper::uploadUsing(FilePathHelper::MALL_GOODS))
                         ->columnSpanFull()
                         ->label('商品主图'),
                     Forms\Components\FileUpload::make('images')
                         ->required()
+                        ->image()
                         ->imageEditor()
                         ->getUploadedFileNameForStorageUsing(FilePathHelper::uploadUsing(FilePathHelper::MALL_GOODS))
                         ->columnSpanFull()
