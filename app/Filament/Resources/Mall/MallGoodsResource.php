@@ -31,7 +31,7 @@ class MallGoodsResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = '商品管理';
-    protected static ?string $modelLabel = '商品管理';
+    protected static ?string $modelLabel = '商品';
     protected static ?string $navigationGroup = '商城';
 
     public static function form(Form $form): Form
@@ -349,7 +349,8 @@ BLADE
                         });
                     }),
 
-            ]);
+            ])
+            ->defaultSort('id', 'desc');
     }
 
     public static function getPages(): array

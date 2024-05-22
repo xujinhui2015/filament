@@ -123,13 +123,13 @@ return new class extends Migration
         Schema::create('mall_order', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('user_id');
+            $table->foreignId('customer_id');
             $table->string('order_no', 100)->comment('订单号');
             $table->unsignedTinyInteger('order_status')->comment('订单状态0待付款1待发货2待收货3退款处理4已完成5已关闭6锁单状态');
             $table->unsignedInteger('order_money')->comment('订单金额');
             $table->unsignedInteger('order_fact_money')->comment('订单实付金额');
             $table->unsignedInteger('order_source')->comment('订单来源0直接下单1购物车');
-            $table->foreignId('user_coupon_id')->nullable()->comment('用户优惠券ID');
+            $table->foreignId('customer_coupon_id')->nullable()->comment('用户优惠券ID');
 
             $table->string('name', 32)->comment('收货人姓名');
             $table->string('phone', 32)->comment('收货人电话');
@@ -138,18 +138,18 @@ return new class extends Migration
             $table->string('district', 32)->comment('区');
             $table->string('address')->comment('详细地址');
 
-            $table->dateTime('last_pay_time')->comment('最后付款时间');
-            $table->dateTime('pay_time')->comment('付款时间');
-            $table->dateTime('delivery_time')->comment('发货时间');
-            $table->dateTime('finish_time')->comment('完成时间');
-            $table->dateTime('cancel_time')->comment('取消时间');
-            $table->dateTime('turnoff_time')->comment('关闭时间');
+            $table->dateTime('last_pay_time')->nullable()->comment('最后付款时间');
+            $table->dateTime('pay_time')->nullable()->comment('付款时间');
+            $table->dateTime('delivery_time')->nullable()->comment('发货时间');
+            $table->dateTime('finish_time')->nullable()->comment('完成时间');
+            $table->dateTime('cancel_time')->nullable()->comment('取消时间');
+            $table->dateTime('turnoff_time')->nullable()->comment('关闭时间');
 
-            $table->string('logistics_name', 64)->comment('物流公司名称');
-            $table->string('logistics_no', 128)->comment('物流单号');
-            $table->string('buyer_remark')->comment('买家留言');
-            $table->string('seller_message')->comment('卖家留言');
-            $table->string('prepay_id', 64)->comment('微信支付ID');
+            $table->string('logistics_name', 64)->nullable()->comment('物流公司名称');
+            $table->string('logistics_no', 128)->nullable()->comment('物流单号');
+            $table->string('buyer_remark')->nullable()->comment('买家留言');
+            $table->string('seller_message')->nullable()->comment('卖家留言');
+            $table->string('prepay_id', 64)->nullable()->comment('微信支付ID');
 
             $table->comment('商城订单表');
 

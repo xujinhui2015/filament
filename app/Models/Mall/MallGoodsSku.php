@@ -13,7 +13,7 @@ use Illuminate\Support\Carbon;
  * @property int|null $goods_id
  * @property string|null $spec 规格明细
  * @property int|null $price 单价
- * @property int $sku_img 规格图片
+ * @property string $sku_img 规格图片
  * @property int|null $stock 库存
  * @property Carbon $deleted_at
  * @property Carbon $created_at

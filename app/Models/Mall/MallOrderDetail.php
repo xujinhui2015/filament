@@ -2,9 +2,9 @@
 
 namespace App\Models\Mall;
 
+use App\Casts\MoneyCast;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
@@ -30,5 +30,23 @@ class MallOrderDetail extends BaseModel
     use HasFactory,  SoftDeletes;
 
     protected $table = 'mall_order_detail';
+
+    protected $fillable = [
+        'order_id',
+        'goods_id',
+        'goods_sku_id',
+        'goods_name',
+        'goods_spec',
+        'goods_image',
+        'goods_price',
+        'goods_number',
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'goods_price' => MoneyCast::class,
+        ];
+    }
 
 }

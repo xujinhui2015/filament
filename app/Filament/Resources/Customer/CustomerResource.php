@@ -55,7 +55,7 @@ class CustomerResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ])->recordUrl(null);
+            ])->recordUrl(null)->defaultSort('id', 'desc');
     }
 
     public static function infolist(Infolist $infolist): Infolist

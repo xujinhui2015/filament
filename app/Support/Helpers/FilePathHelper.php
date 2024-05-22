@@ -28,7 +28,7 @@ class FilePathHelper
                 $prepend,
                 $nowMonthDate,
                 strtolower(Str::random(2)),
-                now()->timestamp.'-'.$file->getClientOriginalName(),
+                now()->timestamp . '-' . $file->getClientOriginalName(),
             ]);
         };
     }
