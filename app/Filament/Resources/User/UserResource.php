@@ -52,10 +52,12 @@ class UserResource extends Resource implements HasShieldPermissions
                     ->label('用户昵称'),
                 Forms\Components\TextInput::make('phone')
                     ->required()
+                    ->unique(ignoreRecord: true)
                     ->maxLength(32)
                     ->label('手机号'),
                 Forms\Components\TextInput::make('email')
                     ->required()
+                    ->unique(ignoreRecord: true)
                     ->maxLength(255)
                     ->label('邮箱'),
                 Forms\Components\TextInput::make('password')

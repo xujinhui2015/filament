@@ -7,9 +7,6 @@ use App\Filament\Resources\Mall\MallGoodsResource\Pages;
 use App\Models\Mall\MallAttr;
 use App\Models\Mall\MallAttrValue;
 use App\Models\Mall\MallGoods;
-use App\Models\Mall\MallGoodsAttr;
-use App\Models\Mall\MallGoodsAttrValue;
-use App\Models\Mall\MallGoodsSku;
 use App\Support\Helpers\FilePathHelper;
 use CodeWithDennis\FilamentSelectTree\SelectTree;
 use Exception;
@@ -131,21 +128,20 @@ class MallGoodsResource extends Resource
                                         ->pluck('attr_value_name')
                                         ->implode('-');
 
-
                                     return Forms\Components\Fieldset::make($spec)
                                         ->schema([
-                                            Forms\Components\FileUpload::make('sku_img:'.$specKey)
+                                            Forms\Components\FileUpload::make('sku_img:' . $specKey)
                                                 ->imageEditor()
                                                 ->imageEditorViewportWidth('100')
                                                 ->imageEditorViewportHeight('100')
                                                 ->getUploadedFileNameForStorageUsing(FilePathHelper::uploadUsing(FilePathHelper::MALL_GOODS))
                                                 ->columnSpanFull()
                                                 ->label('规格图片'),
-                                            Forms\Components\TextInput::make('price:'.$specKey)
+                                            Forms\Components\TextInput::make('price:' . $specKey)
                                                 ->required()
                                                 ->prefix('￥')
                                                 ->label('商品价格'),
-                                            Forms\Components\TextInput::make('stock:'.$specKey)
+                                            Forms\Components\TextInput::make('stock:' . $specKey)
                                                 ->required()
                                                 ->label('商品库存'),
                                         ]);
@@ -181,7 +177,8 @@ class MallGoodsResource extends Resource
     >
         创建商品
     </x-filament::button>
-BLADE))),
+BLADE
+                    ))),
                 ]);
         } else {
             // 编辑
@@ -222,19 +219,12 @@ BLADE))),
                         ->columnSpanFull()
                         ->multiple()
                         ->label('商品轮播图'),
-
                     Forms\Components\Repeater::make('attr')
                         ->relationship()
                         ->schema([
-                            Forms\Components\Placeholder::make('attr_name')
-                                ->content(fn (MallGoodsAttr $record): string => $record->attr_name)
-                                ->label(''),
                             Forms\Components\Repeater::make('value')
                                 ->relationship()
                                 ->schema([
-                                    Forms\Components\Placeholder::make('attr_value_name')
-                                        ->content(fn (MallGoodsAttrValue $record): string => $record->attr_value_name)
-                                        ->label(''),
                                     Forms\Components\Radio::make('is_disabled')
                                         ->options(IsYesOrNoEnum::options())
                                         ->inline()
@@ -248,18 +238,14 @@ BLADE))),
                         ])
                         ->deletable(false)
                         ->addable(false)
-                        ->grid(4)
+                        ->grid()
                         ->columnSpanFull()
+                        ->collapsed()
+                        ->itemLabel(fn(array $state): string => $state['attr_name'])
                         ->label('商品规格'),
                     Forms\Components\Repeater::make('sku')
                         ->relationship()
                         ->schema([
-                            Forms\Components\Placeholder::make('spec')
-                                ->content(fn (MallGoodsSku $record): string => MallAttrValue::query()
-                                    ->whereIn('id', explode('-', $record->spec))
-                                    ->pluck('attr_value_name')
-                                    ->implode('-'))
-                                ->label(''),
                             Forms\Components\FileUpload::make('sku_img')
                                 ->imageEditor()
                                 ->imageEditorViewportWidth('100')
@@ -279,6 +265,10 @@ BLADE))),
                         ->addable(false)
                         ->grid(4)
                         ->columnSpanFull()
+                        ->itemLabel(fn(array $state): string => MallAttrValue::query()
+                            ->whereIn('id', explode('-', $state['spec']))
+                            ->pluck('attr_value_name')
+                            ->implode('-'))
                         ->label('商品SKU'),
 
                     QuillEditor::make('content')
@@ -347,7 +337,7 @@ BLADE))),
                 ]),
                 Tables\Actions\BulkAction::make('批量上架')
                     ->button()
-                    ->action(function (Collection $records){
+                    ->action(function (Collection $records) {
                         $records->each(function (MallGoods $mallGoods) {
                             $mallGoods->update([
                                 'is_sale' => true,
