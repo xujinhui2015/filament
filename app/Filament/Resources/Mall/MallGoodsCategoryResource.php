@@ -31,6 +31,7 @@ class MallGoodsCategoryResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('title')
                     ->required()
+                    ->unique(ignoreRecord: true)
                     ->maxLength(100)
                     ->label('商品分类名称'),
             ]);

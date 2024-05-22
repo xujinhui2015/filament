@@ -24,6 +24,7 @@ class ValueRelationManager extends RelationManager
             ->schema([
                 Forms\Components\TextInput::make('attr_value_name')
                     ->required()
+                    ->unique(ignoreRecord: true)
                     ->maxLength(100)
                     ->label('规格值名称'),
             ]);

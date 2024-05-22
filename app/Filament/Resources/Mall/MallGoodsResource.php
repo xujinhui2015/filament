@@ -19,6 +19,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Blade;
@@ -46,6 +47,7 @@ class MallGoodsResource extends Resource
                             ->schema([
                                 Forms\Components\TextInput::make('goods_sn')
                                     ->required()
+                                    ->unique()
                                     ->maxLength(100)
                                     ->label('商品代码'),
                                 SelectTree::make('goods_category_id')
@@ -187,6 +189,7 @@ BLADE))),
                 ->schema([
                     Forms\Components\TextInput::make('goods_sn')
                         ->required()
+                        ->unique(ignoreRecord: true)
                         ->maxLength(100)
                         ->label('商品代码'),
                     SelectTree::make('goods_category_id')
@@ -301,7 +304,6 @@ BLADE))),
                     ->label('商品编号'),
                 Tables\Columns\TextColumn::make('category.title')
                     ->numeric()
-                    ->sortable()
                     ->label('商品分类'),
                 Tables\Columns\TextColumn::make('goods_name')
                     ->searchable()
@@ -309,9 +311,9 @@ BLADE))),
                 Tables\Columns\TextColumn::make('subtitle')
                     ->searchable()
                     ->label('商品副标题'),
-                Tables\Columns\ImageColumn::make('main_img'),
-                Tables\Columns\IconColumn::make('is_sale')
-                    ->boolean()
+                Tables\Columns\ImageColumn::make('main_img')
+                    ->label('商品主图'),
+                Tables\Columns\ToggleColumn::make('is_sale')
                     ->label('上架状态'),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
@@ -334,7 +336,6 @@ BLADE))),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\ForceDeleteAction::make(),
                 Tables\Actions\RestoreAction::make(),
             ])
@@ -344,6 +345,16 @@ BLADE))),
                     Tables\Actions\ForceDeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
+                Tables\Actions\BulkAction::make('批量上架')
+                    ->button()
+                    ->action(function (Collection $records){
+                        $records->each(function (MallGoods $mallGoods) {
+                            $mallGoods->update([
+                                'is_sale' => true,
+                            ]);
+                        });
+                    }),
+
             ]);
     }
 

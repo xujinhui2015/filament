@@ -29,6 +29,7 @@ class MallAttrResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('attr_name')
                     ->required()
+                    ->unique(ignoreRecord: true)
                     ->maxLength(100)
                     ->label('规格名称'),
             ]);
