@@ -2,8 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Mall\MallAttr;
-use App\Models\Mall\MallGoodsCategory;
 use App\Models\Mall\MallGoodsSku;
 use App\Models\User;
 use Filament\Notifications\Notification;

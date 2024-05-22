@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\User;
 
-use App\Filament\Resources\UserResource\Pages;
+use App\Filament\Resources\User\UserResource\Pages;
 use App\Models\User;
 use App\Support\Helpers\FilePathHelper;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
