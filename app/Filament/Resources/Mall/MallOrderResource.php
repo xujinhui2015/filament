@@ -4,11 +4,16 @@ namespace App\Filament\Resources\Mall;
 
 use App\Enums\Mall\MallOrderOrderStatusEnum;
 use App\Filament\Resources\Mall\MallOrderResource\Pages;
-use App\Filament\Resources\Mall\MallOrderResource\Widgets\MallOrderStatOverview;
 use App\Models\Mall\MallOrder;
 use Exception;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Fieldset;
+use Filament\Infolists\Components\Grid;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
+use Filament\Pages\SubNavigationPosition;
+use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -25,76 +30,27 @@ class MallOrderResource extends Resource
     protected static ?string $modelLabel = '订单';
     protected static ?string $navigationGroup = '商城';
 
-    public static function form(Form $form): Form
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
+
+    public static function getRecordSubNavigation(Page $page): array
     {
-        return $form
+        return $page->generateNavigationItems([
+            Pages\ViewMallOrder::class
+        ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
             ->schema([
-                Forms\Components\TextInput::make('customer_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('order_no')
-                    ->required()
-                    ->maxLength(100),
-                Forms\Components\TextInput::make('order_status')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('order_money')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('order_fact_money')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('order_source')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('user_coupon_id')
-                    ->numeric(),
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(32),
-                Forms\Components\TextInput::make('phone')
-                    ->tel()
-                    ->required()
-                    ->maxLength(32),
-                Forms\Components\TextInput::make('province')
-                    ->required()
-                    ->maxLength(32),
-                Forms\Components\TextInput::make('city')
-                    ->required()
-                    ->maxLength(32),
-                Forms\Components\TextInput::make('district')
-                    ->required()
-                    ->maxLength(32),
-                Forms\Components\TextInput::make('address')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\DateTimePicker::make('last_pay_time')
-                    ->required(),
-                Forms\Components\DateTimePicker::make('pay_time')
-                    ->required(),
-                Forms\Components\DateTimePicker::make('delivery_time')
-                    ->required(),
-                Forms\Components\DateTimePicker::make('finish_time')
-                    ->required(),
-                Forms\Components\DateTimePicker::make('cancel_time')
-                    ->required(),
-                Forms\Components\DateTimePicker::make('turnoff_time')
-                    ->required(),
-                Forms\Components\TextInput::make('logistics_name')
-                    ->required()
-                    ->maxLength(64),
-                Forms\Components\TextInput::make('logistics_no')
-                    ->required()
-                    ->maxLength(128),
-                Forms\Components\TextInput::make('buyer_remark')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('seller_message')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('prepay_id')
-                    ->required()
-                    ->maxLength(64),
+                Fieldset::make('订单信息')
+                    ->schema([
+                        Grid::make(4)
+                            ->schema([
+                                TextEntry::make('order_no')->label('订单号'),
+                                TextEntry::make('order_no')->label('订单来源'),
+                            ]),
+                    ]),
             ]);
     }
 
@@ -194,10 +150,4 @@ class MallOrderResource extends Resource
         return MallOrder::query()->count();
     }
 
-    public static function getWidgets(): array
-    {
-        return [
-            MallOrderStatOverview::class
-        ];
-    }
 }

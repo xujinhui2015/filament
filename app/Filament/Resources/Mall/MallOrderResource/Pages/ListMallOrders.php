@@ -4,7 +4,6 @@ namespace App\Filament\Resources\Mall\MallOrderResource\Pages;
 
 use App\Enums\Mall\MallOrderOrderStatusEnum;
 use App\Filament\Resources\Mall\MallOrderResource;
-use App\Filament\Resources\Mall\MallOrderResource\Widgets\MallOrderStatOverview;
 use App\Models\Mall\MallOrder;
 use Filament\Actions;
 use Filament\Pages\Concerns\ExposesTableToWidgets;
@@ -22,13 +21,6 @@ class ListMallOrders extends ListRecords
     {
         return [
 
-        ];
-    }
-
-    protected function getHeaderWidgets(): array
-    {
-        return [
-            MallOrderStatOverview::class,
         ];
     }
 
