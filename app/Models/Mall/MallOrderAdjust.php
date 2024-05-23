@@ -2,6 +2,7 @@
 
 namespace App\Models\Mall;
 
+use App\Casts\MoneyCast;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -24,5 +25,18 @@ class MallOrderAdjust extends BaseModel
     use HasFactory, SoftDeletes;
 
     protected $table = 'mall_order_adjust';
+
+    protected $fillable = [
+        'order_id',
+        'adjust_type',
+        'adjust_price',
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'adjust_price' => MoneyCast::class,
+        ];
+    }
 
 }

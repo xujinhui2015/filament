@@ -17,4 +17,5 @@ class ViewMallOrder extends ViewRecord
         return [
         ];
     }
+
 }

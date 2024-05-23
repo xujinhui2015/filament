@@ -2,19 +2,26 @@
 
 namespace App\Filament\Resources\Mall;
 
+use App\Enums\Mall\MallOrderOrderSourceEnum;
 use App\Enums\Mall\MallOrderOrderStatusEnum;
+use App\Enums\Mall\MallOrderPaymentEnum;
 use App\Filament\Resources\Mall\MallOrderResource\Pages;
+use App\Filament\Resources\Mall\MallOrderResource\RelationManagers\AdjustRelationManager;
+use App\Filament\Resources\Mall\MallOrderResource\RelationManagers\DetailRelationManager;
 use App\Models\Mall\MallOrder;
 use Exception;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\Grid;
+use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Pages\Page;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Resources\Resource;
+use Filament\Support\Colors\Color;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -43,13 +50,46 @@ class MallOrderResource extends Resource
     {
         return $infolist
             ->schema([
+                Fieldset::make('会员信息')
+                    ->schema([
+                        Grid::make(4)
+                            ->schema([
+                                TextEntry::make('customer.nickname')->label('名称'),
+                                ImageEntry::make('customer.avatar_url')->circular() ->height(30)->label('头像'),
+                            ]),
+                    ]),
                 Fieldset::make('订单信息')
                     ->schema([
                         Grid::make(4)
                             ->schema([
                                 TextEntry::make('order_no')->label('订单号'),
-                                TextEntry::make('order_no')->label('订单来源'),
+                                TextEntry::make('order_status')->formatStateUsing(fn(int $state): string => MallOrderOrderStatusEnum::tryFrom($state)->text())->label('订单状态'),
+                                TextEntry::make('payment')->formatStateUsing(fn(int $state): string => MallOrderPaymentEnum::tryFrom($state)->text())->label('支付方式'),
+                                TextEntry::make('order_source')->formatStateUsing(fn(int $state): string => MallOrderOrderSourceEnum::tryFrom($state)->text())->label('订单来源'),
                             ]),
+                    ]),
+                Fieldset::make('收货信息')
+                    ->schema([
+                        Grid::make(4)
+                            ->schema([
+                                TextEntry::make('name')->label('收货人姓名'),
+                                TextEntry::make('phone')->label('收货人电话'),
+                                TextEntry::make('logistics_name')->label('物流公司'),
+                                TextEntry::make('logistics_no')->label('物流单号'),
+                            ]),
+                        TextEntry::make('full_address')->columnSpanFull()->label('详细地址'),
+
+                    ]),
+                Fieldset::make('金额明细')
+                    ->schema([
+                        TextEntry::make('order_money')->prefix('￥')->inlineLabel()->columnSpanFull()->label('商品总额'),
+                        TextEntry::make('postage')->prefix('+ ￥')->inlineLabel()->columnSpanFull()->label('运费'),
+                        TextEntry::make('order_fact_money')->prefix('￥')
+                            ->inlineLabel()
+                            ->columnSpanFull()
+                            ->size(TextEntry\TextEntrySize::Large)
+                            ->color(Color::Red)
+                            ->label('实收金额'),
                     ]),
             ]);
     }
@@ -125,7 +165,7 @@ class MallOrderResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            DetailRelationManager::class,
         ];
     }
 

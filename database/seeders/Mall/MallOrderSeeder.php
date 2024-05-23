@@ -36,11 +36,11 @@ class MallOrderSeeder extends Seeder
             ->create([
                 'customer_id' => Customer::query()->inRandomOrder()->value('id'),
                 'order_no' => MakeOrderNoEnum::MallOrder->new(),
-                'order_status' => MallOrderOrderStatusEnum::PAY,
+                'order_status' => MallOrderOrderStatusEnum::Pay,
                 'order_money' => random_int(500, 600),
                 'order_fact_money' => random_int(300, 500),
                 'order_source' => random_int(0, 1),
-                'customer_coupon_id' => 0,
+                'payment' => random_int(0, 1),
                 'name' => fake()->name(),
                 'phone' => fake_phone(),
                 'province' => '广东省',

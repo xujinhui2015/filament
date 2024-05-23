@@ -3,9 +3,12 @@
 namespace App\Models\Mall;
 
 use App\Casts\MoneyCast;
+use App\Enums\Mall\MallOrderAdjustAdjustTypeEnum;
 use App\Models\BaseModel;
 use App\Models\Customer\Customer;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
@@ -20,28 +23,29 @@ use Illuminate\Support\Collection;
  * @property int|null $order_money 订单金额
  * @property int|null $order_fact_money 订单实付金额
  * @property int|null $order_source 订单来源0直接下单1购物车
- * @property int $user_coupon_id 用户优惠券ID
+ * @property int|null $payment 支付方式1余额支付2微信支付
  * @property string|null $name 收货人姓名
  * @property string|null $phone 收货人电话
  * @property string|null $province 省
  * @property string|null $city 市
  * @property string|null $district 区
  * @property string|null $address 详细地址
- * @property Carbon|null $last_pay_time 最后付款时间
- * @property Carbon|null $pay_time 付款时间
- * @property Carbon|null $delivery_time 发货时间
- * @property Carbon|null $finish_time 完成时间
- * @property Carbon|null $cancel_time 取消时间
- * @property Carbon|null $turnoff_time 关闭时间
- * @property string|null $logistics_name 物流公司名称
- * @property string|null $logistics_no 物流单号
- * @property string|null $buyer_remark 买家留言
- * @property string|null $seller_message 卖家留言
- * @property string|null $prepay_id 微信支付ID
+ * @property Carbon $last_pay_time 最后付款时间
+ * @property Carbon $pay_time 付款时间
+ * @property Carbon $delivery_time 发货时间
+ * @property Carbon $finish_time 完成时间
+ * @property Carbon $cancel_time 取消时间
+ * @property Carbon $turnoff_time 关闭时间
+ * @property string $logistics_name 物流公司名称
+ * @property string $logistics_no 物流单号
+ * @property string $buyer_remark 买家留言
+ * @property string $seller_message 卖家留言
+ * @property string $prepay_id 微信支付ID
  * @property Carbon $deleted_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Collection|MallOrderDetail[] $detail
+ * @property Customer $customer
  *
  * @method static Builder|MallOrder query()
  */
@@ -58,7 +62,7 @@ class MallOrder extends BaseModel
         'order_money',
         'order_fact_money',
         'order_source',
-        'customer_coupon_id',
+        'payment',
         'name',
         'phone',
         'province',
@@ -91,9 +95,40 @@ class MallOrder extends BaseModel
         return $this->hasMany(MallOrderDetail::class, 'order_id');
     }
 
-    public function customer()
+    public function adjust(): HasMany
+    {
+        return $this->hasMany(MallOrderAdjust::class, 'order_id');
+    }
+
+    public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    /**
+     * 获取完整地址
+     */
+    public function getFullAddressAttribute(): string
+    {
+        return implode(' ', [
+            $this->province,
+            $this->city,
+            $this->district,
+            $this->address
+        ]);
+    }
+
+    private function getSumAdjustPrice(MallOrderAdjustAdjustTypeEnum $adjustAdjustTypeEnum): float
+    {
+        return money_cast_get($this->adjust()->where('adjust_type', $adjustAdjustTypeEnum)->sum('adjust_price'));
+    }
+
+    /**
+     *  获取运费
+     */
+    public function getPostageAttribute(): float
+    {
+        return $this->getSumAdjustPrice(MallOrderAdjustAdjustTypeEnum::Postage);
     }
 
 

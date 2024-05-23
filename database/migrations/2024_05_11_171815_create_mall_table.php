@@ -128,8 +128,8 @@ return new class extends Migration
             $table->unsignedTinyInteger('order_status')->comment('订单状态0待付款1待发货2待收货3退款处理4已完成5已关闭6锁单状态');
             $table->unsignedInteger('order_money')->comment('订单金额');
             $table->unsignedInteger('order_fact_money')->comment('订单实付金额');
-            $table->unsignedInteger('order_source')->comment('订单来源0直接下单1购物车');
-            $table->foreignId('customer_coupon_id')->nullable()->comment('用户优惠券ID');
+            $table->unsignedTinyInteger('order_source')->comment('订单来源0直接下单1购物车');
+            $table->unsignedTinyInteger('payment')->comment('支付方式1余额支付2微信支付');
 
             $table->string('name', 32)->comment('收货人姓名');
             $table->string('phone', 32)->comment('收货人电话');
@@ -180,8 +180,9 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('order_id');
+            $table->foreignId('order_detail_id');
             $table->string('adjust_type', 32)->comment('调整类型');
-            $table->unsignedInteger('adjust_price')->comment('调整价格');
+            $table->integer('adjust_price')->comment('调整价格');
 
             $table->comment('商城订单价格调整表');
 

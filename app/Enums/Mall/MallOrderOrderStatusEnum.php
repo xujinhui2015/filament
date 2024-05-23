@@ -8,27 +8,27 @@ enum MallOrderOrderStatusEnum: int
 {
     use EnumTrait;
 
-    case ORDER = 0;
-    case PAY = 1;
-    case DELIVERY = 2;
-    case REFUND = 3;
-    case FINISH = 4;
-    case CLOSE = 5;
-    case CHECKOUT = 6;
-    case CANCEL = 7;
+    case Order = 0;
+    case Pay = 1;
+    case Delivery = 2;
+    case Refund = 3;
+    case Finish = 4;
+    case Close = 5;
+    case Checkout = 6;
+    case Cancel = 7;
 
 
     public function text(): string
     {
         return match ($this) {
-            self::ORDER => '待付款',
-            self::PAY => '待发货',
-            self::DELIVERY => '待收货',
-            self::REFUND => '退款处理',
-            self::FINISH => '已完成',
-            self::CLOSE => '已关闭',
-            self::CHECKOUT => '锁单状态',
-            self::CANCEL => '已取消',
+            self::Order => '待付款',
+            self::Pay => '待发货',
+            self::Delivery => '待收货',
+            self::Refund => '退款处理',
+            self::Finish => '已完成',
+            self::Close => '已关闭',
+            self::Checkout => '锁单状态',
+            self::Cancel => '已取消',
         };
     }
 }

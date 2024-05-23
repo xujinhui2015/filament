@@ -5,6 +5,7 @@ namespace App\Models\Mall;
 use App\Casts\MoneyCast;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
@@ -47,6 +48,19 @@ class MallOrderDetail extends BaseModel
         return [
             'goods_price' => MoneyCast::class,
         ];
+    }
+
+    public function goods(): BelongsTo
+    {
+        return $this->belongsTo(MallGoods::class, 'goods_id');
+    }
+
+    public function getGoodsSpecTextAttribute(): string
+    {
+        return MallAttrValue::query()
+            ->whereIn('id', explode('-', $this->goods_spec))
+            ->pluck('attr_value_name')
+            ->implode('-');
     }
 
 }

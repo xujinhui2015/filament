@@ -29,7 +29,7 @@ class ListMallOrders extends ListRecords
         $list = MallOrderOrderStatusEnum::cases();
         $tabs = [];
         foreach ($list as $orderStatusEnum) {
-            if (in_array($orderStatusEnum, [MallOrderOrderStatusEnum::CHECKOUT, MallOrderOrderStatusEnum::CLOSE])) {
+            if (in_array($orderStatusEnum, [MallOrderOrderStatusEnum::Checkout, MallOrderOrderStatusEnum::Close])) {
                 continue;
             }
             $tabs[$orderStatusEnum->name] =
