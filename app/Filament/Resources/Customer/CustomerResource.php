@@ -25,6 +25,14 @@ class CustomerResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view_any',
+            'update',
+        ];
+    }
+
     /**
      * @throws Exception
      */

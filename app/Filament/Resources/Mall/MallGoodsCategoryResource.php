@@ -19,6 +19,22 @@ class MallGoodsCategoryResource extends Resource
     protected static ?string $modelLabel = '商品分类';
     protected static ?string $navigationGroup = '商城';
 
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view_any',
+            'create',
+            'update',
+            'delete',
+            'delete_any',
+            'force_delete',
+            'force_delete_any',
+            'reorder',
+            'restore',
+            'restore_any',
+        ];
+    }
+
     public static function form(Form $form): Form
     {
         return $form

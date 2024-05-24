@@ -23,6 +23,22 @@ class MallAttrResource extends Resource
     protected static ?string $modelLabel = '商品规格';
     protected static ?string $navigationGroup = '商城';
 
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view_any',
+            'create',
+            'update',
+            'delete',
+            'delete_any',
+            'force_delete',
+            'force_delete_any',
+            'restore',
+            'reorder',
+            'restore_any',
+        ];
+    }
+
     public static function form(Form $form): Form
     {
         return $form
