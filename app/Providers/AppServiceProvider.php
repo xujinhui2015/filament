@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Mall\MallOrder;
+use App\Observers\Mall\MallOrderObserver;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
 use Illuminate\Support\ServiceProvider;
@@ -45,6 +47,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // 商城模块
+        MallOrder::observe(MallOrderObserver::class);
 
     }
 }

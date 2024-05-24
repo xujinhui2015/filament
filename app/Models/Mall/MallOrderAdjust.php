@@ -12,6 +12,7 @@ use Illuminate\Support\Carbon;
 /**
  * @property int|null $id
  * @property int|null $order_id
+ * @property int|null $order_detail_id
  * @property string|null $adjust_type 调整类型
  * @property int|null $adjust_price 调整价格
  * @property Carbon $deleted_at

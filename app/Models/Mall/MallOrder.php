@@ -4,9 +4,9 @@ namespace App\Models\Mall;
 
 use App\Casts\MoneyCast;
 use App\Enums\Mall\MallOrderAdjustAdjustTypeEnum;
+use App\Enums\Mall\MallOrderOrderStatusEnum;
 use App\Models\BaseModel;
 use App\Models\Customer\Customer;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -23,7 +23,7 @@ use Illuminate\Support\Collection;
  * @property int|null $order_money 订单金额
  * @property int|null $order_fact_money 订单实付金额
  * @property int|null $order_source 订单来源0直接下单1购物车
- * @property int|null $payment 支付方式1余额支付2微信支付
+ * @property int|null $payment 支付方式0余额支付1微信支付
  * @property string|null $name 收货人姓名
  * @property string|null $phone 收货人电话
  * @property string|null $province 省
@@ -45,7 +45,11 @@ use Illuminate\Support\Collection;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Collection|MallOrderDetail[] $detail
+ * @property Collection|MallOrderAdjust[] $adjust
  * @property Customer $customer
+ * @property Collection|MallOrderOperationLog[] $operationLog
+ * @property $full_address
+ * @property $postage
  *
  * @method static Builder|MallOrder query()
  */
@@ -54,6 +58,14 @@ class MallOrder extends BaseModel
     use HasFactory, SoftDeletes;
 
     protected $table = 'mall_order';
+
+    protected $casts = [
+        'last_pay_time' => 'datetime',
+        'delivery_time' => 'datetime',
+        'finish_time' => 'datetime',
+        'cancel_time' => 'datetime',
+        'turnoff_time' => 'datetime',
+    ];
 
     protected $fillable = [
         'customer_id',
@@ -105,6 +117,11 @@ class MallOrder extends BaseModel
         return $this->belongsTo(Customer::class);
     }
 
+    public function operationLog(): HasMany
+    {
+        return $this->hasMany(MallOrderOperationLog::class, 'order_id');
+    }
+
     /**
      * 获取完整地址
      */
@@ -130,6 +147,5 @@ class MallOrder extends BaseModel
     {
         return $this->getSumAdjustPrice(MallOrderAdjustAdjustTypeEnum::Postage);
     }
-
 
 }

@@ -6,12 +6,9 @@ use App\Enums\Mall\MallOrderOrderSourceEnum;
 use App\Enums\Mall\MallOrderOrderStatusEnum;
 use App\Enums\Mall\MallOrderPaymentEnum;
 use App\Filament\Resources\Mall\MallOrderResource\Pages;
-use App\Filament\Resources\Mall\MallOrderResource\RelationManagers\AdjustRelationManager;
 use App\Filament\Resources\Mall\MallOrderResource\RelationManagers\DetailRelationManager;
 use App\Models\Mall\MallOrder;
 use Exception;
-use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\Grid;
 use Filament\Infolists\Components\ImageEntry;
@@ -19,7 +16,6 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Pages\Page;
-use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Resources\Resource;
 use Filament\Support\Colors\Color;
 use Filament\Tables;
@@ -42,7 +38,8 @@ class MallOrderResource extends Resource
     public static function getRecordSubNavigation(Page $page): array
     {
         return $page->generateNavigationItems([
-            Pages\ViewMallOrder::class
+            Pages\ViewMallOrder::class,
+            Pages\OrderOperationLog::class
         ]);
     }
 
@@ -67,6 +64,8 @@ class MallOrderResource extends Resource
                                 TextEntry::make('payment')->formatStateUsing(fn(int $state): string => MallOrderPaymentEnum::tryFrom($state)->text())->label('支付方式'),
                                 TextEntry::make('order_source')->formatStateUsing(fn(int $state): string => MallOrderOrderSourceEnum::tryFrom($state)->text())->label('订单来源'),
                             ]),
+                        TextEntry::make('buyer_remark')->label('买家留言'),
+                        TextEntry::make('seller_message')->label('卖家留言'),
                     ]),
                 Fieldset::make('收货信息')
                     ->schema([
@@ -122,13 +121,12 @@ class MallOrderResource extends Resource
                     ->searchable()
                     ->label('电话'),
                 Tables\Columns\TextColumn::make('buyer_remark')
-                    ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->label('买家备注'),
-                Tables\Columns\TextColumn::make('seller_message')
-                    ->sortable()
+                    ->label('买家留言'),
+                Tables\Columns\TextInputColumn::make('seller_message')
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->label('商家备注'),
+                    ->width('10%')
+                    ->label('商家留言'),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
@@ -174,6 +172,7 @@ class MallOrderResource extends Resource
         return [
             'index' => Pages\ListMallOrders::route('/'),
             'view' => Pages\ViewMallOrder::route('/{record}'),
+            'log' => Pages\OrderOperationLog::route('/{record}/log'),
         ];
     }
 
