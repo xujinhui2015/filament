@@ -31,7 +31,7 @@ class MallOrderPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_mall::mall::order');
+        return $user->can('{{ Create }}');
     }
 
     /**
@@ -47,7 +47,7 @@ class MallOrderPolicy
      */
     public function delete(User $user, MallOrder $mallOrder): bool
     {
-        return $user->can('delete_mall::mall::order');
+        return $user->can('{{ Delete }}');
     }
 
     /**
@@ -55,7 +55,7 @@ class MallOrderPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_mall::mall::order');
+        return $user->can('{{ DeleteAny }}');
     }
 
     /**
@@ -63,7 +63,7 @@ class MallOrderPolicy
      */
     public function forceDelete(User $user, MallOrder $mallOrder): bool
     {
-        return $user->can('force_delete_mall::mall::order');
+        return $user->can('{{ ForceDelete }}');
     }
 
     /**
@@ -71,7 +71,7 @@ class MallOrderPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_mall::mall::order');
+        return $user->can('{{ ForceDeleteAny }}');
     }
 
     /**
@@ -79,7 +79,7 @@ class MallOrderPolicy
      */
     public function restore(User $user, MallOrder $mallOrder): bool
     {
-        return $user->can('restore_mall::mall::order');
+        return $user->can('{{ Restore }}');
     }
 
     /**
@@ -87,7 +87,7 @@ class MallOrderPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_mall::mall::order');
+        return $user->can('{{ RestoreAny }}');
     }
 
     /**
@@ -95,7 +95,7 @@ class MallOrderPolicy
      */
     public function replicate(User $user, MallOrder $mallOrder): bool
     {
-        return $user->can('replicate_mall::mall::order');
+        return $user->can('{{ Replicate }}');
     }
 
     /**
@@ -103,6 +103,6 @@ class MallOrderPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_mall::mall::order');
+        return $user->can('{{ Reorder }}');
     }
 }

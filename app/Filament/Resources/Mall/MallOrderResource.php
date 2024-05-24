@@ -8,6 +8,7 @@ use App\Enums\Mall\MallOrderPaymentEnum;
 use App\Filament\Resources\Mall\MallOrderResource\Pages;
 use App\Filament\Resources\Mall\MallOrderResource\RelationManagers\DetailRelationManager;
 use App\Models\Mall\MallOrder;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Exception;
 use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\Grid;
@@ -23,7 +24,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class MallOrderResource extends Resource
+class MallOrderResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = MallOrder::class;
 

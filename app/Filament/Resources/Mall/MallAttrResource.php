@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Mall;
 use App\Filament\Resources\Mall\MallAttrResource\Pages;
 use App\Filament\Resources\Mall\MallAttrResource\RelationManagers;
 use App\Models\Mall\MallAttr;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,7 +14,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class MallAttrResource extends Resource
+class MallAttrResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = MallAttr::class;
 

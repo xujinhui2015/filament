@@ -4,19 +4,16 @@ namespace App\Filament\Resources\Mall;
 
 use App\Enums\IsYesOrNoEnum;
 use App\Filament\Resources\Mall\MallGoodsResource\Pages;
-use App\Filament\Resources\Mall\MallOrderResource\Pages\ViewMallOrder;
 use App\Models\Mall\MallAttr;
 use App\Models\Mall\MallAttrValue;
 use App\Models\Mall\MallGoods;
 use App\Models\Mall\MallGoodsAttrValue;
-use App\Models\Mall\MallOrder;
 use App\Support\Helpers\FilePathHelper;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use CodeWithDennis\FilamentSelectTree\SelectTree;
 use Exception;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Pages\SubNavigationPosition;
-use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -28,7 +25,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
 use Rawilk\FilamentQuill\Filament\Forms\Components\QuillEditor;
 
-class MallGoodsResource extends Resource
+class MallGoodsResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = MallGoods::class;
 

@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Mall;
 use App\Filament\Resources\Mall\MallExpressResource\Pages;
 use App\Filament\Resources\Mall\MallExpressResource\RelationManagers;
 use App\Models\Mall\MallExpress;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,7 +14,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class MallExpressResource extends Resource
+class MallExpressResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = MallExpress::class;
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';

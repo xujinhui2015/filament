@@ -6,6 +6,7 @@ use App\Filament\Resources\Customer\CustomerResource\Pages;
 use App\Filament\Resources\Customer\CustomerResource\RelationManagers\BalancesRecordsRelationManager;
 use App\Filament\Resources\Customer\CustomerResource\RelationManagers\PointsRecordsRelationManager;
 use App\Models\Customer\Customer;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Exception;
 use Filament\Infolists;
 use Filament\Infolists\Infolist;
@@ -13,7 +14,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class CustomerResource extends Resource
+class CustomerResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = Customer::class;
 
@@ -29,7 +30,7 @@ class CustomerResource extends Resource
     {
         return [
             'view_any',
-            'update',
+            'view',
         ];
     }
 

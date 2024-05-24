@@ -23,7 +23,7 @@ class MallExpressPolicy
      */
     public function view(User $user, MallExpress $mallExpress): bool
     {
-        return $user->can('view_mall::mall::express');
+        return $user->can('{{ View }}');
     }
 
     /**
@@ -95,7 +95,7 @@ class MallExpressPolicy
      */
     public function replicate(User $user, MallExpress $mallExpress): bool
     {
-        return $user->can('replicate_mall::mall::express');
+        return $user->can('{{ Replicate }}');
     }
 
     /**
@@ -103,6 +103,6 @@ class MallExpressPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_mall::mall::express');
+        return $user->can('{{ Reorder }}');
     }
 }

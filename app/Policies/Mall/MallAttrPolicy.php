@@ -23,7 +23,7 @@ class MallAttrPolicy
      */
     public function view(User $user, MallAttr $mallAttr): bool
     {
-        return $user->can('view_mall::mall::attr');
+        return $user->can('{{ View }}');
     }
 
     /**
@@ -95,7 +95,7 @@ class MallAttrPolicy
      */
     public function replicate(User $user, MallAttr $mallAttr): bool
     {
-        return $user->can('replicate_mall::mall::attr');
+        return $user->can('{{ Replicate }}');
     }
 
     /**

@@ -4,13 +4,14 @@ namespace App\Filament\Resources\Mall;
 
 use App\Filament\Resources\Mall\MallGoodsCategoryResource\Pages;
 use App\Models\Mall\MallGoodsCategory;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class MallGoodsCategoryResource extends Resource
+class MallGoodsCategoryResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = MallGoodsCategory::class;
 

@@ -23,7 +23,7 @@ class MallGoodsCategoryPolicy
      */
     public function view(User $user, MallGoodsCategory $mallGoodsCategory): bool
     {
-        return $user->can('view_mall::mall::goods::category');
+        return $user->can('{{ View }}');
     }
 
     /**
@@ -95,7 +95,7 @@ class MallGoodsCategoryPolicy
      */
     public function replicate(User $user, MallGoodsCategory $mallGoodsCategory): bool
     {
-        return $user->can('replicate_mall::mall::goods::category');
+        return $user->can('{{ Replicate }}');
     }
 
     /**
