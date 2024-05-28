@@ -1,6 +1,6 @@
 # Filament 后台脚手架
 
-## 上线指南
+## 配置指南
 
 ```bash
 # 安装包管理
@@ -31,8 +31,10 @@ https://github.com/overtrue/laravel-filesystem-qiniu
 FILAMENT_FILESYSTEM_DISK=qiniu
 ```
 
-
-## 七牛云对象存储配置
+## 日志查询系统配置
 ```bash
-
+# 发布前端文件
+php artisan log-viewer:publish
+# 必须登录users表ID=1的账户，才能查看日志，否则会报权限问题
+访问地址 {APP_URL}/log-viewer
 ```
