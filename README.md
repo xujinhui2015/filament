@@ -1,6 +1,6 @@
 # Filament 后台脚手架
 
-## 上线指南
+## 配置指南
 
 ```bash
 # 安装包管理
@@ -29,4 +29,12 @@ php artisan db:seed --class=UserSeeder # 生成会员数据以及积分余额记
 https://github.com/overtrue/laravel-filesystem-qiniu
 # 安装完毕后再env文件配置即可
 FILAMENT_FILESYSTEM_DISK=qiniu
+```
+
+## 日志查询配置
+```bash
+# 发布前端文件
+php artisan log-viewer:publish
+# 必须登录users表ID=1的账户，才能查看日志，否则会报权限问题
+访问地址 {APP_URL}/log-viewer
 ```
