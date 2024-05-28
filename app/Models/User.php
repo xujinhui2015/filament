@@ -57,12 +57,4 @@ class User extends Authenticatable implements HasAvatar
     {
         return $this->avatar_url ? Storage::url($this->avatar_url) : null;
     }
-
-    /**
-     * 是否超级管理员
-     */
-    public function isSupperAdmin()
-    {
-
-    }
 }

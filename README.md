@@ -30,3 +30,9 @@ https://github.com/overtrue/laravel-filesystem-qiniu
 # 安装完毕后再env文件配置即可
 FILAMENT_FILESYSTEM_DISK=qiniu
 ```
+
+
+## 七牛云对象存储配置
+```bash
+
+```

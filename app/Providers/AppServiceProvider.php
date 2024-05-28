@@ -2,14 +2,18 @@
 
 namespace App\Providers;
 
+use App\Models\Customer\Customer;
 use App\Models\Mall\MallOrder;
 use App\Observers\Mall\MallOrderObserver;
+use App\Policies\Customer\CustomerPolicy;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 use Opcodes\LogViewer\Facades\LogViewer;
 use Rawilk\FilamentQuill\Enums\ToolbarButton;
 use Rawilk\FilamentQuill\Filament\Forms\Components\QuillEditor;
+use Illuminate\Support\Facades\Gate;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -48,6 +52,11 @@ class AppServiceProvider extends ServiceProvider
 
         // 商城模块
         MallOrder::observe(MallOrderObserver::class);
+
+        // 自动注册策略
+        Gate::guessPolicyNamesUsing(function (string $modelClass) {
+            return Str::replace('App\\Models', 'App\\Policies', $modelClass) . 'Policy';
+        });
 
     }
 }
