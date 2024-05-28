@@ -4,7 +4,6 @@ namespace App\Models\Mall;
 
 use App\Casts\MoneyCast;
 use App\Enums\Mall\MallOrderAdjustAdjustTypeEnum;
-use App\Enums\Mall\MallOrderOrderStatusEnum;
 use App\Models\BaseModel;
 use App\Models\Customer\Customer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
