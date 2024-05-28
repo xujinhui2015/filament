@@ -85,10 +85,10 @@ class UserResource extends Resource implements HasShieldPermissions
                     ->label('用户昵称'),
                 Tables\Columns\TextColumn::make('phone')
                     ->searchable()
-                    ->label('手机号'),
+                    ->label('登录手机号'),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable()
-                    ->label('登录邮箱'),
+                    ->label('邮箱'),
                 Tables\Columns\ImageColumn::make('avatar_url')
                     ->circular()
                     ->label('头像'),
