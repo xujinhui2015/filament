@@ -2,11 +2,8 @@
 
 namespace App\Providers;
 
-use App\Models\Customer\Customer;
 use App\Models\Mall\MallOrder;
 use App\Observers\Mall\MallOrderObserver;
-use App\Policies\Customer\CustomerPolicy;
-use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
