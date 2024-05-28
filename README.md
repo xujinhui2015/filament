@@ -31,7 +31,7 @@ https://github.com/overtrue/laravel-filesystem-qiniu
 FILAMENT_FILESYSTEM_DISK=qiniu
 ```
 
-## 日志查询配置
+## 日志查询系统配置
 ```bash
 # 发布前端文件
 php artisan log-viewer:publish
