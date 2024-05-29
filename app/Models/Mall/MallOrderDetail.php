@@ -52,6 +52,11 @@ class MallOrderDetail extends BaseModel
         ];
     }
 
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(MallOrder::class, 'order_id');
+    }
+
     public function goods(): BelongsTo
     {
         return $this->belongsTo(MallGoods::class, 'goods_id');

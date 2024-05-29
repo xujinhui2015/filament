@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Mall;
 use App\Enums\Mall\MallOrderOrderSourceEnum;
 use App\Enums\Mall\MallOrderOrderStatusEnum;
 use App\Enums\Mall\MallOrderPaymentEnum;
+use App\Filament\Exports\Mall\MallOrderExporter;
 use App\Filament\Resources\Mall\MallOrderResource\Pages;
 use App\Filament\Resources\Mall\MallOrderResource\RelationManagers\DetailRelationManager;
 use App\Models\Mall\MallOrder;
@@ -165,6 +166,10 @@ class MallOrderResource extends Resource implements HasShieldPermissions
                     Tables\Actions\ForceDeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
+            ])
+            ->headerActions([
+                Tables\Actions\ExportAction::make()
+                    ->exporter(MallOrderExporter::class)
             ])
             ->defaultSort('id', 'desc')
             ->recordUrl(null);
