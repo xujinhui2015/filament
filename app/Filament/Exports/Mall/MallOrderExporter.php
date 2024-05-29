@@ -4,7 +4,6 @@ namespace App\Filament\Exports\Mall;
 
 use App\Enums\Mall\MallOrderOrderStatusEnum;
 use App\Models\Mall\MallOrder;
-use App\Models\Mall\MallOrderDetail;
 use Filament\Actions\Exports\ExportColumn;
 use Filament\Actions\Exports\Exporter;
 use Filament\Actions\Exports\Models\Export;
