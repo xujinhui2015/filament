@@ -2,15 +2,15 @@
 
 namespace App\Models\Mall;
 
-use App\Casts\MoneyCast;
 use App\Enums\Mall\MallOrderAdjustAdjustTypeEnum;
 use App\Models\BaseModel;
 use App\Models\Customer\Customer;
+use App\Support\Casts\MoneyCast;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 

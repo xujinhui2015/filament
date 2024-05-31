@@ -2,11 +2,11 @@
 
 namespace App\Models\Mall;
 
-use App\Casts\MoneyCast;
 use App\Models\BaseModel;
+use App\Support\Casts\MoneyCast;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 
 /**
