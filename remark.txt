@@ -56,7 +56,6 @@ php artisan ide-helper:meta
 配置扩展包：https://filamentphp.com/plugins/outerweb-settings
 RichEditor富文本编辑器包：https://github.com/rawilk/filament-quill
 
-
 -----------------------常见问题-----------------------
 # 提示The POST method is not supported for route admin/login. Supported methods: GET, HEAD. 用下面的方案解决
 php artisan vendor:publish --force --tag=livewire:assets

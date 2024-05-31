@@ -38,3 +38,10 @@ php artisan log-viewer:publish
 # 必须登录users表ID=1的账户，才能查看日志，否则会报权限问题
 访问地址 {APP_URL}/log-viewer
 ```
+
+
+## 常用方法
+```bash
+# 省市区级联：直接在资源中的form方法里面的schema，添加如下代码即可
+FilamentCommonService::getFormArea()
+```
