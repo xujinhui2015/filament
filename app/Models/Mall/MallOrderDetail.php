@@ -23,6 +23,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon $deleted_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property MallOrder $order
  * @property MallGoods $goods
  * @property $goods_spec_text
  *
