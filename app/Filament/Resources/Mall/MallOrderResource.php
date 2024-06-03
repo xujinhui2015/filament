@@ -8,9 +8,13 @@ use App\Enums\Mall\MallOrderPaymentEnum;
 use App\Filament\Exports\Mall\MallOrderExporter;
 use App\Filament\Resources\Mall\MallOrderResource\Pages;
 use App\Filament\Resources\Mall\MallOrderResource\RelationManagers\DetailRelationManager;
+use App\Models\Mall\MallExpress;
 use App\Models\Mall\MallOrder;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Exception;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\Grid;
 use Filament\Infolists\Components\ImageEntry;
@@ -24,6 +28,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Carbon;
 
 class MallOrderResource extends Resource implements HasShieldPermissions
 {
@@ -63,7 +68,7 @@ class MallOrderResource extends Resource implements HasShieldPermissions
                         Grid::make(4)
                             ->schema([
                                 TextEntry::make('customer.nickname')->label('名称'),
-                                ImageEntry::make('customer.avatar_url')->circular() ->height(30)->label('头像'),
+                                ImageEntry::make('customer.avatar_url')->circular()->height(30)->label('头像'),
                             ]),
                     ]),
                 Fieldset::make('订单信息')
@@ -159,6 +164,7 @@ class MallOrderResource extends Resource implements HasShieldPermissions
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
+                self::getDeliveryFromOption(Tables\Actions\EditAction::make()),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -202,6 +208,32 @@ class MallOrderResource extends Resource implements HasShieldPermissions
     public static function getNavigationBadge(): ?string
     {
         return MallOrder::query()->count();
+    }
+
+    public static function getDeliveryFromOption(EditAction|Tables\Actions\EditAction $object): EditAction|Tables\Actions\EditAction
+    {
+        return $object->form([
+            Select::make('logistics_name')
+                ->options(MallExpress::query()->pluck('express_name', 'express_name'))
+                ->required()
+                ->label('物流公司'),
+            TextInput::make('logistics_no')
+                ->maxLength(128)
+                ->required()
+                ->label('物流单号'),
+        ])
+            ->using(function (MallOrder $record, array $data): MallOrder {
+
+                $record->update([
+                    ... $data,
+                    'order_status' => MallOrderOrderStatusEnum::Delivery->value,
+                    'delivery_time' => Carbon::now(),
+                ]);
+
+                return $record;
+            })
+            ->hidden(fn(MallOrder $record) => MallOrderOrderStatusEnum::Pay->isNeq($record->order_status))
+            ->label('发货');
     }
 
 }
