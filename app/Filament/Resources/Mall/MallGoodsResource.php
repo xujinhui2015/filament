@@ -112,6 +112,16 @@ class MallGoodsResource extends Resource implements HasShieldPermissions
                                                     ->required()
                                                     ->minItems(1)
                                                     ->options($mallAttr->value->pluck('attr_value_name', 'id')->toArray())
+                                                    ->createOptionForm([
+                                                        Forms\Components\TextInput::make('attr_value_name')
+                                                            ->required()
+                                                            ->unique(ignoreRecord: true)
+                                                            ->maxLength(100)
+                                                            ->label('规格值名称'),
+                                                    ])
+                                                    ->createOptionUsing(function (array $data) use ($mallAttr) : int {
+                                                        return $mallAttr->value()->create($data)->getKey();
+                                                    })
                                                     ->label($mallAttr->attr_name);
                                             })->toArray();
                                     })->key('attrValue'),
