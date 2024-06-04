@@ -14,4 +14,9 @@ abstract class Controller
         /** @var Customer */
         return auth()->user();
     }
+
+    protected function getCustomerId(): int|string|null
+    {
+        return auth()->id();
+    }
 }

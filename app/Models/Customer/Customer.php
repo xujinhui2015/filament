@@ -4,6 +4,8 @@ namespace App\Models\Customer;
 
 use App\Models\BaseModel;
 use App\Support\Casts\MoneyCast;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -29,9 +31,9 @@ use Laravel\Sanctum\HasApiTokens;
  *
  * @method static Builder|Customer query()
  */
-class Customer extends BaseModel
+class Customer extends BaseModel implements AuthenticatableContract
 {
-    use HasApiTokens,HasFactory,SoftDeletes;
+    use HasApiTokens, HasFactory, SoftDeletes, Authenticatable;
 
     protected $table = 'customer';
 
