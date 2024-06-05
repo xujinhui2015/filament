@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\Customer\CustomerResource\RelationManagers;
 
 use App\Enums\Customer\CustomerBalanceSceneTypeEnum;
-use App\Services\FilamentCommonService;
+use App\Services\FilamentService;
 use Exception;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
@@ -34,7 +34,7 @@ class BalancesRecordsRelationManager extends RelationManager
                 Tables\Filters\SelectFilter::make('change_explain')
                     ->options(CustomerBalanceSceneTypeEnum::options())
                     ->label('场景'),
-                FilamentCommonService::getFilterDateRange('created_at'),
+                FilamentService::getFilterDateRange('created_at'),
             ]);
     }
 }

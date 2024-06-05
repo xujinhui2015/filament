@@ -43,5 +43,5 @@ php artisan log-viewer:publish
 ## 常用方法
 ```bash
 # 省市区级联：直接在资源中的form方法里面的schema，添加如下代码即可
-FilamentCommonService::getFormArea()
+FilamentService::getFormArea()
 ```

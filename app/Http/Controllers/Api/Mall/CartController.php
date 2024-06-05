@@ -49,9 +49,14 @@ class CartController extends Controller
     }
 
     #[Post('destroy')]
-    public function destroy(Request $request)
+    public function destroy(Request $request): JsonResponse
     {
+        MallCart::query()
+            ->where('customer_id', $this->getCustomerId())
+            ->find($request->post('id'))
+            ->delete();
 
+        return $this->ok();
     }
 
 }

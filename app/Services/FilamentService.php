@@ -12,7 +12,7 @@ use Filament\Forms\Set;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Query\Builder;
 
-class FilamentCommonService
+class FilamentService
 {
     /**
      * 获取过滤器的时间范围字段
