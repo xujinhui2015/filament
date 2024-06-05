@@ -46,6 +46,10 @@ class MallOrderDetail extends BaseModel
         'goods_number',
     ];
 
+    protected $appends = [
+        'goods_spec_text'
+    ];
+
     protected function casts(): array
     {
         return [

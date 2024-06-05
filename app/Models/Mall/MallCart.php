@@ -4,6 +4,7 @@ namespace App\Models\Mall;
 
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
@@ -32,5 +33,15 @@ class MallCart extends BaseModel
         'goods_sku_id',
         'goods_number',
     ];
+
+    public function sku(): BelongsTo
+    {
+        return $this->belongsTo(MallGoodsSku::class, 'goods_sku_id');
+    }
+
+    public function goods(): BelongsTo
+    {
+        return $this->belongsTo(MallGoods::class, 'goods_id');
+    }
 
 }

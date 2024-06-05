@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api\Mall;
 
 use App\Http\Controllers\Controller;
 use App\Models\Mall\MallCart;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Middleware;
@@ -15,9 +17,21 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 class CartController extends Controller
 {
     #[Post('index')]
-    public function index()
+    public function index(): JsonResponse
     {
-
+        $list = MallCart::query()
+            ->where('customer_id', $this->getCustomerId())
+            ->select([
+                'id', 'goods_id', 'goods_sku_id', 'goods_number'
+            ])
+            ->with([
+                'sku' => function (BelongsTo $query) {
+                    $query->selectRaw('id,spec,price,sku_img,stock');
+                },
+                'goods',
+            ])
+            ->get();
+        return $this->success($list);
     }
 
     #[Post('store')]

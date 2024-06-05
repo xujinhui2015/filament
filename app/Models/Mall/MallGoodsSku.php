@@ -35,4 +35,16 @@ class MallGoodsSku extends BaseModel
         'stock',
     ];
 
+    protected $appends = [
+        'spec_text'
+    ];
+
+    public function getSpecTextAttribute(): string
+    {
+        return MallAttrValue::query()
+            ->whereIn('id', explode('-', $this->spec))
+            ->pluck('attr_value_name')
+            ->implode('-');
+    }
+
 }
