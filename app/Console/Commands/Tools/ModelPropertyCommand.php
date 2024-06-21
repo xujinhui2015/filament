@@ -55,6 +55,7 @@ class ModelPropertyCommand extends Command
         'text' => 'string',
         'string' => 'string',
         'boolean' => 'bool',
+        'json' => 'string',
     ];
 
     /**

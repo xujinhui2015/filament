@@ -2,6 +2,7 @@
 
 namespace App\Models\Mall;
 
+use App\Enums\Cache\MallCacheKeyEnum;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -41,10 +42,11 @@ class MallGoodsSku extends BaseModel
 
     public function getSpecTextAttribute(): string
     {
-        return MallAttrValue::query()
-            ->whereIn('id', explode('-', $this->spec))
-            ->pluck('attr_value_name')
-            ->implode('-');
+        return MallCacheKeyEnum::SkuSpec->cacheData([$this->spec], function () {
+            return MallAttrValue::query()
+                ->whereIn('id', explode('-', $this->spec))
+                ->pluck('attr_value_name')
+                ->implode('-');
+        });
     }
-
 }

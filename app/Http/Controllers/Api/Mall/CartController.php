@@ -28,7 +28,7 @@ class CartController extends Controller
                 'sku' => function (BelongsTo $query) {
                     $query->selectRaw('id,spec,price,sku_img,stock');
                 },
-                'goods',
+                'goods:id,goods_name,main_img,is_sale',
             ])
             ->get();
         return $this->success($list);
@@ -37,7 +37,7 @@ class CartController extends Controller
     #[Post('store')]
     public function store(Request $request): JsonResponse
     {
-        $requestData = $request->json()->all();
+        $requestData = $request->post('carts');
 
         foreach ($requestData as $item) {
             $storeData = [

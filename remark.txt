@@ -52,6 +52,9 @@ php artisan ide-helper:generate
 php artisan ide-helper:models
 php artisan ide-helper:meta
 
+https://spatie.be/docs/laravel-query-builder/v5/introduction
+快速查询构建文档
+
 -----------------------Filament插件相关-----------------------
 配置扩展包：https://filamentphp.com/plugins/outerweb-settings
 RichEditor富文本编辑器包：https://github.com/rawilk/filament-quill
