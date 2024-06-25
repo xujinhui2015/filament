@@ -129,7 +129,7 @@ return new class extends Migration
             $table->unsignedInteger('order_money')->comment('订单金额');
             $table->unsignedInteger('order_fact_money')->comment('订单实付金额');
             $table->unsignedTinyInteger('order_source')->comment('订单来源0直接下单1购物车');
-            $table->unsignedTinyInteger('payment')->comment('支付方式1余额支付2微信支付');
+            $table->unsignedTinyInteger('payment')->nullable()->comment('支付方式1余额支付2微信支付');
 
             $table->string('name', 32)->comment('收货人姓名');
             $table->string('phone', 32)->comment('收货人电话');
