@@ -10,7 +10,8 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Tables\Filters\Filter;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class FilamentService
 {
@@ -60,7 +61,7 @@ class FilamentService
                     ->label('省'),
                 Select::make('city')
                     ->options(fn (Get $get) => Area::query()
-                        ->where('parent_id', function (Builder $query) use ($get) {
+                        ->where('parent_id', function (QueryBuilder $query) use ($get) {
                             $query->where('parent_id', 0)
                                 ->where('name', $get('province'))
                                 ->select('area_id')
@@ -76,8 +77,8 @@ class FilamentService
                 Select::make('district')
                     ->live()
                     ->options(fn (Get $get) => Area::query()
-                        ->where('parent_id', function (Builder $query) use ($get) {
-                            $query->where('parent_id', function (Builder $query) use ($get) {
+                        ->where('parent_id', function (QueryBuilder $query) use ($get) {
+                            $query->where('parent_id', function (QueryBuilder $query) use ($get) {
                                 $query->where('parent_id', 0)
                                     ->where('name', $get('province'))
                                     ->select('area_id')

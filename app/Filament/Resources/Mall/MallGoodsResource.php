@@ -9,6 +9,7 @@ use App\Models\Mall\MallAttrValue;
 use App\Models\Mall\MallGoods;
 use App\Models\Mall\MallGoodsAttrValue;
 use App\Models\Mall\MallGoodsSku;
+use App\Services\FilamentService;
 use App\Support\Helpers\FilePathHelper;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use CodeWithDennis\FilamentSelectTree\SelectTree;

@@ -10,6 +10,7 @@ use App\Filament\Resources\Mall\MallOrderResource\Pages;
 use App\Filament\Resources\Mall\MallOrderResource\RelationManagers\DetailRelationManager;
 use App\Models\Mall\MallExpress;
 use App\Models\Mall\MallOrder;
+use App\Services\FilamentService;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Exception;
 use Filament\Actions\EditAction;
@@ -161,6 +162,7 @@ class MallOrderResource extends Resource implements HasShieldPermissions
                     ->options(MallOrderOrderStatusEnum::options())
                     ->label('订单状态'),
                 Tables\Filters\TrashedFilter::make(),
+                FilamentService::getFilterDateRange('created_at'),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
