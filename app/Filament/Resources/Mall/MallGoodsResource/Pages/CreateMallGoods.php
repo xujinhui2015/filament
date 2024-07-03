@@ -103,12 +103,4 @@ class CreateMallGoods extends CreateRecord
         $this->halt();
     }
 
-    /**
-     * 去掉保存按钮
-     */
-    protected function getFormActions(): array
-    {
-        return [];
-    }
-
 }

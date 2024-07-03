@@ -4,6 +4,7 @@ namespace App\Models\Mall;
 
 use App\Enums\Cache\MallCacheKeyEnum;
 use App\Models\BaseModel;
+use App\Support\Casts\MoneyCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
@@ -35,6 +36,13 @@ class MallGoodsSku extends BaseModel
         'sku_img',
         'stock',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'price' => MoneyCast::class,
+        ];
+    }
 
     protected $appends = [
         'spec_text'

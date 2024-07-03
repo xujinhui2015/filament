@@ -8,6 +8,7 @@ use App\Models\Mall\MallAttr;
 use App\Models\Mall\MallAttrValue;
 use App\Models\Mall\MallGoods;
 use App\Models\Mall\MallGoodsAttrValue;
+use App\Models\Mall\MallGoodsSku;
 use App\Support\Helpers\FilePathHelper;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use CodeWithDennis\FilamentSelectTree\SelectTree;
@@ -58,156 +59,136 @@ class MallGoodsResource extends Resource implements HasShieldPermissions
             // 创建表单
             return $form
                 ->schema([
-                    Forms\Components\Wizard::make([
-                        Forms\Components\Wizard\Step::make('basic')
-                            ->schema([
-                                Forms\Components\TextInput::make('goods_sn')
-                                    ->required()
-                                    ->unique()
-                                    ->maxLength(100)
-                                    ->label('商品代码'),
-                                SelectTree::make('goods_category_id')
-                                    ->required()
-                                    ->relationship('category', 'title', 'parent_id')
-                                    ->emptyLabel('没有商品分类')
-                                    ->searchable()
-                                    ->parentNullValue(0)
-                                    ->label('商品分类'),
-                                Forms\Components\TextInput::make('goods_name')
-                                    ->required()
-                                    ->maxLength(100)
-                                    ->label('商品名称'),
-                                Forms\Components\TextInput::make('subtitle')
-                                    ->required()
-                                    ->maxLength(100)
-                                    ->label('商品副标题'),
-                                Forms\Components\Select::make('attr')
-                                    ->options(MallAttr::options())
-                                    ->multiple()
-                                    ->required()
-                                    ->minItems(1)
-                                    ->maxItems(2)
-                                    ->live()
-                                    ->afterStateUpdated(fn(Forms\Components\Select $component) => $component
-                                        ->getContainer()
-                                        ->getComponent('attrValue')
-                                        ->getChildComponentContainer()
-                                        ->fill())
-                                    ->label('商品规格'),
-                                Forms\Components\Grid::make()
-                                    ->schema(function (Forms\Get $get): array {
-                                        if (!$get('attr')) {
-                                            return [];
-                                        }
-                                        return MallAttr::query()
-                                            ->whereIn('id', $get('attr'))
-                                            ->with([
-                                                'value' => function (HasMany $query) {
-                                                    $query->where('is_disabled', false);
-                                                }
-                                            ])
-                                            ->get()
-                                            ->map(function (MallAttr $mallAttr) {
-                                                return Forms\Components\Select::make('attr_value_' . $mallAttr->id)
-                                                    ->multiple()
-                                                    ->required()
-                                                    ->minItems(1)
-                                                    ->options($mallAttr->value->pluck('attr_value_name', 'id')->toArray())
-                                                    ->createOptionForm([
-                                                        Forms\Components\TextInput::make('attr_value_name')
-                                                            ->required()
-                                                            ->unique(ignoreRecord: true)
-                                                            ->maxLength(100)
-                                                            ->label('规格值名称'),
-                                                    ])
-                                                    ->createOptionUsing(function (array $data) use ($mallAttr) : int {
-                                                        return $mallAttr->value()->create($data)->getKey();
-                                                    })
-                                                    ->label($mallAttr->attr_name);
-                                            })->toArray();
-                                    })->key('attrValue'),
-                            ])
-                            ->label('基本信息'),
-                        Forms\Components\Wizard\Step::make('price')
-                            ->schema(function (Forms\Get $get): array {
-                                // 处理无限极分类
-
-                                // 获取所有接收的规格属性
-                                $attr = $get('attr');
-                                $attrArray = collect($attr)->map(function ($attrId) use ($get) {
-                                    return $get('attr_value_' . $attrId);
-                                });
-                                // 算出所有可能性
-                                $attrValueAll = [[]];
-                                foreach ($attrArray as $values) {
-                                    $temp = [];
-                                    foreach ($attrValueAll as $combination) {
-                                        foreach ($values as $value) {
-                                            $temp[] = array_merge($combination, [$value]);
-                                        }
+                    SelectTree::make('goods_category_id')
+                        ->required()
+                        ->relationship('category', 'title', 'parent_id')
+                        ->emptyLabel('没有商品分类')
+                        ->searchable()
+                        ->parentNullValue(0)
+                        ->label('商品分类'),
+                    Forms\Components\TextInput::make('goods_sn')
+                        ->required()
+                        ->unique()
+                        ->maxLength(100)
+                        ->label('商品代码'),
+                    Forms\Components\TextInput::make('goods_name')
+                        ->required()
+                        ->maxLength(100)
+                        ->label('商品名称'),
+                    Forms\Components\TextInput::make('subtitle')
+                        ->required()
+                        ->maxLength(100)
+                        ->label('商品副标题'),
+                    Forms\Components\FileUpload::make('main_img')
+                        ->required()
+                        ->image()
+                        ->imageEditor()
+                        ->getUploadedFileNameForStorageUsing(FilePathHelper::uploadUsing(FilePathHelper::MALL_GOODS))
+                        ->columnSpanFull()
+                        ->label('商品主图'),
+                    Forms\Components\FileUpload::make('images')
+                        ->required()
+                        ->image()
+                        ->imageEditor()
+                        ->getUploadedFileNameForStorageUsing(FilePathHelper::uploadUsing(FilePathHelper::MALL_GOODS))
+                        ->columnSpanFull()
+                        ->multiple()
+                        ->label('商品轮播图'),
+                    Forms\Components\Select::make('attr')
+                        ->options(MallAttr::options())
+                        ->multiple()
+                        ->required()
+                        ->minItems(1)
+                        ->maxItems(2)
+                        ->live()
+                        ->afterStateUpdated(fn(Forms\Components\Select $component) => $component
+                            ->getContainer()
+                            ->getComponent('attrValue')
+                            ->getChildComponentContainer()
+                            ->fill())
+                        ->label('商品规格'),
+                    Forms\Components\Grid::make(3)
+                        ->schema(function (Forms\Get $get): array {
+                            if (!$get('attr')) {
+                                return [];
+                            }
+                            return MallAttr::query()
+                                ->whereIn('id', $get('attr'))
+                                ->with([
+                                    'value' => function (HasMany $query) {
+                                        $query->where('is_disabled', false);
                                     }
-                                    $attrValueAll = $temp;
-                                }
-
-                                return collect($attrValueAll)->map(function ($attrValueIds) {
-
-                                    $specKey = implode('-', $attrValueIds);
-                                    $spec = MallAttrValue::query()
-                                        ->whereIn('id', $attrValueIds)
-                                        ->pluck('attr_value_name')
-                                        ->implode('-');
-
-                                    return Forms\Components\Fieldset::make($spec)
-                                        ->schema([
-                                            Forms\Components\FileUpload::make('sku_img:' . $specKey)
-                                                ->imageEditor()
-                                                ->imageEditorViewportWidth('100')
-                                                ->imageEditorViewportHeight('100')
-                                                ->getUploadedFileNameForStorageUsing(FilePathHelper::uploadUsing(FilePathHelper::MALL_GOODS))
-                                                ->columnSpanFull()
-                                                ->label('规格图片'),
-                                            Forms\Components\TextInput::make('price:' . $specKey)
+                                ])
+                                ->get()
+                                ->map(function (MallAttr $mallAttr) {
+                                    return Forms\Components\Select::make('attr_value_' . $mallAttr->id)
+                                        ->multiple()
+                                        ->required()
+                                        ->minItems(1)
+                                        ->options($mallAttr->value->pluck('attr_value_name', 'id')->toArray())
+                                        ->createOptionForm([
+                                            Forms\Components\TextInput::make('attr_value_name')
                                                 ->required()
-                                                ->prefix('￥')
-                                                ->label('商品价格'),
-                                            Forms\Components\TextInput::make('stock:' . $specKey)
-                                                ->required()
-                                                ->label('商品库存'),
-                                        ]);
+                                                ->unique(ignoreRecord: true)
+                                                ->maxLength(100)
+                                                ->label('规格值名称'),
+                                        ])
+                                        ->createOptionUsing(function (array $data) use ($mallAttr) : int {
+                                            return $mallAttr->value()->create($data)->getKey();
+                                        })
+                                        ->live()
+                                        ->label($mallAttr->attr_name);
                                 })->toArray();
-                            })->label('价格设置'),
-                        Forms\Components\Wizard\Step::make('detail')
-                            ->schema([
-                                Forms\Components\FileUpload::make('main_img')
-                                    ->required()
-                                    ->image()
-                                    ->imageEditor()
-                                    ->getUploadedFileNameForStorageUsing(FilePathHelper::uploadUsing(FilePathHelper::MALL_GOODS))
-                                    ->columnSpanFull()
-                                    ->label('商品主图'),
-                                Forms\Components\FileUpload::make('images')
-                                    ->required()
-                                    ->image()
-                                    ->imageEditor()
-                                    ->getUploadedFileNameForStorageUsing(FilePathHelper::uploadUsing(FilePathHelper::MALL_GOODS))
-                                    ->columnSpanFull()
-                                    ->multiple()
-                                    ->label('商品轮播图'),
-                                QuillEditor::make('content')
-                                    ->required()
-                                    ->fileAttachmentsDirectory(FilePathHelper::uploadDir(FilePathHelper::MALL_GOODS))
-                                    ->columnSpanFull()
-                                    ->label('内容'),
-                            ])->label('商品详情')
-                    ])->columnSpanFull()->submitAction(new HtmlString(Blade::render(<<<BLADE
-    <x-filament::button
-        type="submit"
-        size="sm"
-    >
-        创建商品
-    </x-filament::button>
-BLADE
-                    ))),
+                        })->key('attrValue'),
+                    Forms\Components\Grid::make()
+                        ->schema(function (Forms\Get $get): array {
+                            // 处理无限极分类
+
+                            // 获取所有接收的规格属性
+                            $attr = $get('attr');
+                            $attrArray = collect($attr)->map(function ($attrId) use ($get) {
+                                return $get('attr_value_' . $attrId);
+                            });
+                            if (is_null($attrArray->first())) {
+                                return [];
+                            }
+                            // 算出所有可能性
+                            $attrValueAll = [[]];
+                            foreach ($attrArray as $values) {
+                                $temp = [];
+                                foreach ($attrValueAll as $combination) {
+                                    foreach ($values as $value) {
+                                        $temp[] = array_merge($combination, [$value]);
+                                    }
+                                }
+                                $attrValueAll = $temp;
+                            }
+
+                            return collect($attrValueAll)->map(function ($attrValueIds) {
+
+                                $specKey = implode('-', $attrValueIds);
+                                $spec = MallAttrValue::query()
+                                    ->whereIn('id', $attrValueIds)
+                                    ->pluck('attr_value_name')
+                                    ->implode('-');
+
+                                return Forms\Components\Fieldset::make($spec)
+                                    ->schema([
+                                        Forms\Components\TextInput::make('price:' . $specKey)
+                                            ->required()
+                                            ->prefix('￥')
+                                            ->label('商品价格'),
+                                        Forms\Components\TextInput::make('stock:' . $specKey)
+                                            ->required()
+                                            ->label('商品库存'),
+                                    ]);
+                            })->toArray();
+                        }),
+                    QuillEditor::make('content')
+                        ->required()
+                        ->fileAttachmentsDirectory(FilePathHelper::uploadDir(FilePathHelper::MALL_GOODS))
+                        ->columnSpanFull()
+                        ->label('内容'),
                 ]);
         } else {
             // 编辑
@@ -251,7 +232,7 @@ BLADE
                     Forms\Components\Repeater::make('attr')
                         ->relationship()
                         ->schema([
-                            Forms\Components\Repeater::make('value')
+                            TableRepeater::make('value')
                                 ->relationship()
                                 ->schema([
                                     Forms\Components\Placeholder::make('attr_value_name')
@@ -266,7 +247,6 @@ BLADE
                                 ->addable(false)
                                 ->orderColumn()
                                 ->label('')
-
                         ])
                         ->deletable(false)
                         ->addable(false)
@@ -275,16 +255,11 @@ BLADE
                         ->collapsed()
                         ->itemLabel(fn(array $state): string => $state['attr_name'])
                         ->label('商品规格'),
-                    Forms\Components\Repeater::make('sku')
-//                    TableRepeater::make('sku')
+                    TableRepeater::make('sku')
                         ->relationship()
                         ->schema([
-                            Forms\Components\FileUpload::make('sku_img')
-                                ->imageEditor()
-                                ->imageEditorViewportWidth('100')
-                                ->imageEditorViewportHeight('100')
-                                ->getUploadedFileNameForStorageUsing(FilePathHelper::uploadUsing(FilePathHelper::MALL_GOODS))
-                                ->columnSpanFull()
+                            Forms\Components\Placeholder::make('spec_text')
+                                ->content(fn (MallGoodsSku $record): string => $record->getAttribute('spec_text'))
                                 ->label(''),
                             Forms\Components\TextInput::make('price')
                                 ->required()
@@ -298,10 +273,6 @@ BLADE
                         ->addable(false)
                         ->grid(4)
                         ->columnSpanFull()
-                        ->itemLabel(fn(array $state): string => MallAttrValue::query()
-                            ->whereIn('id', explode('-', $state['spec']))
-                            ->pluck('attr_value_name')
-                            ->implode('-'))
                         ->label('商品SKU'),
 
                     QuillEditor::make('content')
