@@ -1,4 +1,4 @@
-# Filament 后台脚手架
+# Filament 后台脚手架 内置商城模块
 
 ## 配置指南
 
@@ -45,3 +45,10 @@ php artisan log-viewer:publish
 # 省市区级联：直接在资源中的form方法里面的schema，添加如下代码即可
 FilamentService::getFormArea()
 ```
+
+## 项目截图
+![输入图片说明](demo/image1.png)
+
+![输入图片说明](demo/image2.png)
+
+![输入图片说明](demo/image3.png)
