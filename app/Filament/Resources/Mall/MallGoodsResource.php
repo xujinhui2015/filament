@@ -17,6 +17,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Icetalker\FilamentTableRepeater\Forms\Components\TableRepeater;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -275,6 +276,7 @@ BLADE
                         ->itemLabel(fn(array $state): string => $state['attr_name'])
                         ->label('商品规格'),
                     Forms\Components\Repeater::make('sku')
+//                    TableRepeater::make('sku')
                         ->relationship()
                         ->schema([
                             Forms\Components\FileUpload::make('sku_img')
