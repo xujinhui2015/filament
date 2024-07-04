@@ -27,7 +27,7 @@ php artisan db:seed --class=UserSeeder # 生成会员数据以及积分余额记
 ```bash
 # 安装网址：
 https://github.com/overtrue/laravel-filesystem-qiniu
-# 安装完毕后再env文件配置即可
+# 安装完毕后在env文件配置即可
 FILAMENT_FILESYSTEM_DISK=qiniu
 ```
 
