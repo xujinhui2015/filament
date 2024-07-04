@@ -46,6 +46,21 @@ php artisan log-viewer:publish
 FilamentService::getFormArea()
 ```
 
+## 使用到的包
+```bash
+filament后台权限管理： https://github.com/bezhanSalleh/filament-shield
+filament实现tree列表：https://github.com/solutionforest/filament-tree
+filament实现select组件渲染tree节点：https://github.com/codewithdennis/filament-select-tree
+filament实现表格布局的中继器组件：https://github.com/icetalker/filament-table-repeater
+filament富文本编辑器：https://github.com/rawilk/filament-quill
+API规范响应数据格式：https://github.com/jiannei/laravel-response
+Laravel的日志查看器：https://github.com/opcodesio/log-viewer
+微信SDK：https://github.com/overtrue/laravel-wechat
+Laravel快速构建查询：https://github.com/spatie/laravel-query-builder
+Laravel实现注册路由：https://github.com/spatie/laravel-route-attributes
+```
+
+
 ## 项目截图
 ![输入图片说明](demo/image1.png)
 
