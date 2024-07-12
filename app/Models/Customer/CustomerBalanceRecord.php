@@ -5,7 +5,6 @@ namespace App\Models\Customer;
 use App\Models\BaseModel;
 use App\Support\Casts\MoneyCast;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Carbon;
 
 /**
@@ -22,7 +21,6 @@ use Illuminate\Support\Carbon;
  */
 class CustomerBalanceRecord extends BaseModel
 {
-    use HasFactory;
 
     protected $table = 'customer_balance_record';
 
