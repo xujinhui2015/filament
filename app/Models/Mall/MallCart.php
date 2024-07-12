@@ -18,6 +18,8 @@ use Illuminate\Support\Carbon;
  * @property Carbon $deleted_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property MallGoodsSku $sku
+ * @property MallGoods $goods
  *
  * @method static Builder|MallCart query()
  */

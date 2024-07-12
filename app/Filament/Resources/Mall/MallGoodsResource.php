@@ -9,14 +9,12 @@ use App\Models\Mall\MallAttrValue;
 use App\Models\Mall\MallGoods;
 use App\Models\Mall\MallGoodsAttrValue;
 use App\Models\Mall\MallGoodsSku;
-use App\Services\FilamentService;
 use App\Support\Helpers\FilePathHelper;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use CodeWithDennis\FilamentSelectTree\SelectTree;
 use Exception;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Icetalker\FilamentTableRepeater\Forms\Components\TableRepeater;
@@ -24,11 +22,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\HtmlString;
 use Rawilk\FilamentQuill\Filament\Forms\Components\QuillEditor;
 
-class MallGoodsResource extends Resource implements HasShieldPermissions
+class MallGoodsResource extends MallResource implements HasShieldPermissions
 {
     protected static ?string $model = MallGoods::class;
 

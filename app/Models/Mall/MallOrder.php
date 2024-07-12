@@ -22,7 +22,7 @@ use Illuminate\Support\Collection;
  * @property int|null $order_money 订单金额
  * @property int|null $order_fact_money 订单实付金额
  * @property int|null $order_source 订单来源0直接下单1购物车
- * @property int|null $payment 支付方式0余额支付1微信支付
+ * @property int $payment 支付方式0余额支付1微信支付
  * @property string|null $name 收货人姓名
  * @property string|null $phone 收货人电话
  * @property string|null $province 省

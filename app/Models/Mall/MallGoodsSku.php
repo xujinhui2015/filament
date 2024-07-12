@@ -6,6 +6,7 @@ use App\Enums\Cache\MallCacheKeyEnum;
 use App\Models\BaseModel;
 use App\Support\Casts\MoneyCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
@@ -20,6 +21,8 @@ use Illuminate\Support\Carbon;
  * @property Carbon $deleted_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property $spec_text
+ * @property MallGoods $goods
  *
  * @method static Builder|MallGoodsSku query()
  */
@@ -56,5 +59,10 @@ class MallGoodsSku extends BaseModel
                 ->pluck('attr_value_name')
                 ->implode('-');
         });
+    }
+
+    public function goods(): BelongsTo
+    {
+        return $this->belongsTo(MallGoods::class, 'goods_id');
     }
 }

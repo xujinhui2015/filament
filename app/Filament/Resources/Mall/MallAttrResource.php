@@ -8,13 +8,12 @@ use App\Models\Mall\MallAttr;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class MallAttrResource extends Resource implements HasShieldPermissions
+class MallAttrResource extends MallResource implements HasShieldPermissions
 {
     protected static ?string $model = MallAttr::class;
 
