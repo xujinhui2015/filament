@@ -8,6 +8,6 @@ abstract class MallResource extends Resource
 {
     public static function shouldRegisterNavigation(): bool
     {
-        return env('MALL_MODULE');
+        return config('extend.custom.mall.enabled');
     }
 }
