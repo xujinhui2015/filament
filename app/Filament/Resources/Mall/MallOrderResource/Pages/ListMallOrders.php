@@ -32,7 +32,7 @@ class ListMallOrders extends ListRecords
                 continue;
             }
             $tabs[$orderStatusEnum->name] =
-                Tab::make($orderStatusEnum->text())
+                Tab::make($orderStatusEnum->getLabel())
                     ->badge(MallOrder::query()->where('order_status', $orderStatusEnum)->count())
                     ->query(fn(Builder $query) => $query->where('order_status', $orderStatusEnum));
         }

@@ -2,13 +2,15 @@
 
 namespace App\Enums\Mall;
 
-enum MallOrderOrderSourceEnum: int
+use Filament\Support\Contracts\HasLabel;
+
+enum MallOrderOrderSourceEnum: int implements HasLabel
 {
     case Order = 0;
     case ShoppingCart = 1;
 
 
-    public function text(): string
+    public function getLabel(): string
     {
         return match ($this) {
             self::Order => '直接下单',

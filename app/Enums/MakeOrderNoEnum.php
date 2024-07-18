@@ -3,15 +3,16 @@
 namespace App\Enums;
 
 use App\Support\Traits\EnumTrait;
+use Filament\Support\Contracts\HasLabel;
 
-enum MakeOrderNoEnum: string
+enum MakeOrderNoEnum: string implements HasLabel
 {
 
     use EnumTrait;
 
     case MallOrder = 'M';
 
-    public function text(): string
+    public function getLabel(): string
     {
         return match ($this) {
             self::MallOrder => '商城订单',

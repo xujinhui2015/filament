@@ -32,7 +32,7 @@ class PointsRecordsRelationManager extends RelationManager
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('change_explain')
-                    ->options(CustomerPointsSceneTypeEnum::options())
+                    ->options(CustomerPointsSceneTypeEnum::class)
                     ->label('场景'),
                 FilamentService::getFilterDateRange('created_at'),
             ]);

@@ -3,7 +3,6 @@
 namespace App\Models\Mall;
 
 use App\Models\BaseModel;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
@@ -22,7 +21,7 @@ use Illuminate\Support\Carbon;
  */
 class MallAttrValue extends BaseModel
 {
-    use HasFactory, SoftDeletes;
+    use SoftDeletes;
 
     protected $table = 'mall_attr_value';
 

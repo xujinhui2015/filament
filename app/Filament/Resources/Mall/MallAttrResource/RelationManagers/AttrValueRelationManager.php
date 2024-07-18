@@ -10,9 +10,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ValueRelationManager extends RelationManager
+class AttrValueRelationManager extends RelationManager
 {
-    protected static string $relationship = 'value';
+    protected static string $relationship = 'attrValue';
 
     protected static ?string $title =  '规格值';
 

@@ -3,8 +3,9 @@
 namespace App\Enums\Mall;
 
 use App\Support\Traits\EnumTrait;
+use Filament\Support\Contracts\HasLabel;
 
-enum MallOrderOrderStatusEnum: int
+enum MallOrderOrderStatusEnum: int implements HasLabel
 {
     use EnumTrait;
 
@@ -18,7 +19,7 @@ enum MallOrderOrderStatusEnum: int
     case Cancel = 7;
 
 
-    public function text(): string
+    public function getLabel(): string
     {
         return match ($this) {
             self::Order => '待付款',

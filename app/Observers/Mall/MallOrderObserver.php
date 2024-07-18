@@ -30,7 +30,7 @@ class MallOrderObserver
             $operationLog[] = [
                 'user_id' => $userId,
                 'action' => '更新订单状态',
-                'operation' => '修改为 ' . $orderStatus->text(),
+                'operation' => '修改为 ' . $orderStatus->getLabel(),
             ];
         }
 

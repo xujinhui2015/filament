@@ -2,12 +2,14 @@
 
 namespace App\Enums;
 
-enum HttpCodeEnum: int
+use Filament\Support\Contracts\HasLabel;
+
+enum HttpCodeEnum: int implements HasLabel
 {
     case TokenFail = 401;
 
 
-    public function text(): string
+    public function getLabel(): string
     {
         return match ($this) {
             self::TokenFail => 'Token Error',

@@ -2,13 +2,15 @@
 
 namespace App\Enums\Mall;
 
-enum MallOrderPaymentEnum: int
+use Filament\Support\Contracts\HasLabel;
+
+enum MallOrderPaymentEnum: int implements HasLabel
 {
     case Balance = 0;
     case Wechat = 1;
 
 
-    public function text(): string
+    public function getLabel(): string
     {
         return match ($this) {
             self::Balance => '余额支付',

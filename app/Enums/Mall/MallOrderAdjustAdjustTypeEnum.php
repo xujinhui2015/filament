@@ -2,12 +2,14 @@
 
 namespace App\Enums\Mall;
 
-enum MallOrderAdjustAdjustTypeEnum: string
+use Filament\Support\Contracts\HasLabel;
+
+enum MallOrderAdjustAdjustTypeEnum: string implements HasLabel
 {
     case Postage = 'postage';
 
 
-    public function text(): string
+    public function getLabel(): string
     {
         return match ($this) {
             self::Postage => '运费',

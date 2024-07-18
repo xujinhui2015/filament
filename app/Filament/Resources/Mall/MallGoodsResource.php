@@ -112,7 +112,7 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
                             return MallAttr::query()
                                 ->whereIn('id', $get('attr'))
                                 ->with([
-                                    'value' => function (HasMany $query) {
+                                    'attrValue' => function (HasMany $query) {
                                         $query->where('is_disabled', false);
                                     }
                                 ])
@@ -122,7 +122,7 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
                                         ->multiple()
                                         ->required()
                                         ->minItems(1)
-                                        ->options($mallAttr->value->pluck('attr_value_name', 'id')->toArray())
+                                        ->options($mallAttr->attrValue->pluck('attr_value_name', 'id')->toArray())
                                         ->createOptionForm([
                                             Forms\Components\TextInput::make('attr_value_name')
                                                 ->required()
@@ -131,7 +131,7 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
                                                 ->label('规格值名称'),
                                         ])
                                         ->createOptionUsing(function (array $data) use ($mallAttr) : int {
-                                            return $mallAttr->value()->create($data)->getKey();
+                                            return $mallAttr->attrValue()->create($data)->getKey();
                                         })
                                         ->live()
                                         ->label($mallAttr->attr_name);
@@ -229,14 +229,14 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
                     Forms\Components\Repeater::make('attr')
                         ->relationship()
                         ->schema([
-                            TableRepeater::make('value')
+                            TableRepeater::make('attrValue')
                                 ->relationship()
                                 ->schema([
                                     Forms\Components\Placeholder::make('attr_value_name')
                                         ->content(fn (MallGoodsAttrValue $record): string => $record->attr_value_name)
                                         ->label(''),
                                     Forms\Components\Radio::make('is_disabled')
-                                        ->options(IsYesOrNoEnum::options())
+                                        ->options(IsYesOrNoEnum::class)
                                         ->inline()
                                         ->label('是否禁用')
                                 ])

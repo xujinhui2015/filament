@@ -31,7 +31,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (RouteNotFoundException $e, Request $request) {
             // 响应API表单提交验证错误
             if ($request->is('api/*')) {
-                return Response::fail(HttpCodeEnum::TokenFail->text(), HttpCodeEnum::TokenFail);
+                return Response::fail(HttpCodeEnum::TokenFail->getLabel(), HttpCodeEnum::TokenFail);
             }
             return true;
         });

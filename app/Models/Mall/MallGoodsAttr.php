@@ -3,7 +3,6 @@
 namespace App\Models\Mall;
 
 use App\Models\BaseModel;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
@@ -25,7 +24,7 @@ use Illuminate\Support\Collection;
  */
 class MallGoodsAttr extends BaseModel
 {
-    use HasFactory, SoftDeletes;
+    use SoftDeletes;
 
     protected $table = 'mall_goods_attr';
 

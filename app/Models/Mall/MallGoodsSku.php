@@ -5,7 +5,6 @@ namespace App\Models\Mall;
 use App\Enums\Cache\MallCacheKeyEnum;
 use App\Models\BaseModel;
 use App\Support\Casts\MoneyCast;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
@@ -28,7 +27,7 @@ use Illuminate\Support\Carbon;
  */
 class MallGoodsSku extends BaseModel
 {
-    use HasFactory, SoftDeletes;
+    use SoftDeletes;
 
     protected $table = 'mall_goods_sku';
 

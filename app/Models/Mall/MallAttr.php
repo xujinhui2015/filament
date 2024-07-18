@@ -3,7 +3,6 @@
 namespace App\Models\Mall;
 
 use App\Models\BaseModel;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,13 +17,13 @@ use Illuminate\Support\Collection;
  * @property Carbon $deleted_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * @property Collection|MallAttrValue[] $value
+ * @property Collection|MallAttrValue[] $attrValue
  *
  * @method static Builder|MallAttr query()
  */
 class MallAttr extends BaseModel
 {
-    use HasFactory, SoftDeletes;
+    use SoftDeletes;
 
     protected $table = 'mall_attr';
 
@@ -34,7 +33,7 @@ class MallAttr extends BaseModel
         'sort',
     ];
 
-    public function value(): HasMany
+    public function attrValue(): HasMany
     {
         return $this->hasMany(MallAttrValue::class, 'attr_id')->orderBy('sort');
     }

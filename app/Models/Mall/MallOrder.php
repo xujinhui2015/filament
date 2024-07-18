@@ -7,7 +7,6 @@ use App\Models\BaseModel;
 use App\Models\Customer\Customer;
 use App\Support\Casts\MoneyCast;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -54,7 +53,7 @@ use Illuminate\Support\Collection;
  */
 class MallOrder extends BaseModel
 {
-    use HasFactory, SoftDeletes;
+    use SoftDeletes;
 
     protected $table = 'mall_order';
 

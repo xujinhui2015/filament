@@ -28,7 +28,7 @@ trait EnumTrait
         $cases = self::cases();
         $result = [];
         foreach ($cases as $case) {
-            $result[$case->value] = $case->text();
+            $result[$case->value] = $case->getLabel();
         }
 
         return $result;

@@ -3,14 +3,15 @@
 namespace App\Enums\Customer;
 
 use App\Support\Traits\EnumTrait;
+use Filament\Support\Contracts\HasLabel;
 
-enum CustomerPointsSceneTypeEnum: int
+enum CustomerPointsSceneTypeEnum: int implements HasLabel
 {
     use EnumTrait;
 
     case Unknown = 0;
 
-    public function text(): string
+    public function getLabel(): string
     {
         return match ($this) {
             self::Unknown => '未知',

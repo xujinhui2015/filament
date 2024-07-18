@@ -58,7 +58,7 @@ class MallAttrResource extends MallResource implements HasShieldPermissions
                 Tables\Columns\TextColumn::make('attr_name')
                     ->searchable()
                     ->label('规格名称'),
-                Tables\Columns\TextColumn::make('value.attr_value_name')
+                Tables\Columns\TextColumn::make('attrValue.attr_value_name')
                     ->label('属性值'),
                 Tables\Columns\ToggleColumn::make('is_disabled')
                     ->label('是否禁用'),
@@ -96,7 +96,7 @@ class MallAttrResource extends MallResource implements HasShieldPermissions
     public static function getRelations(): array
     {
         return [
-            RelationManagers\ValueRelationManager::class,
+            RelationManagers\AttrValueRelationManager::class,
         ];
     }
 
