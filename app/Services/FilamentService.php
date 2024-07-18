@@ -33,11 +33,11 @@ class FilamentService
                 return $query
                     ->when(
                         $data[$fromKey],
-                        fn (Builder $query, $date): Builder => $query->whereDate($datetimeFieldName, '>=', $date),
+                        fn(Builder $query, $date): Builder => $query->whereDate($datetimeFieldName, '>=', $date),
                     )
                     ->when(
                         $data[$untilKey],
-                        fn (Builder $query, $date): Builder => $query->whereDate($datetimeFieldName, '<=', $date),
+                        fn(Builder $query, $date): Builder => $query->whereDate($datetimeFieldName, '<=', $date),
                     );
             });
     }
@@ -60,7 +60,7 @@ class FilamentService
                     ->searchable()
                     ->label('省'),
                 Select::make('city')
-                    ->options(fn (Get $get) => Area::query()
+                    ->options(fn(Get $get) => Area::query()
                         ->where('parent_id', function (QueryBuilder $query) use ($get) {
                             $query->where('parent_id', 0)
                                 ->where('name', $get('province'))
@@ -76,7 +76,7 @@ class FilamentService
                     ->label('市'),
                 Select::make('district')
                     ->live()
-                    ->options(fn (Get $get) => Area::query()
+                    ->options(fn(Get $get) => Area::query()
                         ->where('parent_id', function (QueryBuilder $query) use ($get) {
                             $query->where('parent_id', function (QueryBuilder $query) use ($get) {
                                 $query->where('parent_id', 0)

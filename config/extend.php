@@ -6,6 +6,14 @@ return [
         // 商城模块
         'mall' => [
             'enabled' => true,
+            'resources' => [
+                'MallAttrResource',
+                'MallExpressResource',
+                'MallGoodsCategoryResource',
+                'MallGoodsResource',
+                'MallOrderResource',
+                'MallResource',
+            ],
         ],
     ]
 ];

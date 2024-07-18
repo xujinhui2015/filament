@@ -73,7 +73,9 @@ return [
             'AccountWidget', 'FilamentInfoWidget',
         ],
 
-        'resources' => [],
+        'resources' => [
+            ... \App\Services\FilamentShieldService::getExcludeResources(),
+        ],
     ],
 
     'discovery' => [
