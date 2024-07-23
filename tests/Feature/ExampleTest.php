@@ -14,6 +14,10 @@ class ExampleTest extends TestCase
     {
         $response = $this->post('/api/mall.goods/index');
 
+        $a = 1;
+
+        $a++;
+
         $response->dd();
     }
 }
