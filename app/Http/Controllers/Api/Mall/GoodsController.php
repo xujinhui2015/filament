@@ -6,6 +6,7 @@ use App\Enums\IsYesOrNoEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Mall\MallGoods;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\RouteAttributes\Attributes\Post;
@@ -19,7 +20,7 @@ class GoodsController extends Controller
     {
         return $this->success(QueryBuilder::for(MallGoods::class)
             ->allowedFilters(['goods_name'])
-            ->selectRaw('id,goods_sn,goods_category_id,goods_name,main_img')
+            ->selectRaw('id,goods_sn,goods_name,goods_category_id,goods_name,main_img')
             ->where('is_sale', IsYesOrNoEnum::Yes)
             ->withMin('sku', 'price')
             ->orderByDesc('id')
@@ -27,17 +28,14 @@ class GoodsController extends Controller
     }
 
     #[Post('show')]
-    public function show(): JsonResponse
+    public function show(Request $request): JsonResponse
     {
-        return $this->success(QueryBuilder::for(MallGoods::class)
-            ->allowedFilters([
-                AllowedFilter::exact('id')->default(null)
-            ])
+        return $this->success(MallGoods::query()
             ->selectRaw('id,goods_sn,goods_name,subtitle,main_img,images,content,is_sale')
             ->with([
                 'sku:id,goods_id,spec,price,sku_img,stock',
             ])
-            ->first());
+            ->find($request->post('id')));
     }
 
 }

@@ -24,7 +24,6 @@ use Illuminate\Support\Carbon;
  * @property MallOrder $order
  * @property MallGoods $goods
  * @property MallGoodsSku $goodsSku
- * @property $goods_spec_text
  *
  * @method static Builder|MallOrderDetail query()
  */
@@ -45,10 +44,6 @@ class MallOrderDetail extends BaseModel
         'goods_number',
     ];
 
-    protected $appends = [
-        'goods_spec_text'
-    ];
-
     public function order(): BelongsTo
     {
         return $this->belongsTo(MallOrder::class, 'order_id');
@@ -62,14 +57,6 @@ class MallOrderDetail extends BaseModel
     public function goodsSku(): BelongsTo
     {
         return $this->belongsTo(MallGoodsSku::class, 'goods_sku_id');
-    }
-
-    public function getGoodsSpecTextAttribute(): string
-    {
-        return MallAttrValue::query()
-            ->whereIn('id', explode('-', $this->goods_spec))
-            ->pluck('attr_value_name')
-            ->implode('-');
     }
 
 }

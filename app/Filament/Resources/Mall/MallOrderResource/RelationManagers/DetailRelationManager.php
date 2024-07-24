@@ -20,7 +20,7 @@ class DetailRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('goods.goods_sn')->label('商品编号'),
                 Tables\Columns\TextColumn::make('goods_name')->label('商品名称'),
-                Tables\Columns\TextColumn::make('goods_spec_text')->label('商品规格'),
+                Tables\Columns\TextColumn::make('goods_spec')->label('商品规格'),
                 Tables\Columns\ImageColumn::make('goods_image')->square()->height(30)->label('商品图片'),
                 Tables\Columns\TextColumn::make('goods_number')->label('数量'),
                 Tables\Columns\TextColumn::make('goods_price')->prefix('￥')->label('实际付款金额'),

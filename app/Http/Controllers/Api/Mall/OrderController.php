@@ -11,15 +11,13 @@ use App\Models\Mall\MallGoodsSku;
 use App\Models\Mall\MallOrder;
 use App\Services\Customer\CustomerService;
 use App\Services\Mall\MallOrderService;
-use App\Services\Mall\MallService;
 use App\Services\Mall\MallStockService;
-use App\Support\Exceptions\ResponseException;
 use App\Support\Helpers\AccuracyCalcHelper;
-use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use Overtrue\LaravelWeChat\EasyWeChat;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\RouteAttributes\Attributes\Middleware;
 use Spatie\RouteAttributes\Attributes\Post;
 use Spatie\RouteAttributes\Attributes\Prefix;
@@ -97,7 +95,6 @@ class OrderController extends Controller
 
     /**
      * 提交支付
-     * @throws ResponseException
      */
     #[Post('payment')]
     public function payment(Request $request)
@@ -157,16 +154,39 @@ class OrderController extends Controller
     #[Post('index')]
     public function index()
     {
-
+        return $this->success(QueryBuilder::for(MallOrder::class)
+            ->where('customer_id', $this->getCustomerId())
+            ->whereNotIn('order_status', [
+                MallOrderOrderStatusEnum::Checkout,
+            ])
+            ->allowedFilters([
+                AllowedFilter::exact('order_status'),
+            ])
+            ->orderByDesc('id')
+            ->selectRaw('id,customer_id,order_no,order_status,order_money,order_fact_money,last_pay_time,created_at')
+            ->with([
+                'detail:id,order_id,goods_id,goods_sku_id,goods_name,goods_spec,goods_image,goods_price,goods_number',
+            ])
+            ->cursorPaginate());
     }
 
     /**
      * 订单详情
      */
     #[Post('show')]
-    public function show()
+    public function show(Request $request)
     {
-
+        return $this->success(MallOrder::query()
+            ->where('customer_id', $this->getCustomerId())
+            ->select([
+                'id', 'customer_id', 'order_no', 'order_status', 'order_money', 'order_fact_money',
+                'name', 'phone', 'province', 'city', 'district', 'address', 'last_pay_time',
+                'buyer_remark', 'seller_message', 'created_at',
+            ])
+            ->with([
+                'detail:id,order_id,goods_id,goods_sku_id,goods_name,goods_spec,goods_image,goods_price,goods_number',
+            ])
+            ->find($request->post('id')));
     }
 
 
