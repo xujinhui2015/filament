@@ -5,7 +5,6 @@ namespace App\Models\Mall;
 use App\Enums\Mall\MallOrderAdjustAdjustTypeEnum;
 use App\Models\BaseModel;
 use App\Models\Customer\Customer;
-use App\Support\Casts\MoneyCast;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -18,8 +17,8 @@ use Illuminate\Support\Collection;
  * @property int|null $customer_id
  * @property string|null $order_no 订单号
  * @property int|null $order_status 订单状态0待付款1待发货2待收货3退款处理4已完成5已关闭6锁单状态
- * @property int|null $order_money 订单金额
- * @property int|null $order_fact_money 订单实付金额
+ * @property double|null $order_money 订单金额
+ * @property double|null $order_fact_money 订单实付金额
  * @property int|null $order_source 订单来源0直接下单1购物车
  * @property int $payment 支付方式0余额支付1微信支付
  * @property string|null $name 收货人姓名
@@ -92,14 +91,6 @@ class MallOrder extends BaseModel
         'prepay_id',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'order_money' => MoneyCast::class,
-            'order_fact_money' => MoneyCast::class,
-        ];
-    }
-
     public function detail(): HasMany
     {
         return $this->hasMany(MallOrderDetail::class, 'order_id');
@@ -135,7 +126,7 @@ class MallOrder extends BaseModel
 
     private function getSumAdjustPrice(MallOrderAdjustAdjustTypeEnum $adjustAdjustTypeEnum): float
     {
-        return money_cast_get($this->adjust()->where('adjust_type', $adjustAdjustTypeEnum)->sum('adjust_price'));
+        return $this->adjust()->where('adjust_type', $adjustAdjustTypeEnum)->sum('adjust_price');
     }
 
     /**

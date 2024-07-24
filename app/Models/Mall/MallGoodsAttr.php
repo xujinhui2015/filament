@@ -18,7 +18,7 @@ use Illuminate\Support\Collection;
  * @property Carbon $deleted_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * @property Collection|MallGoodsAttrValue[] $value
+ * @property Collection|MallGoodsAttrValue[] $attrValue
  *
  * @method static Builder|MallGoodsAttr query()
  */
@@ -35,7 +35,7 @@ class MallGoodsAttr extends BaseModel
         'sort',
     ];
 
-    public function value(): HasMany
+    public function attrValue(): HasMany
     {
         return $this->hasMany(MallGoodsAttrValue::class, 'goods_attr_id');
     }

@@ -32,19 +32,19 @@ class LoginController extends Controller
             'code' => 'bail|required',
         ]);
 
-//        $app = EasyWeChat::miniApp();
-//        try {
-//            $result = $app->getUtils()->codeToSession($request->post('code'));
-//        } catch (HttpException|ClientExceptionInterface|DecodingExceptionInterface
-//            |RedirectionExceptionInterface|ServerExceptionInterface|TransportExceptionInterface) {
-//                return $this->fail('登录失败');
-//        }
+        $app = EasyWeChat::miniApp();
+        try {
+            $result = $app->getUtils()->codeToSession($request->post('code'));
+        } catch (HttpException|ClientExceptionInterface|DecodingExceptionInterface
+            |RedirectionExceptionInterface|ServerExceptionInterface|TransportExceptionInterface) {
+                return $this->fail('登录失败');
+        }
 
         // 返回示例
-        $result = [
-            "session_key" => "nfQZDTK0VEMaBe4IPy3Hvg==",
-            "openid" => "osQykt6-oHsTRfF2Fr5PzJjRi8Ho"
-        ];
+//        $result = [
+//            "session_key" => "nfQZDTK0VEMaBe4IPy3Hvg==",
+//            "openid" => "osQykt6-oHsTRfF2Fr5PzJjRi8Ho"
+//        ];
 
         $customerWechat = CustomerWechat::query()
             ->where('mini_openid', $result['openid'])

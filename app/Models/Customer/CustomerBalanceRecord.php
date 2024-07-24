@@ -3,7 +3,6 @@
 namespace App\Models\Customer;
 
 use App\Models\BaseModel;
-use App\Support\Casts\MoneyCast;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 
@@ -12,7 +11,7 @@ use Illuminate\Support\Carbon;
  * @property int|null $customer_id 会员ID
  * @property string|null $change_explain 说明
  * @property string|null $scene_type 场景类型
- * @property int|null $balance 变动金额
+ * @property double|null $balance 变动金额
  * @property int|null $relation_id 关联ID
  * @property string $remark 备注
  * @property Carbon $created_at
@@ -25,10 +24,6 @@ class CustomerBalanceRecord extends BaseModel
     protected $table = 'customer_balance_record';
 
     const UPDATED_AT = null;
-
-    protected $casts = [
-        'balance' => MoneyCast::class,
-    ];
 
     protected $fillable = [
         'customer_id',

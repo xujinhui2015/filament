@@ -46,7 +46,7 @@ class CreateMallGoods extends CreateRecord
         // 创建商品规格
         foreach ($attrList as $attr) {
             $attr->load([
-                'value' => function (HasMany $query) use ($data, $attr) {
+                'attrValue' => function (HasMany $query) use ($data, $attr) {
                     $query->whereIn('id', $data['attr_value_' . $attr->id]);
                 }
             ]);
@@ -56,7 +56,7 @@ class CreateMallGoods extends CreateRecord
                 'attr_name' => $attr->attr_name,
             ]);
 
-            $goodsAttr->value()->createMany($attr->value->map(function (MallAttrValue $attrValue) {
+            $goodsAttr->attrValue()->createMany($attr->attrValue->map(function (MallAttrValue $attrValue) {
                 return [
                     'attr_value_name' => $attrValue->attr_value_name,
                 ];

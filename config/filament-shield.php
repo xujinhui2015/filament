@@ -74,7 +74,7 @@ return [
         ],
 
         'resources' => [
-            ... \App\Services\FilamentShieldService::getExcludeResources(),
+            ... \App\Services\Filament\FilamentShieldService::getExcludeResources(),
         ],
     ],
 

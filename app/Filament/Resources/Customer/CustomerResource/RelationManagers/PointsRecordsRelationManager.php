@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\Customer\CustomerResource\RelationManagers;
 
 use App\Enums\Customer\CustomerPointsSceneTypeEnum;
-use App\Services\FilamentService;
+use App\Services\Filament\FilamentService;
 use Exception;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;

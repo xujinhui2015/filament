@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\HttpCodeEnum;
+use App\Support\Exceptions\ResponseException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -36,6 +37,9 @@ return Application::configure(basePath: dirname(__DIR__))
             return true;
         });
 
-
+        // 业务异常处理
+        $exceptions->render(function (ResponseException $e) {
+            return Response::fail($e->getMessage());
+        });
 
     })->create();

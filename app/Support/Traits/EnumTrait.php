@@ -17,7 +17,7 @@ trait EnumTrait
      */
     public function isNeq($value): bool
     {
-        return ! $this->isEq($value);
+        return !$this->isEq($value);
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Filament;
 
 use App\Models\Common\Area;
 use Exception;

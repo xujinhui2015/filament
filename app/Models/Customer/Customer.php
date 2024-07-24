@@ -3,7 +3,6 @@
 namespace App\Models\Customer;
 
 use App\Models\BaseModel;
-use App\Support\Casts\MoneyCast;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
@@ -20,7 +19,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $nickname 昵称
  * @property string $avatar_url 头像
  * @property string $phone 手机号
- * @property int|null $balance 余额
+ * @property double|null $balance 余额
  * @property int|null $points 积分
  * @property Carbon $deleted_at
  * @property Carbon $created_at
@@ -36,10 +35,6 @@ class Customer extends BaseModel implements AuthenticatableContract
     use HasApiTokens, HasFactory, SoftDeletes, Authenticatable;
 
     protected $table = 'customer';
-
-    protected $casts = [
-        'balance' => MoneyCast::class,
-    ];
 
     protected $fillable = [
         'nickname',

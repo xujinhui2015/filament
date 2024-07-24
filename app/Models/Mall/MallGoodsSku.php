@@ -4,7 +4,6 @@ namespace App\Models\Mall;
 
 use App\Enums\Cache\MallCacheKeyEnum;
 use App\Models\BaseModel;
-use App\Support\Casts\MoneyCast;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
@@ -14,7 +13,7 @@ use Illuminate\Support\Carbon;
  * @property int|null $id
  * @property int|null $goods_id
  * @property string|null $spec 规格明细
- * @property int|null $price 单价
+ * @property double|null $price 单价
  * @property string $sku_img 规格图片
  * @property int|null $stock 库存
  * @property Carbon $deleted_at
@@ -38,13 +37,6 @@ class MallGoodsSku extends BaseModel
         'sku_img',
         'stock',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'price' => MoneyCast::class,
-        ];
-    }
 
     protected $appends = [
         'spec_text'

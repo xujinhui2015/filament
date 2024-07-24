@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Services;
-
-use Illuminate\Support\Facades\File;
+namespace App\Services\Filament;
 
 class FilamentShieldService
 {
@@ -13,7 +11,7 @@ class FilamentShieldService
     {
         $extends = config('extend.custom');
         $excludes = [];
-        foreach ($extends as $extendName => $extendConfig) {
+        foreach ($extends as $extendConfig) {
             if (!$extendConfig['enabled']) {
                 $excludes = array_merge($excludes, $extendConfig['resources']);
             }

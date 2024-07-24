@@ -10,7 +10,7 @@ use App\Filament\Resources\Mall\MallOrderResource\Pages;
 use App\Filament\Resources\Mall\MallOrderResource\RelationManagers\DetailRelationManager;
 use App\Models\Mall\MallExpress;
 use App\Models\Mall\MallOrder;
-use App\Services\FilamentService;
+use App\Services\Filament\FilamentService;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Exception;
 use Filament\Actions\EditAction;

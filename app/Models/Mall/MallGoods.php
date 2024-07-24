@@ -3,7 +3,6 @@
 namespace App\Models\Mall;
 
 use App\Models\BaseModel;
-use App\Support\Casts\MoneyCast;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -38,7 +37,6 @@ class MallGoods extends BaseModel
 
     protected $casts = [
         'images' => 'array',
-        'sku_min_price' => MoneyCast::class, // withMin('sku', 'price') 的时候调用
     ];
 
     protected $fillable = [
