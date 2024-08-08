@@ -17,3 +17,11 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+/caddy
+frankenphp
+frankenphp-worker.php
+
+/caddy
+frankenphp
+frankenphp-worker.php
