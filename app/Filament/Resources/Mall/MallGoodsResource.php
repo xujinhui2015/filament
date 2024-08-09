@@ -154,8 +154,10 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
                             foreach ($attrArray as $values) {
                                 $temp = [];
                                 foreach ($attrValueAll as $combination) {
-                                    foreach ($values as $value) {
-                                        $temp[] = array_merge($combination, [$value]);
+                                    if ($values) {
+                                        foreach ($values as $value) {
+                                            $temp[] = array_merge($combination, [$value]);
+                                        }
                                     }
                                 }
                                 $attrValueAll = $temp;
