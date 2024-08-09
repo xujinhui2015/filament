@@ -6,6 +6,7 @@ use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Pages\Auth\Login;
+use Illuminate\Validation\ValidationException;
 
 /**
  * @property Form $form
@@ -35,6 +36,13 @@ class CustomLogin extends Login
             ->autocomplete()
             ->autofocus()
             ->extraInputAttributes(['tabindex' => 1]);
+    }
+
+    protected function throwFailureValidationException(): never
+    {
+        throw ValidationException::withMessages([
+            'data.phone' => __('filament-panels::pages/auth/login.messages.failed'),
+        ]);
     }
 
     protected function getCredentialsFromFormData(array $data): array
