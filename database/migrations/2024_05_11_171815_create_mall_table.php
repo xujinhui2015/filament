@@ -33,7 +33,7 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('parent_id');
-            $table->string('category_name', 100)->comment('分类名称');
+            $table->string('title', 100)->comment('分类名称');
 
             $table->boolean('is_disabled')->default(false);
             $table->unsignedInteger('sort')->default(0);
