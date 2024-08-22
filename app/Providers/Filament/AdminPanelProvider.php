@@ -66,9 +66,6 @@ class AdminPanelProvider extends PanelProvider
             ->profile(CustomEditProfile::class, false) // 个人资料页配置
             ->defaultThemeMode(ThemeMode::Light) // 默认主题
             ->databaseNotifications() // 开启数据库通知
-            ->spa()
-            ->spaUrlExceptions(fn (): array => [
-                MallGoodsCategoryResource::getUrl(), // 商品分类使用了Tree组件，需要禁用spa导航才能正常拖拽
-            ]);
+            ->spa();
     }
 }
