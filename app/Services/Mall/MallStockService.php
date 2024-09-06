@@ -4,6 +4,8 @@ namespace App\Services\Mall;
 use App\Models\Mall\MallGoodsSku;
 use App\Models\Mall\MallOrder;
 use App\Models\Mall\MallOrderDetail;
+use App\Models\Mall\MallOrderRefund;
+use App\Models\Mall\MallOrderRefundDetail;
 
 class MallStockService
 {
@@ -24,6 +26,16 @@ class MallStockService
     {
         $order->detail->each(function (MallOrderDetail $detail) {
             $detail->goodsSku()->decrement('stock', $detail->goods_number);
+        });
+    }
+
+    /**
+     * 处理退款库存
+     */
+    public static function handleOrderRefundStock(MallOrderRefund $order): void
+    {
+        $order->detail->each(function (MallOrderRefundDetail $detail) {
+            $detail->orderDetail->goodsSku()->increment('stock', $detail->refund_number);
         });
     }
 

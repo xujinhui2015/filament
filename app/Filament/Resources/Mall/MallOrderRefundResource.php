@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Mall;
 
+use App\Enums\Customer\CustomerBalanceSceneTypeEnum;
 use App\Enums\Mall\MallOrderOrderSourceEnum;
 use App\Enums\Mall\MallOrderOrderStatusEnum;
 use App\Enums\Mall\MallOrderPaymentEnum;
@@ -11,6 +12,11 @@ use App\Filament\Resources\Mall\MallOrderRefundResource\Pages;
 use App\Filament\Resources\Mall\MallOrderRefundResource\RelationManagers;
 use App\Models\Mall\MallOrder;
 use App\Models\Mall\MallOrderRefund;
+use App\Models\Mall\MallOrderRefundLogistics;
+use App\Models\Mall\MallRefundAddress;
+use App\Services\Customer\CustomerService;
+use App\Services\Mall\MallStockService;
+use App\Support\Exceptions\ResponseException;
 use Filament\Actions\EditAction;
 use Filament\Actions\MountableAction;
 use Filament\Forms;
@@ -30,6 +36,7 @@ use Hugomyb\FilamentMediaAction\Infolists\Components\Actions\MediaAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class MallOrderRefundResource extends Resource
 {
@@ -74,6 +81,9 @@ class MallOrderRefundResource extends Resource
             ]);
     }
 
+    /**
+     * @throws ResponseException
+     */
     public static function table(Table $table): Table
     {
         return $table
@@ -107,46 +117,6 @@ class MallOrderRefundResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 ... self::getOrderOperationActions(Tables\Actions\Action::class),
-//                Tables\Actions\EditAction::make(),
-
-//                Tables\Actions\Action::make('agreed')
-//                    ->requiresConfirmation()
-//                    ->action(function(MallOrderRefund $record, array $arguments) {
-//
-//                        $record->update([
-//                            'refund_status' => MallOrderRefundRefundStatusEnum::Approved
-//                        ]);
-//
-//                        if ($arguments['refund'] ?? false) {
-//                            $record->update([
-//                                'refund_status' => MallOrderRefundRefundStatusEnum::Confirmed
-//                            ]);
-//                        }
-//                    })
-//                    ->extraModalFooterActions(fn (Tables\Actions\Action $action): array => [
-//                        $action->makeModalSubmitAction(name: '同意并确认退款', arguments: ['refund' => true]),
-//                    ])
-//                    ->hidden(
-//                        fn(MallOrderRefund $record) =>
-//                            MallOrderRefundRefundStatusEnum::Applied->isNeq($record->refund_status)
-//                            || MallOrderRefundRefundTypeEnum::Only->isNeq($record->refund_type),
-//                    )
-//                    ->label('同意退款'),
-//                Tables\Actions\EditAction::make('agreed_refund')
-//                    ->form([
-//                        Forms\Components\TextInput::make('seller_message')->label('卖家留言')
-//                    ])
-//                    ->using(function (MallOrderRefund $record, array $data) {
-//
-//                        dump($data);
-//                        exit;
-//                    })
-//                    ->hidden(
-//                        fn(MallOrderRefund $record) =>
-//                            MallOrderRefundRefundStatusEnum::Applied->isNeq($record->refund_status)
-//                            || MallOrderRefundRefundTypeEnum::Return->isNeq($record->refund_type),
-//                    )
-//                    ->label('同意退款并发送地址'),
             ])
             ->bulkActions([
 
@@ -185,12 +155,13 @@ class MallOrderRefundResource extends Resource
 
     /**
      * 获取订单操作
+     * @throws ResponseException
      */
     public static function getOrderOperationActions($agreedAction): array
     {
         return [
             // 仅退款操作
-            $agreedAction::make('agreed')
+            $agreedAction::make('Agreed')
                 ->requiresConfirmation()
                 ->action(function(MallOrderRefund $record, array $arguments) {
                     $record->update([
@@ -211,15 +182,32 @@ class MallOrderRefundResource extends Resource
                         || MallOrderRefundRefundTypeEnum::Only->isNeq($record->refund_type),
                 )
                 ->label('同意退款'),
-            $agreedAction::make('agreed')
+            $agreedAction::make('Confirmed')
                 ->requiresConfirmation()
-                ->action(function(MallOrderRefund $record, array $arguments) {
-                    $record->update([
-                        'refund_status' => MallOrderRefundRefundStatusEnum::Confirmed
-                    ]);
-                    // 执行退款
+                ->action(function(MallOrderRefund $record) {
+                    Db::transaction(function () use ($record) {
+                        $record->update([
+                            'refund_status' => MallOrderRefundRefundStatusEnum::Confirmed
+                        ]);
+                        // 执行退款
+                        if (MallOrderPaymentEnum::Balance->isEq($record->order->payment)) {
+                            // 余额退款
+                            CustomerService::setBalance(
+                                $record->order->customer,
+                                $record->refund_money,
+                                CustomerBalanceSceneTypeEnum::MallOrderRefund,
+                                $record->id
+                            );
+                            // 扣除库存
+                            MallStockService::handleOrderRefundStock($record);
 
-
+                            $record->update([
+                                'refund_status' => MallOrderRefundRefundStatusEnum::Successful
+                            ]);
+                        } elseif (MallOrderPaymentEnum::Wechat->isEq($record->order->payment)) {
+                            return ;
+                        }
+                    });
                 })
                 ->hidden(
                     fn(MallOrderRefund $record) =>
@@ -227,7 +215,44 @@ class MallOrderRefundResource extends Resource
                         || MallOrderRefundRefundTypeEnum::Only->isNeq($record->refund_type),
                 )
                 ->label('确认退款'),
-            // todo 退货退款操作
+            // 退货退款
+            $agreedAction::make('AgreedRefund')
+                ->requiresConfirmation()
+                ->form([
+//                    Forms\Components\TextInput::make('refund_order_no')->label('111'),
+                    Forms\Components\Radio::make('refund_address_id')
+                        ->required()
+                        ->options(function () {
+                            return MallRefundAddress::query()
+                                ->get()
+                                ->pluck('contact_info', 'id');
+                        })->label('选择退货地址')
+                ])
+                ->using(function (MallOrderRefund $record, array $data) {
+                    $record->update([
+                        'refund_status' => MallOrderRefundRefundStatusEnum::Approved->value
+                    ]);
+
+                    // 设置退货地址
+                    $record->logistics()->save([
+                        'name',
+                    ]);
+
+                    return $record;
+                })
+//                ->action(function(MallOrderRefund $record, array $arguments) {
+//                    dump($arguments);
+//                    exit;
+//                    $record->update([
+//                        'refund_status' => MallOrderRefundRefundStatusEnum::Approved->value
+//                    ]);
+//                })
+                ->hidden(
+                    fn(MallOrderRefund $record) =>
+                        MallOrderRefundRefundStatusEnum::Applied->isNeq($record->refund_status)
+                        || MallOrderRefundRefundTypeEnum::Return->isNeq($record->refund_type),
+                )
+                ->label('同意退货，发送退货地址'),
 
         ];
     }

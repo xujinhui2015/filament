@@ -12,6 +12,7 @@ use Jiannei\Response\Laravel\Support\Facades\Response;
 
 class CustomerService
 {
+
     /**
      * @throws ResponseException
      */
@@ -22,24 +23,33 @@ class CustomerService
                                      $relationId = null,
         string                       $changeExplain = null,
         string                       $remark = null
-    )
+    ): void
     {
         if (AccuracyCalcHelper::begin($money)->isEq()) {
             // 0元不处理
             return;
         }
-        if (AccuracyCalcHelper::begin($customer->balance)->isLt($money)) {
+        $sign = $balanceSceneType->getSign();
+        if (!$sign && AccuracyCalcHelper::begin($customer->balance)->isLt($money)) {
             throw new ResponseException('余额不足');
         }
 
-        Db::transaction(function () use ($customer, $money, $balanceSceneType, $relationId, $changeExplain, $remark) {
+        Db::transaction(function () use ($customer, $money, $balanceSceneType, $relationId, $changeExplain, $remark, $sign) {
+
             $customer->balanceRecords()->create([
                 'change_explain' => $changeExplain ?: $balanceSceneType->getLabel(),
                 'scene_type' => $balanceSceneType,
-                'balance' => $money,
+                'balance' => $sign?$money:-$money,
                 'relation_id' => $relationId,
                 'remark' => $remark,
             ]);
+
+            if ($sign) {
+                $customer->increment('balance', $money);
+            } else {
+                $customer->decrement('balance', $money);
+            }
+
         });
     }
 }

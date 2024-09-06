@@ -33,8 +33,8 @@ return new class extends Migration
         Schema::create('mall_order_refund_logistics', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_refund_id');
-            $table->string('logistics_company_name')->comment('物流公司名称');
-            $table->string('logistics_no')->comment('快递单号');
+            $table->string('logistics_company_name')->nullable()->comment('物流公司名称');
+            $table->string('logistics_no')->nullable()->comment('快递单号');
 
             $table->softDeletes();
             $table->timestamps();

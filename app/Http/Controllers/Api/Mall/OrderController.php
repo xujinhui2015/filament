@@ -138,7 +138,7 @@ class OrderController extends Controller
                 MallStockService::handleOrderStock($order);
             });
             return $this->success();
-        } elseif ((MallOrderPaymentEnum::Wechat->isEq($payment))) {
+        } elseif (MallOrderPaymentEnum::Wechat->isEq($payment)) {
 
             // 微信支付流程 1.下单时设置支付时间 2.预扣库存  2.15分钟后未支付则取消订单,并且回收库存
 

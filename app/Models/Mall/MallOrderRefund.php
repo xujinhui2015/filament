@@ -6,6 +6,7 @@ use App\Models\BaseModel;
 use App\Models\Common\OperationLog;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
@@ -30,6 +31,7 @@ use Illuminate\Support\Collection;
  * @property MallOrder $order
  * @property Collection|MallOrderRefundDetail[] $detail
  * @property Collection|OperationLog[] $operationLog
+ * @property MallOrderRefundLogistics $logistics
  *
  * @method static Builder|MallOrderRefund query()
  */
@@ -56,5 +58,10 @@ class MallOrderRefund extends BaseModel
     public function operationLog(): MorphMany
     {
         return $this->morphMany(OperationLog::class, 'loggable');
+    }
+
+    public function logistics(): HasOne
+    {
+        return $this->hasOne(MallOrderRefundLogistics::class, 'order_refund_id');
     }
 }
