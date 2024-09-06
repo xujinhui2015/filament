@@ -36,14 +36,6 @@ class Customer extends BaseModel implements AuthenticatableContract
 
     protected $table = 'customer';
 
-    protected $fillable = [
-        'nickname',
-        'avatar_url',
-        'phone',
-        'balance',
-        'points',
-    ];
-
     public function balanceRecords(): HasMany
     {
         return $this->hasMany(CustomerBalanceRecord::class);

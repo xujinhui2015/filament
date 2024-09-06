@@ -8,7 +8,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "ext-bcmath": "*",
         "bezhansalleh/filament-shield": "^3.2",
         "codewithdennis/filament-select-tree": "^3.1",

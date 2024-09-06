@@ -3,10 +3,14 @@
 namespace App\Models\Mall;
 
 use App\Models\BaseModel;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Common\OperationLog;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
 /**
  * @property int|null $id
@@ -15,7 +19,6 @@ use Illuminate\Support\Carbon;
  * @property int|null $refund_type 退款类型0仅退款1退货退款
  * @property int|null $refund_status 退款类型0申请退款1同意退款2买家退货3卖家确认收货4确认退款5退款成功6退款失败7退款关闭(仅退款只有014567)
  * @property double|null $refund_money 退款金额
- * @property double|null $refund_bonus 退款积分
  * @property string|null $phone 退货人联系电话
  * @property string $refund_reason 退款原因
  * @property string $buyer_message 买家留言
@@ -24,6 +27,8 @@ use Illuminate\Support\Carbon;
  * @property Carbon $deleted_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property MallOrder $order
+ * @property Collection|MallOrderRefundDetail[] $detail
  *
  * @method static Builder|MallOrderRefund query()
  */
@@ -34,20 +39,21 @@ class MallOrderRefund extends BaseModel
     protected $table = 'mall_order_refund';
 
     protected $casts = [
-        'attachments' => 'array',
+        'buyer_images' => 'array',
     ];
 
-    protected $fillable = [
-        'order_id',
-        'refund_order_no',
-        'refund_type',
-        'refund_status',
-        'refund_money',
-        'refund_bonus',
-        'phone',
-        'refund_reason',
-        'buyer_message',
-        'buyer_images',
-        'seller_message',
-    ];
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(MallOrder::class, 'order_id');
+    }
+
+    public function detail(): HasMany
+    {
+        return $this->hasMany(MallOrderRefundDetail::class, 'order_refund_id');
+    }
+
+    public function operationLog(): MorphMany
+    {
+        return $this->morphMany(OperationLog::class, 'loggable');
+    }
 }

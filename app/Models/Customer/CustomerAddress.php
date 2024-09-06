@@ -27,14 +27,4 @@ class CustomerAddress extends BaseModel
     use SoftDeletes;
 
     protected $table = 'customer_address';
-
-    protected $fillable = [
-        'customer_id',
-        'name',
-        'phone',
-        'province',
-        'city',
-        'district',
-        'address',
-    ];
 }

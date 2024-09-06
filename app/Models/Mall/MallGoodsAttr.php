@@ -28,13 +28,6 @@ class MallGoodsAttr extends BaseModel
 
     protected $table = 'mall_goods_attr';
 
-    protected $fillable = [
-        'goods_id',
-        'attr_name',
-        'is_disabled',
-        'sort',
-    ];
-
     public function attrValue(): HasMany
     {
         return $this->hasMany(MallGoodsAttrValue::class, 'goods_attr_id');

@@ -19,7 +19,6 @@ return new class extends Migration
             $table->unsignedTinyInteger('refund_type')->comment('退款类型0仅退款1退货退款');
             $table->unsignedTinyInteger('refund_status')->comment('退款类型0申请退款1同意退款2买家退货3卖家确认收货4确认退款5退款成功6退款失败7退款关闭(仅退款只有014567)');
             $table->decimal('refund_money')->comment('退款金额');
-            $table->decimal('refund_bonus')->comment('退款积分');
             $table->string('phone', 32)->comment('退货人联系电话');
 
             $table->string('refund_reason', 500)->nullable()->comment('退款原因');
@@ -45,6 +44,7 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('order_refund_id');
+            $table->foreignId('order_detail_id');
             $table->foreignId('goods_id');
             $table->foreignId('goods_sku_id');
             $table->unsignedMediumInteger('refund_number')->comment('退货数量');
@@ -53,17 +53,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('mall_order_refund_operation_log', function (Blueprint $table) {
-            $table->id();
-
-            $table->foreignId('order_refund_id');
-            $table->foreignId('user_id')->nullable()->comment('操作人');
-
-            $table->string('action')->comment('动作');
-            $table->string('operation')->comment('操作说明');
-
-            $table->timestamp('created_at')->nullable();
-        });
     }
 
     /**
@@ -71,7 +60,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mall_order_refund');
-        Schema::dropIfExists('mall_order_refund_detail');
+
     }
 };

@@ -4,10 +4,12 @@ namespace App\Models\Mall;
 
 use App\Enums\Mall\MallOrderAdjustAdjustTypeEnum;
 use App\Models\BaseModel;
+use App\Models\Common\OperationLog;
 use App\Models\Customer\Customer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -64,33 +66,6 @@ class MallOrder extends BaseModel
         'turnoff_time' => 'datetime',
     ];
 
-    protected $fillable = [
-        'customer_id',
-        'order_no',
-        'order_status',
-        'order_money',
-        'order_fact_money',
-        'order_source',
-        'payment',
-        'name',
-        'phone',
-        'province',
-        'city',
-        'district',
-        'address',
-        'last_pay_time',
-        'pay_time',
-        'delivery_time',
-        'finish_time',
-        'cancel_time',
-        'turnoff_time',
-        'logistics_name',
-        'logistics_no',
-        'buyer_remark',
-        'seller_message',
-        'prepay_id',
-    ];
-
     public function detail(): HasMany
     {
         return $this->hasMany(MallOrderDetail::class, 'order_id');
@@ -106,9 +81,9 @@ class MallOrder extends BaseModel
         return $this->belongsTo(Customer::class);
     }
 
-    public function operationLog(): HasMany
+    public function operationLog(): MorphMany
     {
-        return $this->hasMany(MallOrderOperationLog::class, 'order_id');
+        return $this->morphMany(OperationLog::class, 'loggable');
     }
 
     /**

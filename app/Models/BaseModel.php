@@ -14,6 +14,11 @@ class BaseModel extends Model
     protected $perPage = 10;
 
     /**
+     * 所有模型允许批量赋值
+     */
+    protected $guarded = [];
+
+    /**
      * 基础分页方法, 超过100条数据返回100条
      */
     public function getPerPage(): int

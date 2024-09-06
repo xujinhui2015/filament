@@ -25,11 +25,4 @@ class MallAttrValue extends BaseModel
 
     protected $table = 'mall_attr_value';
 
-    protected $fillable = [
-        'attr_id',
-        'attr_value_name',
-        'is_disabled',
-        'sort',
-    ];
-
 }

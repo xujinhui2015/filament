@@ -25,10 +25,4 @@ class MallOrderAdjust extends BaseModel
 
     protected $table = 'mall_order_adjust';
 
-    protected $fillable = [
-        'order_id',
-        'adjust_type',
-        'adjust_price',
-    ];
-
 }

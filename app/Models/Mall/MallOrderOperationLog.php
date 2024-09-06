@@ -20,14 +20,6 @@ class MallOrderOperationLog extends BaseModel
 {
     protected $table = 'mall_order_operation_log';
 
-    const UPDATED_AT = null;
-
-
-    protected $fillable = [
-        'order_id',
-        'user_id',
-        'action',
-        'operation',
-    ];
+    const null UPDATED_AT = null;
 
 }

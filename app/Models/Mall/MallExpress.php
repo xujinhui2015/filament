@@ -21,8 +21,4 @@ class MallExpress extends Model
     use SoftDeletes;
 
     protected $table = 'mall_express';
-
-    protected $fillable = [
-        'express_name',
-    ];
 }

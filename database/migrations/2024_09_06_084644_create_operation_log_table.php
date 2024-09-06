@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mall_order_operation_log', function (Blueprint $table) {
+
+        Schema::create('operation_log', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('order_id');
+            $table->string('loggable_type', 100)->comment('关联类型');
+            $table->foreignId('loggable_id')->comment('关联ID');
             $table->foreignId('user_id')->nullable()->comment('操作人');
 
             $table->string('action')->comment('动作');
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-
+        //
     }
 };

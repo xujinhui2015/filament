@@ -28,13 +28,6 @@ class MallCart extends BaseModel
 
     protected $table = 'mall_cart';
 
-    protected $fillable = [
-        'customer_id',
-        'goods_id',
-        'goods_sku_id',
-        'goods_number',
-    ];
-
     public function sku(): BelongsTo
     {
         return $this->belongsTo(MallGoodsSku::class, 'goods_sku_id');

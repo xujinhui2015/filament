@@ -25,11 +25,6 @@ class CustomerWechat extends BaseModel
 
     protected $table = 'customer_wechat';
 
-    protected $fillable = [
-        'customer_id',
-        'mini_openid',
-    ];
-
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);

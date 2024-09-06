@@ -30,14 +30,6 @@ class MallGoodsSku extends BaseModel
 
     protected $table = 'mall_goods_sku';
 
-    protected $fillable = [
-        'goods_id',
-        'spec',
-        'price',
-        'sku_img',
-        'stock',
-    ];
-
     protected $appends = [
         'spec_text'
     ];

@@ -22,14 +22,8 @@ class MallOrderRefundOperationLog extends BaseModel
 {
     use SoftDeletes;
 
-    const UPDATED_AT = null;
+    const null UPDATED_AT = null;
 
     protected $table = 'mall_order_refund_operation_log';
 
-    protected $fillable = [
-        'order_refund_id',
-        'user_id',
-        'action',
-        'operation',
-    ];
 }

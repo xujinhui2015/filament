@@ -23,14 +23,6 @@ class CustomerPointsRecord extends BaseModel
 
     protected $table = 'customer_points_record';
 
-    const UPDATED_AT = null;
+    const null UPDATED_AT = null;
 
-    protected $fillable = [
-        'customer_id',
-        'change_explain',
-        'scene_type',
-        'points',
-        'relation_id',
-        'remark',
-    ];
 }

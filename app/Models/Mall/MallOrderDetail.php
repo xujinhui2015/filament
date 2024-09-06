@@ -33,17 +33,6 @@ class MallOrderDetail extends BaseModel
 
     protected $table = 'mall_order_detail';
 
-    protected $fillable = [
-        'order_id',
-        'goods_id',
-        'goods_sku_id',
-        'goods_name',
-        'goods_spec',
-        'goods_image',
-        'goods_price',
-        'goods_number',
-    ];
-
     public function order(): BelongsTo
     {
         return $this->belongsTo(MallOrder::class, 'order_id');

@@ -11,11 +11,13 @@ enum MakeOrderNoEnum: string implements HasLabel
     use EnumTrait;
 
     case MallOrder = 'M';
+    case MallRefundOrder = 'MR';
 
     public function getLabel(): string
     {
         return match ($this) {
             self::MallOrder => '商城订单',
+            self::MallRefundOrder => '商城退款订单',
         };
     }
 

@@ -203,7 +203,7 @@ class MallOrderResource extends MallResource implements HasShieldPermissions
         return parent::getEloquentQuery()
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
-            ]);
+            ])->whereNotIn('order_status', [MallOrderOrderStatusEnum::Checkout, MallOrderOrderStatusEnum::Close]);
     }
 
     public static function getNavigationBadge(): ?string

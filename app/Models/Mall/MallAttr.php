@@ -27,12 +27,6 @@ class MallAttr extends BaseModel
 
     protected $table = 'mall_attr';
 
-    protected $fillable = [
-        'attr_name',
-        'is_disabled',
-        'sort',
-    ];
-
     public function attrValue(): HasMany
     {
         return $this->hasMany(MallAttrValue::class, 'attr_id')->orderBy('sort');

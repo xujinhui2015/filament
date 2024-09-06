@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Mall\MallOrder;
+use App\Models\Mall\MallOrderRefund;
 use App\Observers\Mall\MallOrderObserver;
+use App\Observers\Mall\MallOrderRefundObserver;
 use Filament\Tables\Table;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
@@ -14,17 +16,10 @@ use Illuminate\Support\Facades\Gate;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
-        //
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
         Table::configureUsing(function (Table $table): void {
@@ -49,6 +44,7 @@ class AppServiceProvider extends ServiceProvider
 
         // 商城模块
         MallOrder::observe(MallOrderObserver::class);
+        MallOrderRefund::observe(MallOrderRefundObserver::class);
 
         // 自动注册策略
         Gate::guessPolicyNamesUsing(function (string $modelClass) {

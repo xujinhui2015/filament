@@ -26,11 +26,4 @@ class MallGoodsCategory extends BaseModel
 
     protected $table = 'mall_goods_category';
 
-    protected $fillable = [
-        'parent_id',
-        'title',
-        'sort',
-        'is_disabled',
-    ];
-
 }
