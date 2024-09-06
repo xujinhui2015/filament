@@ -185,7 +185,7 @@ class MallOrderRefundResource extends Resource
             $agreedAction::make('Confirmed')
                 ->requiresConfirmation()
                 ->action(function(MallOrderRefund $record) {
-                    Db::transaction(function () use ($record) {
+                    DB::transaction(function () use ($record) {
                         $record->update([
                             'refund_status' => MallOrderRefundRefundStatusEnum::Confirmed
                         ]);
@@ -219,7 +219,6 @@ class MallOrderRefundResource extends Resource
             $agreedAction::make('AgreedRefund')
                 ->requiresConfirmation()
                 ->form([
-//                    Forms\Components\TextInput::make('refund_order_no')->label('111'),
                     Forms\Components\Radio::make('refund_address_id')
                         ->required()
                         ->options(function () {
@@ -229,24 +228,21 @@ class MallOrderRefundResource extends Resource
                         })->label('选择退货地址')
                 ])
                 ->using(function (MallOrderRefund $record, array $data) {
-                    $record->update([
-                        'refund_status' => MallOrderRefundRefundStatusEnum::Approved->value
-                    ]);
+                    DB::transaction(function () use ($record, $data) {
+                        $record->update([
+                            'refund_status' => MallOrderRefundRefundStatusEnum::Approved->value
+                        ]);
 
-                    // 设置退货地址
-                    $record->logistics()->save([
-                        'name',
-                    ]);
+                        // 设置退货地址
+                        $record->logistics()->updateOrCreate([], MallRefundAddress::query()->find($data['refund_address_id'])
+                            ->only([
+                                'name', 'phone', 'province', 'city', 'district', 'address',
+                            ])
+                        );
+                    });
 
                     return $record;
                 })
-//                ->action(function(MallOrderRefund $record, array $arguments) {
-//                    dump($arguments);
-//                    exit;
-//                    $record->update([
-//                        'refund_status' => MallOrderRefundRefundStatusEnum::Approved->value
-//                    ]);
-//                })
                 ->hidden(
                     fn(MallOrderRefund $record) =>
                         MallOrderRefundRefundStatusEnum::Applied->isNeq($record->refund_status)
