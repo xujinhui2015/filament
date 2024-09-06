@@ -7,12 +7,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 
 /**
- * @property int|null $id
- * @property int|null $order_id
- * @property int $user_id 操作人
- * @property string|null $action 动作
- * @property string|null $operation 操作说明
- * @property Carbon $created_at
  *
  * @method static Builder|MallOrderOperationLog query()
  */

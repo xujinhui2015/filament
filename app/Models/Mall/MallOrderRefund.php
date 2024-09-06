@@ -17,7 +17,7 @@ use Illuminate\Support\Collection;
  * @property int|null $order_id
  * @property string|null $refund_order_no 退款订单号
  * @property int|null $refund_type 退款类型0仅退款1退货退款
- * @property int|null $refund_status 退款类型0申请退款1同意退款2买家退货3卖家确认收货4确认退款5退款成功6退款失败7退款关闭(仅退款只有014567)
+ * @property int|null $refund_status 退款状态0申请退款1同意退款2买家退货3卖家确认收货4确认退款5退款成功6退款失败7退款关闭(仅退款只有014567)
  * @property double|null $refund_money 退款金额
  * @property string|null $phone 退货人联系电话
  * @property string $refund_reason 退款原因
@@ -29,6 +29,7 @@ use Illuminate\Support\Collection;
  * @property Carbon $updated_at
  * @property MallOrder $order
  * @property Collection|MallOrderRefundDetail[] $detail
+ * @property Collection|OperationLog[] $operationLog
  *
  * @method static Builder|MallOrderRefund query()
  */

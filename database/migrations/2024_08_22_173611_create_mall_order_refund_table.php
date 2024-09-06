@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('order_id');
             $table->string('refund_order_no', 100)->comment('退款订单号');
             $table->unsignedTinyInteger('refund_type')->comment('退款类型0仅退款1退货退款');
-            $table->unsignedTinyInteger('refund_status')->comment('退款类型0申请退款1同意退款2买家退货3卖家确认收货4确认退款5退款成功6退款失败7退款关闭(仅退款只有014567)');
+            $table->unsignedTinyInteger('refund_status')->comment('退款状态0申请退款1同意退款2买家退货3卖家确认收货4确认退款5退款成功6退款失败7退款关闭(仅退款只有014567)');
             $table->decimal('refund_money')->comment('退款金额');
             $table->string('phone', 32)->comment('退货人联系电话');
 

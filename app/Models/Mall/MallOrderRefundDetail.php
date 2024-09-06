@@ -18,6 +18,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon $deleted_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property MallOrderDetail $orderDetail
  *
  * @method static Builder|MallOrderRefundDetail query()
  */

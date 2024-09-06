@@ -2,24 +2,21 @@
 
 namespace App\Filament\Resources\Mall\MallOrderRefundResource\Pages;
 
-use App\Enums\Mall\MallOrderOrderStatusEnum;
 use App\Enums\Mall\MallOrderRefundRefundStatusEnum;
 use App\Filament\Resources\Mall\MallOrderRefundResource;
-use App\Models\Mall\MallOrder;
 use App\Models\Mall\MallOrderRefund;
-use Filament\Actions;
 use Filament\Resources\Components\Tab;
-use Filament\Resources\Pages\ManageRecords;
+use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
 
-class ManageMallOrderRefunds extends ManageRecords
+class ListMallOrderRefunds extends ListRecords
 {
     protected static string $resource = MallOrderRefundResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+
         ];
     }
 

@@ -46,7 +46,7 @@ use Illuminate\Support\Collection;
  * @property Collection|MallOrderDetail[] $detail
  * @property Collection|MallOrderAdjust[] $adjust
  * @property Customer $customer
- * @property Collection|MallOrderOperationLog[] $operationLog
+ * @property Collection|OperationLog[] $operationLog
  * @property $full_address
  * @property $postage
  *

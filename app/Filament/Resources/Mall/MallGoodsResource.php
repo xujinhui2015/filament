@@ -9,6 +9,8 @@ use App\Models\Mall\MallAttrValue;
 use App\Models\Mall\MallGoods;
 use App\Models\Mall\MallGoodsAttrValue;
 use App\Models\Mall\MallGoodsSku;
+use App\Models\Mall\MallOrderRefundDetail;
+use App\Services\Filament\FilamentService;
 use App\Support\Helpers\FilePathHelper;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use CodeWithDennis\FilamentSelectTree\SelectTree;
@@ -17,6 +19,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Hugomyb\FilamentMediaAction\Tables\Actions\MediaAction;
 use Icetalker\FilamentTableRepeater\Forms\Components\TableRepeater;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -305,6 +308,7 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
                     ->searchable()
                     ->label('商品副标题'),
                 Tables\Columns\ImageColumn::make('main_img')
+                    ->action(FilamentService::actionShowMedia('main_img'))
                     ->label('商品主图'),
                 Tables\Columns\ToggleColumn::make('is_sale')
                     ->label('上架状态'),
@@ -349,7 +353,8 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
                     }),
 
             ])
-            ->defaultSort('id', 'desc');
+            ->defaultSort('id', 'desc')
+            ->recordUrl(null);
     }
 
     public static function getPages(): array

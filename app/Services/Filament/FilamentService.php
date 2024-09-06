@@ -3,6 +3,7 @@
 namespace App\Services\Filament;
 
 use App\Models\Common\Area;
+use App\Models\Mall\MallOrderRefundDetail;
 use Exception;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
@@ -10,7 +11,9 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Tables\Filters\Filter;
+use Hugomyb\FilamentMediaAction\Tables\Actions\MediaAction;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class FilamentService
@@ -91,6 +94,15 @@ class FilamentService
                     ->searchable()
                     ->label('区'),
             ]);
+    }
 
+    /**
+     * 实现点击图片展示大图
+     */
+    public static function actionShowMedia($attribute)
+    {
+        return MediaAction::make()
+            ->media(fn(Model $record) => asset('storage/' . data_get($record, $attribute)))
+            ->label('');
     }
 }

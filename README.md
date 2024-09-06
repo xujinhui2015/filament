@@ -53,6 +53,7 @@ filament实现tree列表：https://github.com/solutionforest/filament-tree
 filament实现select组件渲染tree节点：https://github.com/codewithdennis/filament-select-tree
 filament实现表格布局的中继器组件：https://github.com/icetalker/filament-table-repeater
 filament富文本编辑器：https://github.com/rawilk/filament-quill
+filament实现点击图片展示大图的功能：https://github.com/hugomyb/filament-media-action
 API规范响应数据格式：https://github.com/jiannei/laravel-response
 Laravel的日志查看器：https://github.com/opcodesio/log-viewer
 微信SDK：https://github.com/overtrue/laravel-wechat
