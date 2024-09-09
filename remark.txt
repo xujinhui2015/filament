@@ -73,4 +73,6 @@ php artisan vendor:publish --force --tag=livewire:assets
 缓存 Filament 组件：sudo -u www php artisan filament:clear-cached-components
 清空配置：sudo -u www php artisan config:clear
 优化composer加载：sudo -u www composer dump-autoload -o --no-dev --classmap-authoritative
+# 代码上线，常驻命令
+pulse 性能监控： php artisan pulse:check
 

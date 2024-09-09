@@ -39,6 +39,12 @@ php artisan log-viewer:publish
 访问地址 {APP_URL}/log-viewer
 ```
 
+## 性能监控
+```bash
+# 必须登录users表ID=1的账户，才能查看
+访问地址 {APP_URL}/pulse
+```
+
 
 ## 常用方法
 ```bash
@@ -56,6 +62,7 @@ filament富文本编辑器：https://github.com/rawilk/filament-quill
 filament实现点击图片展示大图的功能：https://github.com/hugomyb/filament-media-action
 API规范响应数据格式：https://github.com/jiannei/laravel-response
 Laravel的日志查看器：https://github.com/opcodesio/log-viewer
+Laravel的性能监控：https://github.com/laravel/pulse
 微信SDK：https://github.com/overtrue/laravel-wechat
 Laravel快速构建查询：https://github.com/spatie/laravel-query-builder
 Laravel实现注册路由：https://github.com/spatie/laravel-route-attributes

@@ -4,11 +4,13 @@ namespace App\Providers;
 
 use App\Models\Mall\MallOrder;
 use App\Models\Mall\MallOrderRefund;
+use App\Models\User;
 use App\Observers\Mall\MallOrderObserver;
 use App\Observers\Mall\MallOrderRefundObserver;
 use Filament\Tables\Table;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Laravel\Pulse\Facades\Pulse;
 use Opcodes\LogViewer\Facades\LogViewer;
 use Rawilk\FilamentQuill\Enums\ToolbarButton;
 use Rawilk\FilamentQuill\Filament\Forms\Components\QuillEditor;
@@ -31,8 +33,20 @@ class AppServiceProvider extends ServiceProvider
         // 访问日志限制权限
         LogViewer::auth(function ($request) {
             return $request->user()
-                && $request->user()->id == 1;
+                && $request->user()->isAdmin();
         });
+
+        // 性能监控限制权限
+        Gate::define('viewPulse', function (User $user) {
+            return $user->isAdmin();
+        });
+
+        // 性能监控，设置用户卡片显示属性
+        Pulse::user(fn (User $user) => [
+            'name' => $user->name,
+            'extra' => $user->phone,
+            'avatar' => asset('storage/'. $user->avatar_url),
+        ]);
 
         // 富文本默认配置
         QuillEditor::configureUsing(function (QuillEditor $quillEditor) {

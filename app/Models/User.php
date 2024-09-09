@@ -63,4 +63,9 @@ class User extends Authenticatable implements HasAvatar, FilamentUser
     {
         return true;
     }
+
+    public function isAdmin(): bool
+    {
+        return $this->id == 1;
+    }
 }
