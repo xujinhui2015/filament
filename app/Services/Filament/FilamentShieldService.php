@@ -14,7 +14,7 @@ class FilamentShieldService
         foreach ($extends as $extendConfig) {
             if (!$extendConfig['enabled']) {
                 foreach ($extendConfig['namespaces'] as $namespace) {
-                    $resources = glob(app_path('Filament' . DIRECTORY_SEPARATOR . 'Resources' . DIRECTORY_SEPARATOR . $namespace) . '/*.php');
+                    $resources = glob(app_path('Filament' . DIRECTORY_SEPARATOR . 'Resources' . DIRECTORY_SEPARATOR . $namespace) . '/*Resource.php');
                     $excludes = array_merge($excludes, array_map(function ($resource) {
                         return pathinfo($resource, PATHINFO_FILENAME);
                     }, $resources));
