@@ -27,6 +27,7 @@ use Filament\Support\Colors\Color;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Carbon;
 
@@ -49,6 +50,16 @@ class MallOrderResource extends MallResource implements HasShieldPermissions
             'view_any',
             'update',
         ];
+    }
+
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return $record->order_no ?? '-';
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['order_no', 'name', 'phone', 'province', 'city', 'district', 'address', 'logistics_name', 'logistics_no', 'buyer_remark', 'seller_message'];
     }
 
     public static function getRecordSubNavigation(Page $page): array

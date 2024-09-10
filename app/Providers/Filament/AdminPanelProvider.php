@@ -7,6 +7,7 @@ use App\Filament\Pages\Auth\CustomLogin;
 use App\Filament\Pages\Dashboard;
 use App\Filament\Resources\Mall\MallGoodsCategoryResource;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
+use CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin;
 use Filament\Enums\ThemeMode;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -25,6 +26,9 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
 {
+    /**
+     * @throws \Exception
+     */
     public function panel(Panel $panel): Panel
     {
         return $panel
@@ -63,6 +67,7 @@ class AdminPanelProvider extends PanelProvider
             ->plugins([
                 FilamentShieldPlugin::make(),
             ])
+            ->globalSearch()
             ->profile(CustomEditProfile::class, false) // 个人资料页配置
             ->defaultThemeMode(ThemeMode::Light) // 默认主题
             ->databaseNotifications() // 开启数据库通知

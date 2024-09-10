@@ -11,6 +11,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class UserResource extends Resource implements HasShieldPermissions
 {
@@ -34,6 +35,16 @@ class UserResource extends Resource implements HasShieldPermissions
             'update',
             'reorder',
         ];
+    }
+
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return $record->name ?? '-';
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'phone', 'email'];
     }
 
     public static function form(Form $form): Form

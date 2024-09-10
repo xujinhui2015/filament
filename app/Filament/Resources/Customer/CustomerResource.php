@@ -13,6 +13,7 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class CustomerResource extends Resource implements HasShieldPermissions
 {
@@ -32,6 +33,16 @@ class CustomerResource extends Resource implements HasShieldPermissions
             'view_any',
             'view',
         ];
+    }
+
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return $record->nickname ?? '-';
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['nickname'];
     }
 
     /**

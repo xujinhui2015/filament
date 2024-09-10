@@ -3,42 +3,34 @@
 namespace App\Filament\Resources\Mall;
 
 use App\Enums\Customer\CustomerBalanceSceneTypeEnum;
-use App\Enums\Mall\MallOrderOrderSourceEnum;
-use App\Enums\Mall\MallOrderOrderStatusEnum;
 use App\Enums\Mall\MallOrderPaymentEnum;
 use App\Enums\Mall\MallOrderRefundRefundStatusEnum;
 use App\Enums\Mall\MallOrderRefundRefundTypeEnum;
 use App\Filament\Resources\Mall\MallOrderRefundResource\Pages;
 use App\Filament\Resources\Mall\MallOrderRefundResource\RelationManagers;
-use App\Models\Mall\MallOrder;
 use App\Models\Mall\MallOrderRefund;
-use App\Models\Mall\MallOrderRefundLogistics;
 use App\Models\Mall\MallRefundAddress;
 use App\Services\Customer\CustomerService;
 use App\Services\Mall\MallStockService;
 use App\Support\Exceptions\ResponseException;
-use Filament\Actions\EditAction;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Actions\MountableAction;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\Grid;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Pages\SubNavigationPosition;
-use Filament\Resources\Pages\Page;
-use Filament\Resources\Resource;
 use Filament\Support\Colors\Color;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Hugomyb\FilamentMediaAction\Infolists\Components\Actions\MediaAction;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
-class MallOrderRefundResource extends Resource
+class MallOrderRefundResource extends MallResource implements HasShieldPermissions
 {
     protected static ?string $model = MallOrderRefund::class;
 
@@ -49,6 +41,25 @@ class MallOrderRefundResource extends Resource
     protected static ?string $navigationGroup = '商城';
 
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
+
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view',
+            'view_any',
+            'update',
+        ];
+    }
+
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return $record->refund_order_no ?? '-';
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['refund_order_no', 'phone', 'refund_reason', 'buyer_message', 'seller_message'];
+    }
 
     public static function infolist(Infolist $infolist): Infolist
     {

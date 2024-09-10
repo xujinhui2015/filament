@@ -9,7 +9,6 @@ use App\Models\Mall\MallAttrValue;
 use App\Models\Mall\MallGoods;
 use App\Models\Mall\MallGoodsAttrValue;
 use App\Models\Mall\MallGoodsSku;
-use App\Models\Mall\MallOrderRefundDetail;
 use App\Services\Filament\FilamentService;
 use App\Support\Helpers\FilePathHelper;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
@@ -19,10 +18,10 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Hugomyb\FilamentMediaAction\Tables\Actions\MediaAction;
 use Icetalker\FilamentTableRepeater\Forms\Components\TableRepeater;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Rawilk\FilamentQuill\Filament\Forms\Components\QuillEditor;
@@ -51,6 +50,16 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
             'restore',
             'restore_any',
         ];
+    }
+
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return $record->goods_name ?? '-';
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['goods_sn', 'goods_name', 'subtitle', 'content'];
     }
 
     public static function form(Form $form): Form

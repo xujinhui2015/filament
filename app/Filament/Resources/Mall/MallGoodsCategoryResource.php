@@ -8,6 +8,7 @@ use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class MallGoodsCategoryResource extends MallResource implements HasShieldPermissions
@@ -33,6 +34,16 @@ class MallGoodsCategoryResource extends MallResource implements HasShieldPermiss
             'restore',
             'restore_any',
         ];
+    }
+
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return $record->title ?? '-';
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['title'];
     }
 
     public static function form(Form $form): Form
