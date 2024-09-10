@@ -238,12 +238,11 @@ class MallOrderRefundResource extends MallResource implements HasShieldPermissio
                                 ->pluck('contact_info', 'id');
                         })->label('选择退货地址')
                 ])
-                ->using(function (MallOrderRefund $record, array $data) {
+                ->action(function(MallOrderRefund $record, array $data) {
                     DB::transaction(function () use ($record, $data) {
                         $record->update([
                             'refund_status' => MallOrderRefundRefundStatusEnum::Approved->value
                         ]);
-
                         // 设置退货地址
                         $record->logistics()->updateOrCreate([], MallRefundAddress::query()->find($data['refund_address_id'])
                             ->only([
@@ -251,7 +250,6 @@ class MallOrderRefundResource extends MallResource implements HasShieldPermissio
                             ])
                         );
                     });
-
                     return $record;
                 })
                 ->hidden(
