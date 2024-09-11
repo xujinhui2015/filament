@@ -20,17 +20,10 @@ class MallOrderObserver
 
         // 调整订单状态
         if ($mallOrder->isDirty('order_status')) {
-            if (is_numeric($mallOrder->order_status)) {
-                $orderStatus = MallOrderOrderStatusEnum::tryFrom((int)$mallOrder->order_status);
-            } else {
-                /** @var MallOrderOrderStatusEnum $orderStatus */
-                $orderStatus = $mallOrder->order_status;
-            }
-
             $operationLog[] = [
                 'user_id' => $userId,
                 'action' => '更新订单状态',
-                'operation' => '修改为 ' . $orderStatus->getLabel(),
+                'operation' => '修改为 ' . MallOrderOrderStatusEnum::fromEnum($mallOrder->order_status)->getLabel(),
             ];
         }
 

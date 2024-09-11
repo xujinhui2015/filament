@@ -18,15 +18,10 @@ class MallOrderRefundObserver
         $userId = auth()->id() ?? null;
 
         if ($mallOrderRefund->isDirty('refund_status')) {
-            if (is_numeric($mallOrderRefund->refund_status)) {
-                $orderStatus = MallOrderRefundRefundStatusEnum::tryFrom((int)$mallOrderRefund->refund_status);
-            } else {
-                $orderStatus = $mallOrderRefund->refund_status;
-            }
             $operationLog[] = [
                 'user_id' => $userId,
                 'action' => '更新订单状态',
-                'operation' => '修改为 ' . $orderStatus->getLabel(),
+                'operation' => '修改为 ' . MallOrderRefundRefundStatusEnum::fromEnum($mallOrderRefund->refund_status)->getLabel(),
             ];
         }
 

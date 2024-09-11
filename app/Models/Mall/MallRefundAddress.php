@@ -3,6 +3,7 @@
 namespace App\Models\Mall;
 
 use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
@@ -18,7 +19,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon $deleted_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * @property $contact_info
+ * @property $contact_info attribute:联系方式
  *
  * @method static Builder|MallRefundAddress query()
  */
@@ -29,18 +30,20 @@ class MallRefundAddress extends BaseModel
     protected $table = 'mall_refund_address';
 
     /**
-     * 获取联系方式
+     *  联系方式
      */
-    public function getContactInfoAttribute(): string
+    public function contactInfo(): Attribute
     {
-        return implode(' ', [
-            $this->name,
-            $this->phone,
-            $this->province,
-            $this->city,
-            $this->district,
-            $this->address
-        ]);
+        return Attribute::make(
+            get: fn() => implode(' ', [
+                $this->name,
+                $this->phone,
+                $this->province,
+                $this->city,
+                $this->district,
+                $this->address
+            ]),
+        );
     }
 
 }

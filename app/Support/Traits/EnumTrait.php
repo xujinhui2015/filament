@@ -4,6 +4,15 @@ namespace App\Support\Traits;
 
 trait EnumTrait
 {
+
+    /**
+     * 获取值的枚举，会对值进行判断
+     */
+    public static function fromEnum(mixed $value): self
+    {
+        return $value instanceof self ? $value : self::tryFrom($value);
+    }
+
     /**
      * 判断枚举是否等于值
      */
@@ -34,11 +43,4 @@ trait EnumTrait
         return $result;
     }
 
-    /**
-     * 首字母小写
-     */
-    public function firstLower(): string
-    {
-        return lcfirst($this->name);
-    }
 }

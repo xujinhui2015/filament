@@ -89,6 +89,23 @@ class MallOrderRefundResource extends MallResource implements HasShieldPermissio
                         TextEntry::make('seller_message')->columnSpanFull()->default('无')->label('卖家留言'),
 
                     ]),
+                Fieldset::make('买家退货物流信息')
+                    ->schema([
+                        Grid::make(4)
+                            ->schema([
+                                TextEntry::make('logistics.logistics_company_name')->label('物流公司名称'),
+                                TextEntry::make('logistics.logistics_no')->label('快递单号'),
+                            ]),
+                        TextEntry::make('logistics.contactInfo')->label('退货联系信息'),
+                    ])
+                    ->hidden(
+                        fn(MallOrderRefund $record) =>
+                        MallOrderRefundRefundTypeEnum::Return->isNeq($record->refund_type)
+                        || in_array($record->refund_status, [
+                            MallOrderRefundRefundStatusEnum::Applied->value,
+                            MallOrderRefundRefundStatusEnum::Approved->value,
+                        ])
+                    )
             ]);
     }
 
@@ -258,6 +275,19 @@ class MallOrderRefundResource extends MallResource implements HasShieldPermissio
                         || MallOrderRefundRefundTypeEnum::Return->isNeq($record->refund_type),
                 )
                 ->label('同意退货，发送退货地址'),
+            $agreedAction::make('BuyerReturned')
+                ->requiresConfirmation()
+                ->action(function(MallOrderRefund $record) {
+                    $record->update([
+                        'refund_status' => MallOrderRefundRefundStatusEnum::ReturnReceived
+                    ]);
+                })
+                ->hidden(
+                    fn(MallOrderRefund $record) =>
+                        MallOrderRefundRefundStatusEnum::BuyerReturned->isNeq($record->refund_status)
+                        || MallOrderRefundRefundTypeEnum::Return->isNeq($record->refund_type),
+                )
+                ->label('买家已退货'),
 
         ];
     }

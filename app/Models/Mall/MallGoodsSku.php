@@ -4,6 +4,7 @@ namespace App\Models\Mall;
 
 use App\Enums\Cache\MallCacheKeyEnum;
 use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
@@ -19,7 +20,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon $deleted_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * @property $spec_text
+ * @property $spec_textattribute
  * @property MallGoods $goods
  *
  * @method static Builder|MallGoodsSku query()
@@ -34,14 +35,16 @@ class MallGoodsSku extends BaseModel
         'spec_text'
     ];
 
-    public function getSpecTextAttribute(): string
+    public function specText(): Attribute
     {
-        return MallCacheKeyEnum::SkuSpec->cacheData([$this->spec], function () {
-            return MallAttrValue::query()
-                ->whereIn('id', explode('-', $this->spec))
-                ->pluck('attr_value_name')
-                ->implode('-');
-        });
+        return Attribute::make(
+            get: fn() => MallCacheKeyEnum::SkuSpec->cacheData([$this->spec], function () {
+                return MallAttrValue::query()
+                    ->whereIn('id', explode('-', $this->spec))
+                    ->pluck('attr_value_name')
+                    ->implode('-');
+            }),
+        );
     }
 
     public function goods(): BelongsTo

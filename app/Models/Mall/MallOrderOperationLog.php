@@ -4,7 +4,6 @@ namespace App\Models\Mall;
 
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Carbon;
 
 /**
  *

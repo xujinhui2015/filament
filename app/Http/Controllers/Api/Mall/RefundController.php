@@ -71,6 +71,10 @@ class RefundController extends Controller
             ->where('customer_id', $this->getCustomerId())
             ->find($request->post('id'));
 
+        if (!$mallOrder) {
+            return $this->fail('订单不存在');
+        }
+
         if (in_array($mallOrder->order_status, [
             MallOrderOrderStatusEnum::Order->value,
             MallOrderOrderStatusEnum::Refund->value,
@@ -130,6 +134,42 @@ class RefundController extends Controller
             // 设置主订单状态
             $mallOrder->update([
                 'order_status' => MallOrderOrderStatusEnum::Refund,
+            ]);
+        });
+
+        return $this->ok();
+    }
+
+    /**
+     * 退货退款-买家发货
+     */
+    #[Post('delivery')]
+    public function delivery(Request $request)
+    {
+        /** @var MallOrderRefund $orderRefund */
+        $orderRefund = MallOrderRefund::query()
+            ->whereHas('order', function (Builder $query) {
+                $query->where('customer_id', $this->getCustomerId());
+            })
+            ->find($request->post('id'));
+
+        if (!$orderRefund) {
+            return $this->fail('退款订单不存在');
+        }
+
+        if (
+            MallOrderRefundRefundStatusEnum::Approved->isNeq($orderRefund->refund_status)
+            || MallOrderRefundRefundTypeEnum::Return->isNeq($orderRefund->refund_type)
+        ) {
+            return $this->fail('退款订单状态不正确');
+        }
+
+        DB::transaction(function () use ($orderRefund, $request) {
+            $orderRefund->logistics()->updateOrCreate([], $request->only([
+                'logistics_company_name', 'logistics_no'
+            ]));
+            $orderRefund->update([
+                'refund_status' => MallOrderRefundRefundStatusEnum::BuyerReturned,
             ]);
         });
 

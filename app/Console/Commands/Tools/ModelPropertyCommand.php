@@ -95,9 +95,6 @@ class ModelPropertyCommand extends Command
         }
     }
 
-    /**
-     * @throws Exception
-     */
     protected function parseSingleFile($filePath): void
     {
         if (in_array(basename($filePath), $this->excludeFile)) {
@@ -127,6 +124,7 @@ class ModelPropertyCommand extends Command
 
         // 记录所有使用的类型
         $columnTypes = [];
+        $comments = [];
 
         foreach ($columnList as $column) {
             $columnComment = $column['comment'];
@@ -143,8 +141,12 @@ class ModelPropertyCommand extends Command
 
         // 扫描表的关联
         $classReflect = new ReflectionClass($instance);
-        $methods = $classReflect->getMethods(ReflectionMethod::IS_PUBLIC);
+        $methods = $classReflect->getMethods(ReflectionMethod::IS_PUBLIC | ReflectionMethod::IS_PROTECTED);
         $isTotalMany = false;
+
+        $properties = [];
+        $relations = [];
+
         foreach ($methods as $method) {
             if ($method->isAbstract() || $method->isStatic()) {
                 continue;
@@ -158,7 +160,7 @@ class ModelPropertyCommand extends Command
                 if (isset($comments[$var])) {
                     unset($comments[$var]);
                 }
-                $comments[$var] = ' * @property $'.$var;
+                $properties[$var] = ' * @property $'.$var;
             } else {
                 // 模型关联渲染
                 $startLine = $method->getStartLine();
@@ -167,6 +169,15 @@ class ModelPropertyCommand extends Command
                 // 去掉代码中的注释
                 $pattern = '/\/\*.*?\*\/|\/\/.*?$/ms';
                 $methodContent = preg_replace($pattern, '', $methodContent);
+
+                // 属性访问类判断
+                if (strpos($methodContent, 'return Attribute::make')) {
+                    // 新版属性访问器
+                    $docTitle = $this->getDocTitle($method->getDocComment());
+                    $properties[] = ' * @property $'.Str::snake($methodName) . ($docTitle ? ' attribute:'.$docTitle : 'attribute');
+                    continue;
+                }
+
                 // 判断是否是关联方法
                 $allRelation = [
                     '$this->hasOne',
@@ -205,9 +216,14 @@ class ModelPropertyCommand extends Command
                 if ($isMany) {
                     $isTotalMany = true;
                 }
-                $comments[] = ' * @property '.($isMany ? 'Collection|' : '').$match[2].($isMany ? '[]' : '').' $'.$methodName.($docTitle ? ' '.$docTitle : '');
+                $relations[] = ' * @property '.($isMany ? 'Collection|' : '').$match[2].($isMany ? '[]' : '').' $'.$methodName.($docTitle ? ' '.$docTitle : '');
             }
         }
+
+        // 合并属性
+        $comments = array_merge($comments, $properties);
+        // 合并关联
+        $comments = array_merge($comments, $relations);
 
         // 额外追加条目
         $comments[] = ' *';

@@ -7,6 +7,7 @@ use App\Models\BaseModel;
 use App\Models\Common\OperationLog;
 use App\Models\Customer\Customer;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -43,12 +44,12 @@ use Illuminate\Support\Collection;
  * @property Carbon $deleted_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property $full_address attribute:完整地址
+ * @property $postage attribute:运费
  * @property Collection|MallOrderDetail[] $detail
  * @property Collection|MallOrderAdjust[] $adjust
  * @property Customer $customer
  * @property Collection|OperationLog[] $operationLog
- * @property $full_address
- * @property $postage
  *
  * @method static Builder|MallOrder query()
  */
@@ -87,16 +88,18 @@ class MallOrder extends BaseModel
     }
 
     /**
-     * 获取完整地址
+     * 完整地址
      */
-    public function getFullAddressAttribute(): string
+    public function fullAddress(): Attribute
     {
-        return implode(' ', [
-            $this->province,
-            $this->city,
-            $this->district,
-            $this->address
-        ]);
+        return Attribute::make(
+            get: fn() => implode(' ', [
+                $this->province,
+                $this->city,
+                $this->district,
+                $this->address
+            ]),
+        );
     }
 
     private function getSumAdjustPrice(MallOrderAdjustAdjustTypeEnum $adjustAdjustTypeEnum): float
@@ -105,11 +108,13 @@ class MallOrder extends BaseModel
     }
 
     /**
-     *  获取运费
+     *  运费
      */
-    public function getPostageAttribute(): float
+    public function postage(): Attribute
     {
-        return $this->getSumAdjustPrice(MallOrderAdjustAdjustTypeEnum::Postage);
+        return Attribute::make(
+            get: fn() => $this->getSumAdjustPrice(MallOrderAdjustAdjustTypeEnum::Postage),
+        );
     }
 
 }
