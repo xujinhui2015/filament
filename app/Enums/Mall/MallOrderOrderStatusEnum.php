@@ -43,5 +43,16 @@ enum MallOrderOrderStatusEnum: int implements HasLabel
         };
     }
 
+//    public function getIcon(): ?string
+//    {
+//        return match ($this) {
+//            self::New => 'heroicon-m-sparkles',
+//            self::Processing => 'heroicon-m-arrow-path',
+//            self::Shipped => 'heroicon-m-truck',
+//            self::Delivered => 'heroicon-m-check-badge',
+//            self::Cancelled => 'heroicon-m-x-circle',
+//        };
+//    }
+
 
 }

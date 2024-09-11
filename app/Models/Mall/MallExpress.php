@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 
 /**
- * @property int|null $id
- * @property string|null $express_name 快递公司名称
- * @property Carbon $deleted_at
- * @property Carbon $created_at
- * @property Carbon $updated_at
+ * @property int $id
+ * @property string $express_name 快递公司名称
+ * @property Carbon|null $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  *
  * @method static Builder|MallExpress query()
  */

@@ -23,7 +23,7 @@ class MallOrderObserver
             $operationLog[] = [
                 'user_id' => $userId,
                 'action' => '更新订单状态',
-                'operation' => '修改为 ' . MallOrderOrderStatusEnum::fromEnum($mallOrder->order_status)->getLabel(),
+                'operation' => '修改为 ' . $mallOrder->order_status->getLabel(),
             ];
         }
 

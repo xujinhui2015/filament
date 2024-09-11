@@ -87,9 +87,9 @@ class MallOrderResource extends MallResource implements HasShieldPermissions
                         Grid::make(4)
                             ->schema([
                                 TextEntry::make('order_no')->label('订单号'),
-                                TextEntry::make('order_status')->formatStateUsing(fn($state): string => MallOrderOrderStatusEnum::fromEnum($state)->getLabel())->label('订单状态'),
-                                TextEntry::make('payment')->formatStateUsing(fn($state): string => MallOrderPaymentEnum::fromEnum($state)->getLabel())->label('支付方式'),
-                                TextEntry::make('order_source')->formatStateUsing(fn($state): string => MallOrderOrderSourceEnum::fromEnum($state)->getLabel())->label('订单来源'),
+                                TextEntry::make('order_status')->label('订单状态'),
+                                TextEntry::make('payment')->label('支付方式'),
+                                TextEntry::make('order_source')->label('订单来源'),
                             ]),
                         TextEntry::make('buyer_remark')->label('买家留言'),
                         TextEntry::make('seller_message')->label('卖家留言'),
@@ -136,7 +136,6 @@ class MallOrderResource extends MallResource implements HasShieldPermissions
                     ->searchable()
                     ->label('订单号'),
                 Tables\Columns\TextColumn::make('order_status')
-                    ->formatStateUsing(fn($state): string => MallOrderOrderStatusEnum::fromEnum($state)->getLabel())
                     ->label('订单状态'),
                 Tables\Columns\TextColumn::make('order_fact_money')
                     ->prefix('￥')

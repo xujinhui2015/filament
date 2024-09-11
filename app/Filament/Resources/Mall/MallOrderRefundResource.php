@@ -23,6 +23,7 @@ use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Pages\SubNavigationPosition;
+use Filament\Resources\Pages\Page;
 use Filament\Support\Colors\Color;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -62,6 +63,14 @@ class MallOrderRefundResource extends MallResource implements HasShieldPermissio
         return ['refund_order_no', 'phone', 'refund_reason', 'buyer_message', 'seller_message'];
     }
 
+    public static function getRecordSubNavigation(Page $page): array
+    {
+        return $page->generateNavigationItems([
+            Pages\ViewMallOrderRefund::class,
+            Pages\OrderRefundOperationLog::class
+        ]);
+    }
+
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist
@@ -80,8 +89,8 @@ class MallOrderRefundResource extends MallResource implements HasShieldPermissio
                             ->schema([
                                 TextEntry::make('refund_order_no')->label('退款单号'),
                                 TextEntry::make('phone')->label('联系人电话'),
-                                TextEntry::make('refund_type')->formatStateUsing(fn($state): string => MallOrderRefundRefundTypeEnum::fromEnum($state)->getLabel())->label('退款类型'),
-                                TextEntry::make('refund_status')->formatStateUsing(fn($state): string => MallOrderRefundRefundStatusEnum::fromEnum($state)->getLabel())->label('退款状态'),
+                                TextEntry::make('refund_type')->label('退款类型'),
+                                TextEntry::make('refund_status')->label('退款状态'),
                             ]),
                         TextEntry::make('refund_reason')->columnSpanFull()->label('退款原因'),
                         TextEntry::make('buyer_message')->columnSpanFull()->label('买家留言'),
@@ -130,10 +139,8 @@ class MallOrderRefundResource extends MallResource implements HasShieldPermissio
                     ->searchable()
                     ->label('退款单号'),
                 Tables\Columns\TextColumn::make('refund_type')
-                    ->formatStateUsing(fn($state): string => MallOrderRefundRefundTypeEnum::fromEnum($state)->getLabel())
                     ->label('退款类型'),
                 Tables\Columns\TextColumn::make('refund_status')
-                    ->formatStateUsing(fn($state): string => MallOrderRefundRefundStatusEnum::fromEnum($state)->getLabel())
                     ->label('订单状态'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -166,6 +173,7 @@ class MallOrderRefundResource extends MallResource implements HasShieldPermissio
         return [
             'index' => Pages\ListMallOrderRefunds::route('/'),
             'view' => Pages\ViewMallOrderRefund::route('/{record}'),
+            'log' => Pages\OrderRefundOperationLog::route('/{record}/log'),
         ];
     }
 

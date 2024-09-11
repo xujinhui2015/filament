@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Api\Mall;
 
-use App\Enums\IsYesOrNoEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Mall\MallGoods;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\RouteAttributes\Attributes\Post;
 use Spatie\RouteAttributes\Attributes\Prefix;
@@ -21,7 +19,7 @@ class GoodsController extends Controller
         return $this->success(QueryBuilder::for(MallGoods::class)
             ->allowedFilters(['goods_name'])
             ->selectRaw('id,goods_sn,goods_name,goods_category_id,goods_name,main_img')
-            ->where('is_sale', IsYesOrNoEnum::Yes)
+            ->where('is_sale', true)
             ->withMin('sku', 'price')
             ->orderByDesc('id')
             ->cursorPaginate());

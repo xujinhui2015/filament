@@ -5,12 +5,12 @@ namespace App\Console\Commands\Tools;
 use Doctrine\DBAL\Exception;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use ReflectionClass;
 use ReflectionMethod;
 use SplFileObject;
+use UnitEnum;
 
 class ModelPropertyCommand extends Command
 {
@@ -67,9 +67,6 @@ class ModelPropertyCommand extends Command
         'Illuminate\Support\Collection' => null,
     ];
 
-    /**
-     * @throws Exception
-     */
     public function handle(): void
     {
         $appModelPath = app_path('Models');
@@ -78,13 +75,13 @@ class ModelPropertyCommand extends Command
             if ($dir == '.' || $dir == '..') {
                 continue;
             }
-            $path = $appModelPath.'/'.$dir;
+            $path = $appModelPath . '/' . $dir;
             if (is_dir($path)) {
                 foreach (scandir($path) as $value) {
                     if ($value == '.' || $value == '..') {
                         continue;
                     }
-                    $filePath = $path.'/'.$value;
+                    $filePath = $path . '/' . $value;
                     if (is_file($filePath)) {
                         $this->parseSingleFile($filePath);
                     }
@@ -108,14 +105,14 @@ class ModelPropertyCommand extends Command
         preg_match('/class (.*?) extends/', $fileContent, $classMatch);
 
         $className = $classMatch[1];
-        $class = $spaceName.'\\'.$className;
+        $class = $spaceName . '\\' . $className;
 
-        if (! class_exists($class)) {
+        if (!class_exists($class)) {
             return;
         }
 
         $instance = new $class();
-        if (! ($instance instanceof Model)) {
+        if (!($instance instanceof Model)) {
             return;
         }
 
@@ -126,33 +123,51 @@ class ModelPropertyCommand extends Command
         $columnTypes = [];
         $comments = [];
 
+        $classReflect = new ReflectionClass($instance);
+        $casts = $classReflect->getProperty('casts')->getValue($instance);
+
         foreach ($columnList as $column) {
             $columnComment = $column['comment'];
             if ($columnComment) {
-                $columnComment = ' '.$column['comment'];
+                $columnComment = ' ' . $column['comment'];
             }
-            $columnType = $this->columnMapping[$column['type_name']];
-            $columnTypes[] = $columnType;
-            if (! $column['nullable']) {
+            $columnType = null;
+            $tempColumn = $this->columnMapping[$column['type_name']];
+
+            $columnTypes[] = $tempColumn;
+            if (isset($casts[$column['name']])) {
+                // 判断是否是枚举类
+                $fullClassName = $casts[$column['name']];
+                if (is_subclass_of($fullClassName, UnitEnum::class)) {
+                    $parts = explode('\\', $fullClassName);
+
+                    $columnType = end($parts);
+                }
+            }
+
+            if (empty($columnType)) {
+                $columnType = $tempColumn;
+            }
+
+            if ($column['nullable']) {
                 $columnType .= '|null';
             }
-            $comments[$column['name']] = ' * @property '.$columnType.' $'.$column['name'].$columnComment;
+            $comments[$column['name']] = ' * @property ' . $columnType . ' $' . $column['name'] . $columnComment;
         }
 
         // 扫描表的关联
-        $classReflect = new ReflectionClass($instance);
         $methods = $classReflect->getMethods(ReflectionMethod::IS_PUBLIC | ReflectionMethod::IS_PROTECTED);
         $isTotalMany = false;
 
-        $properties = [];
-        $relations = [];
+        $methodProperties = [];
+        $methodRelations = [];
 
         foreach ($methods as $method) {
             if ($method->isAbstract() || $method->isStatic()) {
                 continue;
             }
             $methodName = $method->getName();
-            if (! ($fileContent && strpos($fileContent, 'function '.$methodName))) {
+            if (!($fileContent && strpos($fileContent, 'function ' . $methodName))) {
                 continue;
             }
             if (preg_match('/get(.*?)Attribute/', $methodName, $match)) {
@@ -160,7 +175,7 @@ class ModelPropertyCommand extends Command
                 if (isset($comments[$var])) {
                     unset($comments[$var]);
                 }
-                $properties[$var] = ' * @property $'.$var;
+                $methodProperties[$var] = ' * @property $' . $var;
             } else {
                 // 模型关联渲染
                 $startLine = $method->getStartLine();
@@ -174,7 +189,7 @@ class ModelPropertyCommand extends Command
                 if (strpos($methodContent, 'return Attribute::make')) {
                     // 新版属性访问器
                     $docTitle = $this->getDocTitle($method->getDocComment());
-                    $properties[] = ' * @property $'.Str::snake($methodName) . ($docTitle ? ' attribute:'.$docTitle : 'attribute');
+                    $methodProperties[] = ' * @property $' . Str::snake($methodName) . ($docTitle ? ' attribute:' . $docTitle : 'attribute');
                     continue;
                 }
 
@@ -198,7 +213,7 @@ class ModelPropertyCommand extends Command
                         break;
                     }
                 }
-                if (! $isRelation) {
+                if (!$isRelation) {
                     continue;
                 }
                 preg_match('/return.*?->(.*?)\(,?(.*?)::class/', $methodContent, $match);
@@ -216,18 +231,18 @@ class ModelPropertyCommand extends Command
                 if ($isMany) {
                     $isTotalMany = true;
                 }
-                $relations[] = ' * @property '.($isMany ? 'Collection|' : '').$match[2].($isMany ? '[]' : '').' $'.$methodName.($docTitle ? ' '.$docTitle : '');
+                $methodRelations[] = ' * @property ' . ($isMany ? 'Collection|' : '') . $match[2] . ($isMany ? '[]' : '') . ' $' . $methodName . ($docTitle ? ' ' . $docTitle : '');
             }
         }
 
         // 合并属性
-        $comments = array_merge($comments, $properties);
+        $comments = array_merge($comments, $methodProperties);
         // 合并关联
-        $comments = array_merge($comments, $relations);
+        $comments = array_merge($comments, $methodRelations);
 
         // 额外追加条目
         $comments[] = ' *';
-        $comments[] = ' * @method static Builder|'.$className.' query()';
+        $comments[] = ' * @method static Builder|' . $className . ' query()';
 
         // 获取代码中所有的Use语句
         $tokens = token_get_all($fileContent);
@@ -251,7 +266,7 @@ class ModelPropertyCommand extends Command
             // 判断是否是要设置use
             if ($isAttribute === false) {
                 $useClass = explode('\\', $appendNamespace);
-                if (! in_array(end($useClass), $columnTypes)) {
+                if (!in_array(end($useClass), $columnTypes)) {
                     continue;
                 }
             } elseif ($isAttribute === null) {
@@ -260,14 +275,14 @@ class ModelPropertyCommand extends Command
                     continue;
                 }
             }
-            $useAppendNamespaceCodes[] = 'use '.$appendNamespace.';';
+            $useAppendNamespaceCodes[] = 'use ' . $appendNamespace . ';';
         }
 
-        $classComments = "\n\n/**\n".implode("\n", array_values($comments))."\n */\n";
+        $classComments = "\n\n/**\n" . implode("\n", array_values($comments)) . "\n */\n";
 
         // 添加use
         if (isset($useAppendNamespaceCodes)) {
-            $classComments = "\n".implode("\n", $useAppendNamespaceCodes).$classComments;
+            $classComments = "\n" . implode("\n", $useAppendNamespaceCodes) . $classComments;
         }
         $fileContent = preg_replace('/^([\s\S]*;)([\s\S]*?)(class.*?extends[\s\S]*)$/', "$1$classComments$3", $fileContent);
 

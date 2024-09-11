@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 
 /**
- * @property int|null $id
- * @property string|null $loggable_type 关联类型
- * @property int|null $loggable_id 关联ID
- * @property int $user_id 操作人
- * @property string|null $action 动作
- * @property string|null $operation 操作说明
- * @property Carbon $created_at
+ * @property int $id
+ * @property string $loggable_type 关联类型
+ * @property int $loggable_id 关联ID
+ * @property int|null $user_id 操作人
+ * @property string $action 动作
+ * @property string $operation 操作说明
+ * @property Carbon|null $created_at
  *
  * @method static Builder|OperationLog query()
  */

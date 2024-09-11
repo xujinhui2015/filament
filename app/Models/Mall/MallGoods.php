@@ -11,18 +11,18 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
 /**
- * @property int|null $id
- * @property string|null $goods_sn 商品代码
- * @property int|null $goods_category_id 商品分类ID
- * @property string|null $goods_name 商品名称
- * @property string|null $subtitle 商品副标题
- * @property string|null $main_img 商品主图
- * @property string|null $images 商品轮播图
- * @property string|null $content 商品详情
- * @property int $is_sale 是否上架0否1是
- * @property Carbon $deleted_at
- * @property Carbon $created_at
- * @property Carbon $updated_at
+ * @property int $id
+ * @property string $goods_sn 商品代码
+ * @property int $goods_category_id 商品分类ID
+ * @property string $goods_name 商品名称
+ * @property string $subtitle 商品副标题
+ * @property string $main_img 商品主图
+ * @property string $images 商品轮播图
+ * @property string $content 商品详情
+ * @property int|null $is_sale 是否上架0否1是
+ * @property Carbon|null $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property MallGoodsCategory $category
  * @property Collection|MallGoodsAttr[] $attr
  * @property Collection|MallGoodsSku[] $sku

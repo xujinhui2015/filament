@@ -9,12 +9,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 /**
- * @property int|null $id
- * @property int|null $customer_id 会员ID
- * @property string|null $mini_openid 小程序openid
- * @property Carbon $deleted_at
- * @property Carbon $created_at
- * @property Carbon $updated_at
+ * @property int $id
+ * @property int $customer_id 会员ID
+ * @property string $mini_openid 小程序openid
+ * @property Carbon|null $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property Customer $customer
  *
  * @method static Builder|CustomerWechat query()

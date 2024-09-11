@@ -14,16 +14,16 @@ use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
- * @property int|null $id
- * @property string|null $name
- * @property string $phone 手机号
- * @property string $avatar_url 用户头像
- * @property string|null $email
- * @property Carbon $email_verified_at
- * @property string|null $password
- * @property string $remember_token
- * @property Carbon $created_at
- * @property Carbon $updated_at
+ * @property int $id
+ * @property string $name
+ * @property string|null $phone 手机号
+ * @property string|null $avatar_url 用户头像
+ * @property string $email
+ * @property Carbon|null $email_verified_at
+ * @property string $password
+ * @property string|null $remember_token
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  *
  * @method static Builder|User query()
  */

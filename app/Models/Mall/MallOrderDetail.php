@@ -9,18 +9,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 /**
- * @property int|null $id
- * @property int|null $order_id
- * @property int|null $goods_id
- * @property int|null $goods_sku_id
- * @property string|null $goods_name 商品名称
- * @property string|null $goods_spec 商品规格
- * @property string|null $goods_image 商品图片
- * @property double|null $goods_price 商品价格
- * @property int|null $goods_number 购买商品数量
- * @property Carbon $deleted_at
- * @property Carbon $created_at
- * @property Carbon $updated_at
+ * @property int $id
+ * @property int $order_id
+ * @property int $goods_id
+ * @property int $goods_sku_id
+ * @property string $goods_name 商品名称
+ * @property string $goods_spec 商品规格
+ * @property string $goods_image 商品图片
+ * @property double $goods_price 商品价格
+ * @property int $goods_number 购买商品数量
+ * @property Carbon|null $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property MallOrder $order
  * @property MallGoods $goods
  * @property MallGoodsSku $goodsSku

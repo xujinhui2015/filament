@@ -2,7 +2,6 @@
 
 namespace App\Observers\Mall;
 
-use App\Enums\Mall\MallOrderRefundRefundStatusEnum;
 use App\Models\Mall\MallOrderRefund;
 
 class MallOrderRefundObserver
@@ -21,7 +20,7 @@ class MallOrderRefundObserver
             $operationLog[] = [
                 'user_id' => $userId,
                 'action' => '更新订单状态',
-                'operation' => '修改为 ' . MallOrderRefundRefundStatusEnum::fromEnum($mallOrderRefund->refund_status)->getLabel(),
+                'operation' => '修改为 ' . $mallOrderRefund->refund_status->getLabel(),
             ];
         }
 

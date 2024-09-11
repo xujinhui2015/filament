@@ -9,19 +9,19 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 
 /**
- * @property int|null $id
- * @property int|null $order_refund_id
- * @property string $logistics_company_name 物流公司名称
- * @property string $logistics_no 快递单号
- * @property string|null $name 退货人姓名
- * @property string|null $phone 退货人电话
- * @property string|null $province 省
- * @property string|null $city 市
- * @property string|null $district 区
- * @property string|null $address 详细地址
- * @property Carbon $deleted_at
- * @property Carbon $created_at
- * @property Carbon $updated_at
+ * @property int $id
+ * @property int $order_refund_id
+ * @property string|null $logistics_company_name 物流公司名称
+ * @property string|null $logistics_no 快递单号
+ * @property string $name 退货人姓名
+ * @property string $phone 退货人电话
+ * @property string $province 省
+ * @property string $city 市
+ * @property string $district 区
+ * @property string $address 详细地址
+ * @property Carbon|null $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property $contact_info attribute:退货联系信息
  *
  * @method static Builder|MallOrderRefundLogistics query()

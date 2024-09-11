@@ -250,7 +250,7 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
                                         ->content(fn (MallGoodsAttrValue $record): string => $record->attr_value_name)
                                         ->label(''),
                                     Forms\Components\Radio::make('is_disabled')
-                                        ->options(IsYesOrNoEnum::class)
+                                        ->options(IsYesOrNoEnum::options())
                                         ->inline()
                                         ->label('是否禁用')
                                 ])

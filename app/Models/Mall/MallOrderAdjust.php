@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 /**
- * @property int|null $id
- * @property int|null $order_id
- * @property int|null $order_detail_id
- * @property string|null $adjust_type 调整类型
- * @property double|null $adjust_price 调整价格
- * @property Carbon $deleted_at
- * @property Carbon $created_at
- * @property Carbon $updated_at
+ * @property int $id
+ * @property int $order_id
+ * @property int $order_detail_id
+ * @property string $adjust_type 调整类型
+ * @property double $adjust_price 调整价格
+ * @property Carbon|null $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  *
  * @method static Builder|MallOrderAdjust query()
  */

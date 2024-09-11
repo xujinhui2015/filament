@@ -9,16 +9,16 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 
 /**
- * @property int|null $id
- * @property string|null $name 退货人姓名
- * @property string|null $phone 退货人电话
- * @property string|null $province 省
- * @property string|null $city 市
- * @property string|null $district 区
- * @property string|null $address 详细地址
- * @property Carbon $deleted_at
- * @property Carbon $created_at
- * @property Carbon $updated_at
+ * @property int $id
+ * @property string $name 退货人姓名
+ * @property string $phone 退货人电话
+ * @property string $province 省
+ * @property string $city 市
+ * @property string $district 区
+ * @property string $address 详细地址
+ * @property Carbon|null $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property $contact_info attribute:联系方式
  *
  * @method static Builder|MallRefundAddress query()

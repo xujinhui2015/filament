@@ -9,14 +9,14 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 
 /**
- * @property int|null $id
- * @property int|null $customer_id 会员ID
- * @property int|null $goods_id
- * @property int|null $goods_sku_id
- * @property int|null $goods_number 购买商品数量
- * @property Carbon $deleted_at
- * @property Carbon $created_at
- * @property Carbon $updated_at
+ * @property int $id
+ * @property int $customer_id 会员ID
+ * @property int $goods_id
+ * @property int $goods_sku_id
+ * @property int $goods_number 购买商品数量
+ * @property Carbon|null $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property MallGoodsSku $sku
  * @property MallGoods $goods
  *

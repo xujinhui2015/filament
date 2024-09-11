@@ -11,6 +11,8 @@ class ViewMallOrderRefund extends ViewRecord
 {
     protected static string $resource = MallOrderRefundResource::class;
 
+    protected static ?string $title = '售后详情';
+
     /**
      * @throws ResponseException
      */

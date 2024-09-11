@@ -6,9 +6,9 @@ use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * @property int|null $area_id
- * @property int|null $parent_id
- * @property string|null $name
+ * @property int $area_id
+ * @property int $parent_id
+ * @property string $name
  *
  * @method static Builder|Area query()
  */

@@ -11,15 +11,15 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 
 /**
- * @property int|null $id
- * @property int|null $goods_id
- * @property string|null $spec 规格明细
- * @property double|null $price 单价
- * @property string $sku_img 规格图片
- * @property int|null $stock 库存
- * @property Carbon $deleted_at
- * @property Carbon $created_at
- * @property Carbon $updated_at
+ * @property int $id
+ * @property int $goods_id
+ * @property string $spec 规格明细
+ * @property double $price 单价
+ * @property string|null $sku_img 规格图片
+ * @property int $stock 库存
+ * @property Carbon|null $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property $spec_textattribute
  * @property MallGoods $goods
  *

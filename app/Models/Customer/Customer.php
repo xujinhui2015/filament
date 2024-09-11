@@ -15,15 +15,15 @@ use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
- * @property int|null $id
- * @property string $nickname 昵称
- * @property string $avatar_url 头像
- * @property string $phone 手机号
- * @property double|null $balance 余额
- * @property int|null $points 积分
- * @property Carbon $deleted_at
- * @property Carbon $created_at
- * @property Carbon $updated_at
+ * @property int $id
+ * @property string|null $nickname 昵称
+ * @property string|null $avatar_url 头像
+ * @property string|null $phone 手机号
+ * @property double $balance 余额
+ * @property int $points 积分
+ * @property Carbon|null $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property Collection|CustomerBalanceRecord[] $balanceRecords
  * @property Collection|CustomerPointsRecord[] $pointsRecords
  * @property CustomerWechat $wechat
