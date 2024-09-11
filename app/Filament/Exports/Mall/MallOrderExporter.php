@@ -16,7 +16,7 @@ class MallOrderExporter extends Exporter
     {
         return [
             ExportColumn::make('order_no')->label('订单号'),
-            ExportColumn::make('order_status')->formatStateUsing(fn(int $state): string => MallOrderOrderStatusEnum::tryFrom($state)->getLabel())->label('订单状态'),
+            ExportColumn::make('order_status')->formatStateUsing(fn($state): string => MallOrderOrderStatusEnum::fromEnum($state)->getLabel())->label('订单状态'),
             ExportColumn::make('order_money')->label('订单金额'),
             ExportColumn::make('order_fact_money')->label('订单实付金额'),
             ExportColumn::make('name')->label('收货人姓名'),

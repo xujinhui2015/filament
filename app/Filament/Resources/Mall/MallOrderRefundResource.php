@@ -11,6 +11,7 @@ use App\Filament\Resources\Mall\MallOrderRefundResource\RelationManagers;
 use App\Models\Mall\MallOrderRefund;
 use App\Models\Mall\MallRefundAddress;
 use App\Services\Customer\CustomerService;
+use App\Services\Mall\MallRefundService;
 use App\Services\Mall\MallStockService;
 use App\Support\Exceptions\ResponseException;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
@@ -79,8 +80,8 @@ class MallOrderRefundResource extends MallResource implements HasShieldPermissio
                             ->schema([
                                 TextEntry::make('refund_order_no')->label('退款单号'),
                                 TextEntry::make('phone')->label('联系人电话'),
-                                TextEntry::make('refund_type')->formatStateUsing(fn(int $state): string => MallOrderRefundRefundTypeEnum::tryFrom($state)->getLabel())->label('退款类型'),
-                                TextEntry::make('refund_status')->formatStateUsing(fn(int $state): string => MallOrderRefundRefundStatusEnum::tryFrom($state)->getLabel())->label('退款状态'),
+                                TextEntry::make('refund_type')->formatStateUsing(fn($state): string => MallOrderRefundRefundTypeEnum::fromEnum($state)->getLabel())->label('退款类型'),
+                                TextEntry::make('refund_status')->formatStateUsing(fn($state): string => MallOrderRefundRefundStatusEnum::fromEnum($state)->getLabel())->label('退款状态'),
                             ]),
                         TextEntry::make('refund_reason')->columnSpanFull()->label('退款原因'),
                         TextEntry::make('buyer_message')->columnSpanFull()->label('买家留言'),
@@ -129,10 +130,10 @@ class MallOrderRefundResource extends MallResource implements HasShieldPermissio
                     ->searchable()
                     ->label('退款单号'),
                 Tables\Columns\TextColumn::make('refund_type')
-                    ->formatStateUsing(fn(int $state): string => MallOrderRefundRefundTypeEnum::tryFrom($state)->getLabel())
+                    ->formatStateUsing(fn($state): string => MallOrderRefundRefundTypeEnum::fromEnum($state)->getLabel())
                     ->label('退款类型'),
                 Tables\Columns\TextColumn::make('refund_status')
-                    ->formatStateUsing(fn(int $state): string => MallOrderRefundRefundStatusEnum::tryFrom($state)->getLabel())
+                    ->formatStateUsing(fn($state): string => MallOrderRefundRefundStatusEnum::fromEnum($state)->getLabel())
                     ->label('订单状态'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -188,17 +189,17 @@ class MallOrderRefundResource extends MallResource implements HasShieldPermissio
     public static function getOrderOperationActions($agreedAction): array
     {
         return [
-            // 仅退款操作
+            // 仅退款
             $agreedAction::make('Agreed')
                 ->requiresConfirmation()
+                ->modalHeading('同意退款')
+                ->modalSubmitActionLabel('同意')
                 ->action(function(MallOrderRefund $record, array $arguments) {
                     $record->update([
                         'refund_status' => MallOrderRefundRefundStatusEnum::Approved
                     ]);
                     if ($arguments['refund'] ?? false) {
-                        $record->update([
-                            'refund_status' => MallOrderRefundRefundStatusEnum::Confirmed
-                        ]);
+                        MallRefundService::confirmedRefund($record);
                     }
                 })
                 ->extraModalFooterActions(fn (MountableAction $action): array => [
@@ -212,40 +213,23 @@ class MallOrderRefundResource extends MallResource implements HasShieldPermissio
                 ->label('同意退款'),
             $agreedAction::make('Confirmed')
                 ->requiresConfirmation()
+                ->modalHeading('确认退款')
                 ->action(function(MallOrderRefund $record) {
-                    DB::transaction(function () use ($record) {
-                        $record->update([
-                            'refund_status' => MallOrderRefundRefundStatusEnum::Confirmed
-                        ]);
-                        // 执行退款
-                        if (MallOrderPaymentEnum::Balance->isEq($record->order->payment)) {
-                            // 余额退款
-                            CustomerService::setBalance(
-                                $record->order->customer,
-                                $record->refund_money,
-                                CustomerBalanceSceneTypeEnum::MallOrderRefund,
-                                $record->id
-                            );
-                            // 扣除库存
-                            MallStockService::handleOrderRefundStock($record);
-
-                            $record->update([
-                                'refund_status' => MallOrderRefundRefundStatusEnum::Successful
-                            ]);
-                        } elseif (MallOrderPaymentEnum::Wechat->isEq($record->order->payment)) {
-                            return ;
-                        }
-                    });
+                    MallRefundService::confirmedRefund($record);
                 })
                 ->hidden(
                     fn(MallOrderRefund $record) =>
-                        MallOrderRefundRefundStatusEnum::Approved->isNeq($record->refund_status)
-                        || MallOrderRefundRefundTypeEnum::Only->isNeq($record->refund_type),
+                        !((MallOrderRefundRefundTypeEnum::Only->isEq($record->refund_type)
+                            && MallOrderRefundRefundStatusEnum::Approved->isEq($record->refund_status))
+                        ||
+                        (MallOrderRefundRefundTypeEnum::Return->isEq($record->refund_type)
+                            && MallOrderRefundRefundStatusEnum::ReturnReceived->isEq($record->refund_status)))
                 )
                 ->label('确认退款'),
             // 退货退款
             $agreedAction::make('AgreedRefund')
                 ->requiresConfirmation()
+                ->modalHeading('同意退货，并发送退货地址')
                 ->form([
                     Forms\Components\Radio::make('refund_address_id')
                         ->required()
@@ -277,18 +261,26 @@ class MallOrderRefundResource extends MallResource implements HasShieldPermissio
                 ->label('同意退货，发送退货地址'),
             $agreedAction::make('BuyerReturned')
                 ->requiresConfirmation()
+                ->modalHeading('确认收货，退款给买家')
+                ->modalSubmitActionLabel('同意')
                 ->action(function(MallOrderRefund $record) {
                     $record->update([
                         'refund_status' => MallOrderRefundRefundStatusEnum::ReturnReceived
                     ]);
+
+                    if ($arguments['refund'] ?? false) {
+                        MallRefundService::confirmedRefund($record);
+                    }
                 })
+                ->extraModalFooterActions(fn (MountableAction $action): array => [
+                    $action->makeModalSubmitAction(name: '同意并确认退款', arguments: ['refund' => true]),
+                ])
                 ->hidden(
                     fn(MallOrderRefund $record) =>
                         MallOrderRefundRefundStatusEnum::BuyerReturned->isNeq($record->refund_status)
                         || MallOrderRefundRefundTypeEnum::Return->isNeq($record->refund_type),
                 )
                 ->label('买家已退货'),
-
         ];
     }
 }

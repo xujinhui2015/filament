@@ -32,4 +32,16 @@ enum MallOrderOrderStatusEnum: int implements HasLabel
             self::Cancel => '已取消',
         };
     }
+
+    public function getColor(): string | array | null
+    {
+        return match ($this) {
+            self::Order => 'warning',
+            self::Pay, self::Refund => 'Processing',
+            self::Delivery, self::Finish => 'success',
+            self::Close, self::Checkout, self::Cancel => 'danger',
+        };
+    }
+
+
 }
