@@ -2,6 +2,8 @@
 
 namespace App\Support\Traits;
 
+use UnitEnum;
+
 trait EnumTrait
 {
 
@@ -10,7 +12,7 @@ trait EnumTrait
      */
     public static function fromEnum(mixed $value): self
     {
-        return $value instanceof self ? $value : self::tryFrom($value);
+        return is_subclass_of($value, UnitEnum::class) ? $value : self::tryFrom($value);
     }
 
     /**
@@ -18,7 +20,11 @@ trait EnumTrait
      */
     public function isEq($value): bool
     {
-        return $this->value == $value;
+        if (is_subclass_of($value, UnitEnum::class)) {
+            return $this == $value;
+        } else {
+            return $this->value == $value;
+        }
     }
 
     /**
@@ -27,6 +33,14 @@ trait EnumTrait
     public function isNeq($value): bool
     {
         return !$this->isEq($value);
+    }
+
+    /**
+     * 判断是否包含当前值
+     */
+    public function in(array $enums): bool
+    {
+        return in_array($this, $enums);
     }
 
     /**

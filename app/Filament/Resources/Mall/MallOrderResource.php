@@ -243,7 +243,7 @@ class MallOrderResource extends MallResource implements HasShieldPermissions
 
                 return $record;
             })
-            ->hidden(fn(MallOrder $record) => MallOrderOrderStatusEnum::Pay->isNeq($record->order_status))
+            ->hidden(fn(MallOrder $record) => $record->order_status->isNeq(MallOrderOrderStatusEnum::Pay))
             ->label('发货');
     }
 

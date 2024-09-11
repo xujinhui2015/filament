@@ -109,8 +109,8 @@ class OrderController extends Controller
 
         // 检查订单状态
         if (
-            MallOrderOrderStatusEnum::Checkout->isNeq($order->order_status)
-            &&  MallOrderOrderStatusEnum::Order->isNeq($order->order_status)
+            $order->order_status->isNeq(MallOrderOrderStatusEnum::Checkout)
+            && $order->order_status->isNeq(MallOrderOrderStatusEnum::Order)
         ) {
             return $this->fail('订单状态异常');
         }

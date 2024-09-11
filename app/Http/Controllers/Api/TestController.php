@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\Customer\CustomerBalanceSceneTypeEnum;
-use App\Enums\Mall\MallOrderRefundRefundStatusEnum;
-use App\Enums\Mall\MallOrderRefundRefundTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Customer\Customer;
-use App\Models\Mall\MallOrderRefund;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\RouteAttributes\Attributes\Any;
@@ -19,37 +15,6 @@ class TestController extends Controller
     #[Any('/')]
     public function index()
     {
-        $record = MallOrderRefund::query()->first();
-//        dump(!((MallOrderRefundRefundTypeEnum::Only->isEq($record->refund_type)
-//                && MallOrderRefundRefundStatusEnum::Approved->isEq($record->refund_type))
-//            || (MallOrderRefundRefundTypeEnum::Return->isEq($record->refund_type)
-//                && MallOrderRefundRefundStatusEnum::ReturnReceived->isEq($record->refund_type))));
-
-        dump($record->refund_type);
-        dump($record->refund_type);
-
-        dump(
-            MallOrderRefundRefundTypeEnum::Only->isEq($record->refund_type)
-            && MallOrderRefundRefundStatusEnum::Approved->isEq($record->refund_status)
-        );
-
-        dump(
-            (MallOrderRefundRefundTypeEnum::Return->isEq($record->refund_type)
-            && MallOrderRefundRefundStatusEnum::ReturnReceived->isEq($record->refund_status))
-        );
-
-        dump(
-            !((MallOrderRefundRefundTypeEnum::Only->isEq($record->refund_type)
-                    && MallOrderRefundRefundStatusEnum::Approved->isEq($record->refund_status))
-                ||
-                (MallOrderRefundRefundTypeEnum::Return->isEq($record->refund_type)
-                    && MallOrderRefundRefundStatusEnum::ReturnReceived->isEq($record->refund_status)))
-
-        );
-
-
-        exit;
-
         // https://github.com/spatie/laravel-query-builder 示例
         $list = QueryBuilder::for(Customer::class)
             // 请求传 filter[nickname]=aaaa，这里的phone表示精确过滤

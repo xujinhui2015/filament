@@ -100,7 +100,7 @@ class RefundController extends Controller
         });
 
         DB::transaction(function () use ($mallOrder, $refundMoney, $request, $detail) {
-            if (MallOrderOrderStatusEnum::Pay->isEq($mallOrder->order_status)) {
+            if ($mallOrder->order_status->isEq(MallOrderOrderStatusEnum::Pay)) {
                 // 仅退款
                 /** @var MallOrderRefund $refund */
                 $refund = MallOrderRefund::query()->create([
@@ -158,8 +158,8 @@ class RefundController extends Controller
         }
 
         if (
-            MallOrderRefundRefundStatusEnum::Approved->isNeq($orderRefund->refund_status)
-            || MallOrderRefundRefundTypeEnum::Return->isNeq($orderRefund->refund_type)
+            $orderRefund->refund_status->isNeq(MallOrderRefundRefundStatusEnum::Approved)
+            || $orderRefund->refund_type->isNeq(MallOrderRefundRefundTypeEnum::Return)
         ) {
             return $this->fail('退款订单状态不正确');
         }

@@ -22,7 +22,7 @@ class MallRefundService
                 'refund_status' => MallOrderRefundRefundStatusEnum::Confirmed
             ]);
             // 执行退款
-            if (MallOrderPaymentEnum::Balance->isEq($orderRefund->order->payment)) {
+            if ($orderRefund->order->payment->isEq(MallOrderPaymentEnum::Balance)) {
                 // 余额退款
                 CustomerService::setBalance(
                     $orderRefund->order->customer,
@@ -36,7 +36,7 @@ class MallRefundService
                 $orderRefund->update([
                     'refund_status' => MallOrderRefundRefundStatusEnum::Successful
                 ]);
-            } elseif (MallOrderPaymentEnum::Wechat->isEq($orderRefund->order->payment)) {
+            } elseif ($orderRefund->order->payment->isEq(MallOrderPaymentEnum::Wechat)) {
                 return ;
             }
         });

@@ -9,7 +9,6 @@ use App\Enums\Mall\MallOrderPaymentEnum;
 use App\Models\BaseModel;
 use App\Models\Common\OperationLog;
 use App\Models\Customer\Customer;
-use App\Support\Traits\EnumTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

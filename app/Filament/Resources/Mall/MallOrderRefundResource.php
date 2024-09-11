@@ -110,10 +110,10 @@ class MallOrderRefundResource extends MallResource implements HasShieldPermissio
                     ])
                     ->hidden(
                         fn(MallOrderRefund $record) =>
-                        MallOrderRefundRefundTypeEnum::Return->isNeq($record->refund_type)
-                        || in_array($record->refund_status, [
-                            MallOrderRefundRefundStatusEnum::Applied->value,
-                            MallOrderRefundRefundStatusEnum::Approved->value,
+                        $record->refund_type->isNeq(MallOrderRefundRefundTypeEnum::Return)
+                        || $record->refund_status->in([
+                            MallOrderRefundRefundStatusEnum::Applied,
+                            MallOrderRefundRefundStatusEnum::Approved,
                         ])
                     )
             ]);
@@ -215,8 +215,8 @@ class MallOrderRefundResource extends MallResource implements HasShieldPermissio
                 ])
                 ->hidden(
                     fn(MallOrderRefund $record) =>
-                        MallOrderRefundRefundStatusEnum::Applied->isNeq($record->refund_status)
-                        || MallOrderRefundRefundTypeEnum::Only->isNeq($record->refund_type),
+                        $record->refund_status->isNeq(MallOrderRefundRefundStatusEnum::Applied)
+                        || $record->refund_type->isNeq(MallOrderRefundRefundTypeEnum::Only),
                 )
                 ->label('同意退款'),
             $agreedAction::make('Confirmed')
@@ -227,11 +227,11 @@ class MallOrderRefundResource extends MallResource implements HasShieldPermissio
                 })
                 ->hidden(
                     fn(MallOrderRefund $record) =>
-                        !((MallOrderRefundRefundTypeEnum::Only->isEq($record->refund_type)
-                            && MallOrderRefundRefundStatusEnum::Approved->isEq($record->refund_status))
+                        !(($record->refund_type->isEq(MallOrderRefundRefundTypeEnum::Only)
+                            && $record->refund_status->isEq(MallOrderRefundRefundStatusEnum::Approved))
                         ||
-                        (MallOrderRefundRefundTypeEnum::Return->isEq($record->refund_type)
-                            && MallOrderRefundRefundStatusEnum::ReturnReceived->isEq($record->refund_status)))
+                        ($record->refund_type->isEq(MallOrderRefundRefundTypeEnum::Return)
+                            && $record->refund_status->isEq(MallOrderRefundRefundStatusEnum::ReturnReceived)))
                 )
                 ->label('确认退款'),
             // 退货退款
@@ -263,8 +263,8 @@ class MallOrderRefundResource extends MallResource implements HasShieldPermissio
                 })
                 ->hidden(
                     fn(MallOrderRefund $record) =>
-                        MallOrderRefundRefundStatusEnum::Applied->isNeq($record->refund_status)
-                        || MallOrderRefundRefundTypeEnum::Return->isNeq($record->refund_type),
+                        $record->refund_status->isNeq(MallOrderRefundRefundStatusEnum::Applied)
+                        || $record->refund_type->isNeq(MallOrderRefundRefundTypeEnum::Return)
                 )
                 ->label('同意退货，发送退货地址'),
             $agreedAction::make('BuyerReturned')
@@ -285,8 +285,8 @@ class MallOrderRefundResource extends MallResource implements HasShieldPermissio
                 ])
                 ->hidden(
                     fn(MallOrderRefund $record) =>
-                        MallOrderRefundRefundStatusEnum::BuyerReturned->isNeq($record->refund_status)
-                        || MallOrderRefundRefundTypeEnum::Return->isNeq($record->refund_type),
+                        $record->refund_status->isNeq(MallOrderRefundRefundStatusEnum::BuyerReturned)
+                        || $record->refund_type->isNeq(MallOrderRefundRefundTypeEnum::Return),
                 )
                 ->label('买家已退货'),
         ];
