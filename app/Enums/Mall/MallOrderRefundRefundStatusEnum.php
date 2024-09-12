@@ -3,9 +3,11 @@
 namespace App\Enums\Mall;
 
 use App\Support\Traits\EnumTrait;
+use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 
-enum MallOrderRefundRefundStatusEnum: int implements HasLabel
+enum MallOrderRefundRefundStatusEnum: int implements HasColor, HasIcon, HasLabel
 {
     use EnumTrait;
 
@@ -33,6 +35,28 @@ enum MallOrderRefundRefundStatusEnum: int implements HasLabel
             self::Successful => '退款成功',
             self::Failed => '退款失败',
             self::Closed => '退款关闭',
+        };
+    }
+
+    public function getColor(): string|array|null
+    {
+        return match ($this) {
+            self::Applied, self::ReturnReceived, self::BuyerReturned, self::Confirmed => 'warning',
+            self::Approved => 'info',
+            self::Successful => 'success',
+            self::Failed, self::Closed => 'danger',
+        };
+    }
+
+    public function getIcon(): ?string
+    {
+        return match ($this) {
+            self::Applied => 'heroicon-o-hand-raised',
+            self::Approved => 'heroicon-s-information-circle',
+            self::BuyerReturned => 'heroicon-m-truck',
+            self::ReturnReceived, self::Confirmed => 'heroicon-m-check-badge',
+            self::Successful => 'heroicon-m-check-circle',
+            self::Failed, self::Closed => 'heroicon-m-x-circle',
         };
     }
 }

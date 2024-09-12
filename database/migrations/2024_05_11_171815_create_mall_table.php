@@ -125,7 +125,7 @@ return new class extends Migration
 
             $table->foreignId('customer_id');
             $table->string('order_no', 100)->comment('订单号');
-            $table->unsignedTinyInteger('order_status')->comment('订单状态0待付款1待发货2待收货3退款处理4已完成5已关闭6锁单状态');
+            $table->unsignedTinyInteger('order_status')->comment('订单状态0待付款1待发货2待收货3退款处理4已完成5已关闭6锁单状态7已取消');
             $table->unsignedInteger('order_money')->comment('订单金额');
             $table->unsignedInteger('order_fact_money')->comment('订单实付金额');
             $table->unsignedTinyInteger('order_source')->comment('订单来源0直接下单1购物车');

@@ -136,7 +136,8 @@ class MallOrderResource extends MallResource implements HasShieldPermissions
                     ->searchable()
                     ->label('订单号'),
                 Tables\Columns\TextColumn::make('order_status')
-                    ->label('订单状态'),
+                    ->label('订单状态')
+                    ->badge(),
                 Tables\Columns\TextColumn::make('order_fact_money')
                     ->prefix('￥')
                     ->label('实付金额'),

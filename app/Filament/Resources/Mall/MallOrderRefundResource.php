@@ -141,6 +141,7 @@ class MallOrderRefundResource extends MallResource implements HasShieldPermissio
                 Tables\Columns\TextColumn::make('refund_type')
                     ->label('退款类型'),
                 Tables\Columns\TextColumn::make('refund_status')
+                    ->badge()
                     ->label('订单状态'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

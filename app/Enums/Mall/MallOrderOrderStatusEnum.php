@@ -3,9 +3,11 @@
 namespace App\Enums\Mall;
 
 use App\Support\Traits\EnumTrait;
+use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 
-enum MallOrderOrderStatusEnum: int implements HasLabel
+enum MallOrderOrderStatusEnum: int implements HasColor, HasIcon, HasLabel
 {
     use EnumTrait;
 
@@ -33,26 +35,27 @@ enum MallOrderOrderStatusEnum: int implements HasLabel
         };
     }
 
-    public function getColor(): string | array | null
+    public function getColor(): string|array|null
     {
         return match ($this) {
-            self::Order => 'warning',
-            self::Pay, self::Refund => 'Processing',
+            self::Order => 'info',
+            self::Pay, self::Refund => 'warning',
             self::Delivery, self::Finish => 'success',
             self::Close, self::Checkout, self::Cancel => 'danger',
         };
     }
 
-//    public function getIcon(): ?string
-//    {
-//        return match ($this) {
-//            self::New => 'heroicon-m-sparkles',
-//            self::Processing => 'heroicon-m-arrow-path',
-//            self::Shipped => 'heroicon-m-truck',
-//            self::Delivered => 'heroicon-m-check-badge',
-//            self::Cancelled => 'heroicon-m-x-circle',
-//        };
-//    }
+    public function getIcon(): ?string
+    {
+        return match ($this) {
+            self::Order => 'heroicon-s-currency-dollar',
+            self::Pay, self::Delivery => 'heroicon-m-truck',
+            self::Refund => 'heroicon-m-arrow-path',
+            self::Finish => 'heroicon-m-check-circle',
+            self::Close, self::Checkout => '',
+            self::Cancel => 'heroicon-m-x-circle',
+        };
+    }
 
 
 }
