@@ -5,7 +5,6 @@ namespace App\Providers\Filament;
 use App\Filament\Pages\Auth\CustomEditProfile;
 use App\Filament\Pages\Auth\CustomLogin;
 use App\Filament\Pages\Dashboard;
-use App\Filament\Resources\Mall\MallGoodsCategoryResource;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin;
 use Filament\Enums\ThemeMode;
@@ -71,6 +70,9 @@ class AdminPanelProvider extends PanelProvider
             ->profile(CustomEditProfile::class, false) // 个人资料页配置
             ->defaultThemeMode(ThemeMode::Light) // 默认主题
             ->databaseNotifications() // 开启数据库通知
+            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
+            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+            ->discoverClusters(in: app_path('Filament/Clusters'), for: 'App\\Filament\\Clusters')
             ->spa();
     }
 }

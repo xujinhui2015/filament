@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Filament\Resources\Mall;
+namespace App\Filament\Clusters\Mall\MallGoodsCluster\Resources;
 
+use App\Filament\Clusters\Mall\MallGoodsCluster;
 use App\Filament\Resources\Mall\MallExpressResource\Pages;
+use App\Filament\Resources\Mall\MallResource;
 use App\Models\Mall\MallExpress;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
@@ -16,10 +18,10 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class MallExpressResource extends MallResource implements HasShieldPermissions
 {
     protected static ?string $model = MallExpress::class;
+    protected static ?string $cluster = MallGoodsCluster::class;
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationLabel = '物流管理';
     protected static ?string $modelLabel = '物流管理';
-    protected static ?string $navigationGroup = '商城';
 
     public static function getPermissionPrefixes(): array
     {
@@ -98,7 +100,7 @@ class MallExpressResource extends MallResource implements HasShieldPermissions
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageMallExpresses::route('/'),
+            'index' => \App\Filament\Clusters\Mall\MallGoodsCluster\Resources\MallExpressResource\Pages\ManageMallExpresses::route('/'),
         ];
     }
 

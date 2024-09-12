@@ -13,7 +13,7 @@ use Illuminate\Support\Carbon;
  * @property int $order_refund_id
  * @property string|null $logistics_company_name 物流公司名称
  * @property string|null $logistics_no 快递单号
- * @property string $name 退货人姓名
+ * @property string $name 退货人名称
  * @property string $phone 退货人电话
  * @property string $province 省
  * @property string $city 市

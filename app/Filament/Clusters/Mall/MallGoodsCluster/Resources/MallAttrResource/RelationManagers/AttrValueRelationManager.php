@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\Mall\MallAttrResource\RelationManagers;
+namespace App\Filament\Clusters\Mall\MallGoodsCluster\Resources\MallAttrResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Forms\Form;

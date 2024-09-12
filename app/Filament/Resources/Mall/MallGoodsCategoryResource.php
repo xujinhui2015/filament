@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class MallGoodsCategoryResource extends MallResource implements HasShieldPermissions
 {
     protected static ?string $model = MallGoodsCategory::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationLabel = '商品分类';
     protected static ?string $modelLabel = '商品分类';

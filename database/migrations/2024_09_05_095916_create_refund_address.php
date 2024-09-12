@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('mall_refund_address', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name', 32)->comment('退货人姓名');
+            $table->string('name', 32)->comment('退货人名称');
             $table->string('phone', 32)->comment('退货人电话');
             $table->string('province', 32)->comment('省');
             $table->string('city', 32)->comment('市');
@@ -26,7 +26,7 @@ return new class extends Migration
         });
 
         Schema::table('mall_order_refund_logistics', function (Blueprint $table) {
-            $table->string('name', 32)->comment('退货人姓名')->after('logistics_no');
+            $table->string('name', 32)->comment('退货人名称')->after('logistics_no');
             $table->string('phone', 32)->comment('退货人电话')->after('name');
             $table->string('province', 32)->comment('省')->after('phone');
             $table->string('city', 32)->comment('市')->after('province');

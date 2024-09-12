@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Filament\Resources\Mall;
+namespace App\Filament\Clusters\Mall\MallGoodsCluster\Resources;
 
+use App\Filament\Clusters\Mall\MallGoodsCluster;
 use App\Filament\Resources\Mall\MallAttrResource\Pages;
 use App\Filament\Resources\Mall\MallAttrResource\RelationManagers;
+use App\Filament\Resources\Mall\MallResource;
 use App\Models\Mall\MallAttr;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
@@ -17,12 +19,12 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class MallAttrResource extends MallResource implements HasShieldPermissions
 {
     protected static ?string $model = MallAttr::class;
+    protected static ?string $cluster = MallGoodsCluster::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = '商品规格';
     protected static ?string $modelLabel = '商品规格';
-    protected static ?string $navigationGroup = '商城';
 
     public static function getPermissionPrefixes(): array
     {
@@ -107,16 +109,16 @@ class MallAttrResource extends MallResource implements HasShieldPermissions
     public static function getRelations(): array
     {
         return [
-            RelationManagers\AttrValueRelationManager::class,
+            MallGoodsCluster\Resources\MallAttrResource\RelationManagers\AttrValueRelationManager::class,
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListMallAttrs::route('/'),
-            'create' => Pages\CreateMallAttr::route('/create'),
-            'edit' => Pages\EditMallAttr::route('/{record}/edit'),
+            'index' => MallGoodsCluster\Resources\MallAttrResource\Pages\ListMallAttrs::route('/'),
+            'create' => MallGoodsCluster\Resources\MallAttrResource\Pages\CreateMallAttr::route('/create'),
+            'edit' => MallGoodsCluster\Resources\MallAttrResource\Pages\EditMallAttr::route('/{record}/edit'),
         ];
     }
 

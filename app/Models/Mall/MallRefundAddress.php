@@ -10,7 +10,7 @@ use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
- * @property string $name 退货人姓名
+ * @property string $name 退货人名称
  * @property string $phone 退货人电话
  * @property string $province 省
  * @property string $city 市
@@ -38,6 +38,18 @@ class MallRefundAddress extends BaseModel
             get: fn() => implode(' ', [
                 $this->name,
                 $this->phone,
+                $this->province,
+                $this->city,
+                $this->district,
+                $this->address
+            ]),
+        );
+    }
+
+    public function fullAddress(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => implode(' ', [
                 $this->province,
                 $this->city,
                 $this->district,
