@@ -6,8 +6,6 @@ php artisan make:filament-resource Customer/Customer --simple --generate --soft-
 --soft-deletes 处理软删除
 --view 生成查看页面
 
-php artisan make:filament-resource Mall/MallGoodsCluster --simple --generate --soft-deletes
-
 # 配置关联管理器
 php artisan make:filament-relation-manager OrderResource funds money
 
