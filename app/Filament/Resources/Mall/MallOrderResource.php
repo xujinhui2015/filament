@@ -168,22 +168,11 @@ class MallOrderResource extends MallResource implements HasShieldPermissions
                     ->label('更新时间'),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('order_status')
-                    ->options(MallOrderOrderStatusEnum::class)
-                    ->label('订单状态'),
-                Tables\Filters\TrashedFilter::make(),
                 FilamentService::getFilterDateRange('created_at'),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 self::getDeliveryFromOption(Tables\Actions\EditAction::make()),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
-                ]),
             ])
             ->headerActions([
                 Tables\Actions\ExportAction::make()

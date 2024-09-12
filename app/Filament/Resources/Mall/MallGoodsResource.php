@@ -338,7 +338,7 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
                     ->label('更新时间'),
             ])
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -346,11 +346,6 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
                 Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
-                ]),
                 Tables\Actions\BulkAction::make('批量上架')
                     ->button()
                     ->action(function (Collection $records) {

@@ -90,4 +90,9 @@ class MallGoodsCategoryResource extends MallResource implements HasShieldPermiss
 
         return $parentMenu->sortKeys();
     }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return MallGoodsCategory::query()->count();
+    }
 }

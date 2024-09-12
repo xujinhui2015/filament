@@ -66,7 +66,8 @@ class AdminPanelProvider extends PanelProvider
             ->plugins([
                 FilamentShieldPlugin::make(),
             ])
-            ->globalSearch()
+            ->globalSearch() // 开启全局搜索
+            ->breadcrumbs(false) // 禁用面包屑
             ->profile(CustomEditProfile::class, false) // 个人资料页配置
             ->defaultThemeMode(ThemeMode::Light) // 默认主题
             ->databaseNotifications() // 开启数据库通知
