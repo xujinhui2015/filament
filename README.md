@@ -50,6 +50,8 @@ php artisan log-viewer:publish
 ```bash
 # 省市区级联：直接在资源中的form方法里面的schema，添加如下代码即可
 FilamentService::getFormArea()
+# 自动生成模型注释
+php artisan property
 ```
 
 ## 使用到的包
