@@ -11,10 +11,15 @@ class MallGoodsCluster extends Cluster
     /**
      * 面包屑标题
      */
-    protected static ?string $clusterBreadcrumb = '商品资料';
+    protected static ?string $clusterBreadcrumb = '业务配置';
 
-    protected static ?string $navigationLabel = '商品资料';
+    protected static ?string $navigationLabel = '业务配置';
 
     protected static ?string $navigationGroup = '商城';
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return config('extend.custom.mall.enabled');
+    }
 
 }

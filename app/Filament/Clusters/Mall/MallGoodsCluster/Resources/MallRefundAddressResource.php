@@ -4,17 +4,18 @@ namespace App\Filament\Clusters\Mall\MallGoodsCluster\Resources;
 
 use App\Filament\Clusters\Mall\MallGoodsCluster;
 use App\Filament\Clusters\Mall\MallGoodsCluster\Resources\MallRefundAddressResource\Pages;
+use App\Filament\Resources\Mall\MallResource;
 use App\Models\Mall\MallRefundAddress;
 use App\Services\Filament\FilamentService;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class MallRefundAddressResource extends Resource
+class MallRefundAddressResource extends MallResource implements HasShieldPermissions
 {
     protected static ?string $model = MallRefundAddress::class;
 
@@ -24,6 +25,21 @@ class MallRefundAddressResource extends Resource
 
     protected static ?string $navigationLabel = '退货地址管理';
     protected static ?string $modelLabel = '退货地址';
+
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view_any',
+            'create',
+            'update',
+            'delete',
+            'delete_any',
+            'force_delete',
+            'force_delete_any',
+            'restore',
+            'restore_any',
+        ];
+    }
 
     public static function form(Form $form): Form
     {
