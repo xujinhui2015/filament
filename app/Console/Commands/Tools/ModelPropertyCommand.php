@@ -189,7 +189,7 @@ class ModelPropertyCommand extends Command
                 if (strpos($methodContent, 'return Attribute::make')) {
                     // 新版属性访问器
                     $docTitle = $this->getDocTitle($method->getDocComment());
-                    $methodProperties[] = ' * @property $' . Str::snake($methodName) . ($docTitle ? ' attribute:' . $docTitle : 'attribute');
+                    $methodProperties[] = ' * @property $' . Str::snake($methodName) . ($docTitle ? ' attribute:' . $docTitle : ' attribute');
                     continue;
                 }
 

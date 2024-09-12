@@ -20,6 +20,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property $contact_info attribute:联系方式
+ * @property $full_address attribute
  *
  * @method static Builder|MallRefundAddress query()
  */

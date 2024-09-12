@@ -22,7 +22,7 @@ use Illuminate\Support\Collection;
  * @property int $id
  * @property int $customer_id
  * @property string $order_no 订单号
- * @property MallOrderOrderStatusEnum $order_status 订单状态0待付款1待发货2待收货3退款处理4已完成5已关闭6锁单状态
+ * @property MallOrderOrderStatusEnum $order_status 订单状态0待付款1待发货2待收货3退款处理4已完成5已关闭6锁单状态7已取消
  * @property double $order_money 订单金额
  * @property double $order_fact_money 订单实付金额
  * @property MallOrderOrderSourceEnum $order_source 订单来源0直接下单1购物车
