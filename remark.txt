@@ -69,10 +69,11 @@ php artisan vendor:publish --force --tag=livewire:assets
 # 代码上线
 更新代码包： sudo -u www composer update --no-dev
 优化laravel配置： sudo -u www php artisan optimize
-缓存 Blade 图标：sudo -u www php artisan icons:cache
-缓存 Filament 组件：sudo -u www php artisan filament:clear-cached-components
-清空配置：sudo -u www php artisan config:clear
+优化filament配置： sudo -u www php artisan filament:optimize
 优化composer加载：sudo -u www composer dump-autoload -o --no-dev --classmap-authoritative
 # 代码上线，常驻命令
 pulse 性能监控： php artisan pulse:check
+
+清空配置：sudo -u www php artisan config:clear
+清空缓存配置：sudo -u www php artisan filament:optimize-clear
 
