@@ -2,12 +2,11 @@
 
 namespace App\Filament\Resources\Mall;
 
-use App\Enums\Mall\MallOrderOrderSourceEnum;
 use App\Enums\Mall\MallOrderOrderStatusEnum;
-use App\Enums\Mall\MallOrderPaymentEnum;
 use App\Filament\Exports\Mall\MallOrderExporter;
 use App\Filament\Resources\Mall\MallOrderResource\Pages;
 use App\Filament\Resources\Mall\MallOrderResource\RelationManagers\DetailRelationManager;
+use App\Filament\Resources\Mall\MallOrderResource\Widgets\MallOrderStats;
 use App\Models\Mall\MallExpress;
 use App\Models\Mall\MallOrder;
 use App\Services\Filament\FilamentService;
@@ -186,6 +185,13 @@ class MallOrderResource extends MallResource implements HasShieldPermissions
     {
         return [
             DetailRelationManager::class,
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            MallOrderStats::class
         ];
     }
 

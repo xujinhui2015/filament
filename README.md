@@ -68,6 +68,7 @@ Laravel的性能监控：https://github.com/laravel/pulse
 微信SDK：https://github.com/overtrue/laravel-wechat
 Laravel快速构建查询：https://github.com/spatie/laravel-query-builder
 Laravel实现注册路由：https://github.com/spatie/laravel-route-attributes
+Laravel 图表数据生成工具：https://github.com/Flowframe/laravel-trend
 ```
 
 

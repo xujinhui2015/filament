@@ -23,6 +23,11 @@ class ListMallOrders extends ListRecords
         ];
     }
 
+    protected function getHeaderWidgets(): array
+    {
+        return self::$resource::getWidgets();
+    }
+
     public function getTabs(): array
     {
         $list = MallOrderOrderStatusEnum::cases();
