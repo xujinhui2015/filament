@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\Traits\FormatModelDateTrait;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
@@ -29,7 +30,7 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class User extends Authenticatable implements HasAvatar, FilamentUser
 {
-    use HasFactory, HasRoles, Notifiable;
+    use HasFactory, HasRoles, Notifiable, FormatModelDateTrait;
 
     protected $table = 'users';
 
