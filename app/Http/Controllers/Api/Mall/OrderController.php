@@ -7,6 +7,7 @@ use App\Enums\MakeOrderNoEnum;
 use App\Enums\Mall\MallOrderOrderStatusEnum;
 use App\Enums\Mall\MallOrderPaymentEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\IdRequest;
 use App\Http\Requests\Mall\MallOrderCreateRequest;
 use App\Http\Requests\Mall\MallOrderPaymentRequest;
 use App\Models\Mall\MallGoodsSku;
@@ -176,7 +177,7 @@ class OrderController extends Controller
      * 订单详情
      */
     #[Post('show')]
-    public function show(Request $request)
+    public function show(IdRequest $request)
     {
         return $this->success(MallOrder::query()
             ->where('customer_id', $this->getCustomerId())
