@@ -25,4 +25,9 @@ class BaseModel extends Model
     {
         return min(request()->input('per_page', $this->perPage), 100);
     }
+
+    public static function getTableName(): string
+    {
+        return (new static)->getTable();
+    }
 }

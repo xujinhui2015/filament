@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\IdsRequest;
+use App\Http\Requests\Mall\MallAddressStoreRequest;
 use App\Models\Customer\CustomerAddress;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -26,14 +28,15 @@ class AddressController extends Controller
     }
 
     #[Post('store')]
-    public function store(Request $request): JsonResponse
+    public function store(MallAddressStoreRequest $request): JsonResponse
     {
-        $storeData = $request->only([
+        $storeData = $request->safe([
             'name', 'phone', 'province', 'city', 'district', 'address',
         ]);
+
         if ($request->has('id')) {
             CustomerAddress::query()
-                ->where('id', $request->post('id'))
+                ->whereId($request->post('id'))
                 ->where('customer_id', $this->getCustomerId())
                 ->update($storeData);
         } else {
@@ -48,7 +51,7 @@ class AddressController extends Controller
     }
 
     #[Post('destroy')]
-    public function destroy(Request $request): JsonResponse
+    public function destroy(IdsRequest $request): JsonResponse
     {
         CustomerAddress::query()
             ->where('customer_id', $this->getCustomerId())

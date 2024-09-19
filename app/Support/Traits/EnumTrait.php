@@ -57,4 +57,11 @@ trait EnumTrait
         return $result;
     }
 
+    public static function values(): array
+    {
+        return array_map(function ($value) {
+            return $value->value;
+        }, self::cases());
+    }
+
 }

@@ -15,7 +15,7 @@ class MallStockService
     public static function checkStock($goodsSkuId, $checkStock): bool
     {
         return MallGoodsSku::query()
-                ->where('id', $goodsSkuId)
+                ->whereId($goodsSkuId)
                 ->value('stock') >= $checkStock;
     }
 

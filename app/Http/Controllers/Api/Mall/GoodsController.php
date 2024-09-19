@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Mall;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\IdRequest;
 use App\Models\Mall\MallGoods;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -26,7 +27,7 @@ class GoodsController extends Controller
     }
 
     #[Post('show')]
-    public function show(Request $request): JsonResponse
+    public function show(IdRequest $request): JsonResponse
     {
         return $this->success(MallGoods::query()
             ->selectRaw('id,goods_sn,goods_name,subtitle,main_img,images,content,is_sale')

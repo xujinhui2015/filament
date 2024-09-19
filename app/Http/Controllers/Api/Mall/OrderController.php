@@ -7,6 +7,8 @@ use App\Enums\MakeOrderNoEnum;
 use App\Enums\Mall\MallOrderOrderStatusEnum;
 use App\Enums\Mall\MallOrderPaymentEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Mall\MallOrderCreateRequest;
+use App\Http\Requests\Mall\MallOrderPaymentRequest;
 use App\Models\Mall\MallGoodsSku;
 use App\Models\Mall\MallOrder;
 use App\Services\Customer\CustomerService;
@@ -30,7 +32,7 @@ class OrderController extends Controller
      * 创建订单
      */
     #[Post('create')]
-    public function create(Request $request): JsonResponse
+    public function create(MallOrderCreateRequest $request): JsonResponse
     {
         $detail = $request->post('detail');
         // 检查库存
@@ -48,7 +50,7 @@ class OrderController extends Controller
                     'order_status' => MallOrderOrderStatusEnum::Checkout,
                     'order_money' => 0,
                     'order_fact_money' => 0,
-                    ... $request->only([
+                    ... $request->safe([
                         'order_source', 'name', 'phone',
                         'province', 'city', 'district', 'address'
                     ]),
@@ -97,7 +99,7 @@ class OrderController extends Controller
      * 提交支付
      */
     #[Post('payment')]
-    public function payment(Request $request)
+    public function payment(MallOrderPaymentRequest $request)
     {
         $order = MallOrder::query()
             ->where('customer_id', $this->getCustomerId())

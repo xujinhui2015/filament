@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api\Mall;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\IdRequest;
+use App\Http\Requests\IdsRequest;
+use App\Http\Requests\Mall\MallCartStoreRequest;
 use App\Models\Mall\MallCart;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -35,27 +38,20 @@ class CartController extends Controller
     }
 
     #[Post('store')]
-    public function store(Request $request): JsonResponse
+    public function store(MallCartStoreRequest $request): JsonResponse
     {
         $requestData = $request->post('carts');
-
         foreach ($requestData as $item) {
-            $storeData = [
-                'goods_id' => $item['goods_id'],
-                'goods_sku_id' => $item['goods_sku_id'],
-                'goods_number' => $item['goods_number'],
-            ];
-            if (isset($item['id'])) {
-                MallCart::query()
-                    ->where('customer_id', $this->getCustomerId())
-                    ->update($storeData);
-            } else {
-                MallCart::query()
-                    ->create([
-                        'customer_id' => $this->getCustomerId(),
-                        ... $storeData
-                    ]);
-            }
+            MallCart::query()
+                ->updateOrCreate([
+                    'customer_id' => $this->getCustomerId(),
+                    'goods_id' => $item['goods_id'],
+                    'goods_sku_id' => $item['goods_sku_id'],
+                ], [
+                    'goods_id' => $item['goods_id'],
+                    'goods_sku_id' => $item['goods_sku_id'],
+                    'goods_number' => $item['goods_number'],
+                ]);
         }
 
         return $this->ok();
@@ -63,11 +59,13 @@ class CartController extends Controller
     }
 
     #[Post('destroy')]
-    public function destroy(Request $request): JsonResponse
+    public function destroy(IdsRequest $request): JsonResponse
     {
         MallCart::query()
             ->where('customer_id', $this->getCustomerId())
-            ->find($request->post('id'))
+            ->whereIn('id', $request->post('ids'))
+            ->get()
+            ->each
             ->delete();
 
         return $this->ok();
