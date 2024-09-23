@@ -65,6 +65,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 FilamentShieldPlugin::make(),
+                GlobalSearchModalPlugin::make()
             ])
             ->globalSearch() // 开启全局搜索
             ->breadcrumbs(false) // 禁用面包屑

@@ -11,6 +11,7 @@
         "php": "^8.3",
         "ext-bcmath": "*",
         "bezhansalleh/filament-shield": "^3.2",
+        "charrafimed/global-search-modal": "^3.2",
         "codewithdennis/filament-select-tree": "^3.1",
         "filament/filament": "^3.2",
         "flowframe/laravel-trend": "^0.2.0",
