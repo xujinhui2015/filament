@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\IdRequest;
 use App\Models\Mall\MallGoods;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\RouteAttributes\Attributes\Post;
 use Spatie\RouteAttributes\Attributes\Prefix;

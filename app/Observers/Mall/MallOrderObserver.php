@@ -2,7 +2,6 @@
 
 namespace App\Observers\Mall;
 
-use App\Enums\Mall\MallOrderOrderStatusEnum;
 use App\Models\Mall\MallOrder;
 
 class MallOrderObserver

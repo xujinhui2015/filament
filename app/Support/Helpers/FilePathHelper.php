@@ -12,9 +12,9 @@ use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
  */
 class FilePathHelper
 {
-    const DEFAULT = 'default';
-    const AVATAR = 'avatar'; // 头像相关
-    const MALL_GOODS = 'mall_goods'; // 商品图
+    const string DEFAULT = 'default';
+    const string AVATAR = 'avatar'; // 头像相关
+    const string MALL_GOODS = 'mall_goods'; // 商品图
 
     /**
      * 上传设置

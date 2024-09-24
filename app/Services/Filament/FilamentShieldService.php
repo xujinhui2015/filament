@@ -2,7 +2,6 @@
 
 namespace App\Services\Filament;
 
-use Illuminate\Support\Facades\File;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RegexIterator;

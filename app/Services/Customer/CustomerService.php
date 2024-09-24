@@ -6,9 +6,7 @@ use App\Enums\Customer\CustomerBalanceSceneTypeEnum;
 use App\Models\Customer\Customer;
 use App\Support\Exceptions\ResponseException;
 use App\Support\Helpers\AccuracyCalcHelper;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\DB;
-use Jiannei\Response\Laravel\Support\Facades\Response;
 
 class CustomerService
 {

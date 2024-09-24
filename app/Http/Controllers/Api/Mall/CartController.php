@@ -3,14 +3,11 @@
 namespace App\Http\Controllers\Api\Mall;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\IdRequest;
 use App\Http\Requests\IdsRequest;
 use App\Http\Requests\Mall\MallCartStoreRequest;
 use App\Models\Mall\MallCart;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Middleware;
 use Spatie\RouteAttributes\Attributes\Post;
 use Spatie\RouteAttributes\Attributes\Prefix;

@@ -2,10 +2,8 @@
 namespace App\Services\Mall;
 
 use App\Enums\Customer\CustomerBalanceSceneTypeEnum;
-use App\Enums\Mall\MallOrderOrderStatusEnum;
 use App\Enums\Mall\MallOrderPaymentEnum;
 use App\Enums\Mall\MallOrderRefundRefundStatusEnum;
-use App\Models\Mall\MallOrder;
 use App\Models\Mall\MallOrderRefund;
 use App\Services\Customer\CustomerService;
 use Illuminate\Support\Facades\DB;

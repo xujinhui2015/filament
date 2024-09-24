@@ -15,7 +15,7 @@ class MallExpressPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_mall::mall::express');
+        return $user->can('view_any_mall::express');
     }
 
     /**
@@ -31,7 +31,7 @@ class MallExpressPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_mall::mall::express');
+        return $user->can('create_mall::express');
     }
 
     /**
@@ -39,7 +39,7 @@ class MallExpressPolicy
      */
     public function update(User $user, MallExpress $mallExpress): bool
     {
-        return $user->can('update_mall::mall::express');
+        return $user->can('update_mall::express');
     }
 
     /**
@@ -47,7 +47,7 @@ class MallExpressPolicy
      */
     public function delete(User $user, MallExpress $mallExpress): bool
     {
-        return $user->can('delete_mall::mall::express');
+        return $user->can('delete_mall::express');
     }
 
     /**
@@ -55,7 +55,7 @@ class MallExpressPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_mall::mall::express');
+        return $user->can('delete_any_mall::express');
     }
 
     /**
@@ -63,7 +63,7 @@ class MallExpressPolicy
      */
     public function forceDelete(User $user, MallExpress $mallExpress): bool
     {
-        return $user->can('force_delete_mall::mall::express');
+        return $user->can('force_delete_mall::express');
     }
 
     /**
@@ -71,7 +71,7 @@ class MallExpressPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_mall::mall::express');
+        return $user->can('force_delete_any_mall::express');
     }
 
     /**
@@ -79,7 +79,7 @@ class MallExpressPolicy
      */
     public function restore(User $user, MallExpress $mallExpress): bool
     {
-        return $user->can('restore_mall::mall::express');
+        return $user->can('restore_mall::express');
     }
 
     /**
@@ -87,7 +87,7 @@ class MallExpressPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_mall::mall::express');
+        return $user->can('restore_any_mall::express');
     }
 
     /**

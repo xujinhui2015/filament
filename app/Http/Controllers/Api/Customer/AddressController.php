@@ -7,7 +7,6 @@ use App\Http\Requests\IdsRequest;
 use App\Http\Requests\Mall\MallAddressStoreRequest;
 use App\Models\Customer\CustomerAddress;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Middleware;
 use Spatie\RouteAttributes\Attributes\Post;
 use Spatie\RouteAttributes\Attributes\Prefix;

@@ -18,7 +18,6 @@ use App\Services\Mall\MallStockService;
 use App\Support\Helpers\AccuracyCalcHelper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\RouteAttributes\Attributes\Middleware;

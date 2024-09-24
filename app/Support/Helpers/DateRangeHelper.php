@@ -9,8 +9,8 @@ use Carbon\Carbon;
  */
 class DateRangeHelper
 {
-    const FORMAT_TYPE_DATETIME = 'datetime';
-    const FORMAT_TYPE_TIMESTAMP = 'timestamp';
+    const string FORMAT_TYPE_DATETIME = 'datetime';
+    const string FORMAT_TYPE_TIMESTAMP = 'timestamp';
 
     private function __construct(
         private readonly Carbon $calcDate,
