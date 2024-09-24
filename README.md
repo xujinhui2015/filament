@@ -57,8 +57,7 @@ php artisan property
 ## 接口文档
 
 ```bash
-# 文档地址
-https://docsify.js.org/#/zh-cn/quickstart
+使用说明：https://docsify.js.org/#/zh-cn/quickstart
 访问地址：{APP_URL}/docs
 文档目录：/docs 的文件夹下面便是，如需要排序的话在文件或者目录前缀加上序号即可
 # 执行如下代码，自动根据文档目录覆盖 _sidebar.md 侧边栏
