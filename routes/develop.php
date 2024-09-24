@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Develop\DocsController;
+use App\Http\Controllers\Develop\TestController;
 use Illuminate\Support\Facades\Route;
 
-// 接口文档
-Route::get('docs', [DocsController::class, 'index']);
+// 测试接口
+Route::get('test', [TestController::class, 'index']);

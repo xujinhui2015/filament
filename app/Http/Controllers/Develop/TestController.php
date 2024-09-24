@@ -1,18 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Develop;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer\Customer;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\RouteAttributes\Attributes\Any;
-use Spatie\RouteAttributes\Attributes\Prefix;
 
-#[Prefix('test')]
 class TestController extends Controller
 {
-    #[Any('/')]
     public function index()
     {
         // https://github.com/spatie/laravel-query-builder 示例

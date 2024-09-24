@@ -4,6 +4,7 @@ namespace App\Console\Commands\Tools;
 
 use Doctrine\DBAL\Exception;
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Console\Isolatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
@@ -12,7 +13,7 @@ use ReflectionMethod;
 use SplFileObject;
 use UnitEnum;
 
-class ModelPropertyCommand extends Command
+class ModelPropertyCommand extends Command implements Isolatable
 {
     /**
      * The name and signature of the console command.

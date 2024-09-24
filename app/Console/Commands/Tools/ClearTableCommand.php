@@ -7,8 +7,9 @@ use App\Models\Customer\CustomerBalanceRecord;
 use App\Models\Customer\CustomerPointsRecord;
 use App\Models\Customer\CustomerWechat;
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Console\Isolatable;
 
-class ClearTableCommand extends Command
+class ClearTableCommand extends Command  implements Isolatable
 {
     protected $signature = 'clear-table';
 

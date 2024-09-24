@@ -15,9 +15,17 @@
         name: '',
         repo: '',
         loadSidebar: true,
+        alias: {
+            '/.*/_sidebar.md': '/_sidebar.md'
+        },
         subMaxLevel: 2,
         // 搜索
-        search: 'auto',
+        search: {
+            // maxAge: 86400000, // 过期时间，单位毫秒，默认一天
+            maxAge: 1000, // 不设置缓存
+            paths: 'auto',
+            placeholder: '搜索',
+        },
         // 复制功能
         copyCode: {
             buttonText: '复制',
