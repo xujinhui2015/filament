@@ -7,6 +7,7 @@ use App\Enums\Mall\MallOrderOrderStatusEnum;
 use App\Enums\Mall\MallOrderRefundRefundStatusEnum;
 use App\Enums\Mall\MallOrderRefundRefundTypeEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Mall\Refund\MallRefundCreateRequest;
 use App\Models\Mall\MallOrder;
 use App\Models\Mall\MallOrderDetail;
 use App\Models\Mall\MallOrderRefund;
@@ -65,7 +66,7 @@ class RefundController extends Controller
      * 申请退款
      */
     #[Post('create')]
-    public function create(Request $request)
+    public function create(MallRefundCreateRequest $request)
     {
         $mallOrder = MallOrder::query()
             ->where('customer_id', $this->getCustomerId())
@@ -100,35 +101,20 @@ class RefundController extends Controller
         });
 
         DB::transaction(function () use ($mallOrder, $refundMoney, $request, $detail) {
-            if ($mallOrder->order_status->isEq(MallOrderOrderStatusEnum::Pay)) {
-                // 仅退款
-                /** @var MallOrderRefund $refund */
-                $refund = MallOrderRefund::query()->create([
-                    'order_id' => $mallOrder->id,
-                    'refund_order_no' => MakeOrderNoEnum::MallRefundOrder->new(),
-                    'refund_type' => MallOrderRefundRefundTypeEnum::Only,
-                    'refund_status' => MallOrderRefundRefundStatusEnum::Applied,
-                    'refund_money' => $refundMoney,
-                    'phone' => $request->post('phone'),
-                    'refund_reason' => $request->post('refund_reason'),
-                    'buyer_message' => $request->post('buyer_message'),
-                    'buyer_images' => $request->post('buyer_images'),
-                ]);
-            } else {
-                // 退货退款
-                /** @var MallOrderRefund $refund */
-                $refund = MallOrderRefund::query()->create([
-                    'order_id' => $mallOrder->id,
-                    'refund_order_no' => MakeOrderNoEnum::MallRefundOrder->new(),
-                    'refund_type' => MallOrderRefundRefundTypeEnum::Return,
-                    'refund_status' => MallOrderRefundRefundStatusEnum::Applied,
-                    'refund_money' => $refundMoney,
-                    'phone' => $request->post('phone'),
-                    'refund_reason' => $request->post('refund_reason'),
-                    'buyer_message' => $request->post('buyer_message'),
-                    'buyer_images' => $request->post('buyer_images'),
-                ]);
-            }
+            /** @var MallOrderRefund $refund */
+            $refund = MallOrderRefund::query()->create([
+                'order_id' => $mallOrder->id,
+                'refund_order_no' => MakeOrderNoEnum::MallRefundOrder->new(),
+                'refund_type' =>
+                    $mallOrder->order_status->isEq(MallOrderOrderStatusEnum::Pay)
+                        ? MallOrderRefundRefundTypeEnum::Only : MallOrderRefundRefundTypeEnum::Return,
+                'refund_status' => MallOrderRefundRefundStatusEnum::Applied,
+                'refund_money' => $refundMoney,
+                'phone' => $request->post('phone'),
+                'refund_reason' => $request->post('refund_reason'),
+                'buyer_message' => $request->post('buyer_message'),
+                'buyer_images' => $request->post('buyer_images'),
+            ]);
 
             $refund->detail()->createMany($detail);
             // 设置主订单状态

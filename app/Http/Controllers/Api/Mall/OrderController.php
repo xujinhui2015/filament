@@ -8,8 +8,9 @@ use App\Enums\Mall\MallOrderOrderStatusEnum;
 use App\Enums\Mall\MallOrderPaymentEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IdRequest;
-use App\Http\Requests\Mall\MallOrderCreateRequest;
-use App\Http\Requests\Mall\MallOrderPaymentRequest;
+use App\Http\Requests\Mall\Order\MallOrderCalcRequest;
+use App\Http\Requests\Mall\Order\MallOrderCreateRequest;
+use App\Http\Requests\Mall\Order\MallOrderPaymentRequest;
 use App\Models\Mall\MallGoodsSku;
 use App\Models\Mall\MallOrder;
 use App\Services\Customer\CustomerService;
@@ -50,10 +51,7 @@ class OrderController extends Controller
                     'order_status' => MallOrderOrderStatusEnum::Checkout,
                     'order_money' => 0,
                     'order_fact_money' => 0,
-                    ... $request->safe([
-                        'order_source', 'name', 'phone',
-                        'province', 'city', 'district', 'address'
-                    ]),
+                    'order_source' => $request->post('order_source'),
                 ]);
 
             $goodsSkus = MallGoodsSku::query()
@@ -96,6 +94,38 @@ class OrderController extends Controller
     }
 
     /**
+     * 计算订单金额
+     */
+    #[Post('calc')]
+    public function calc(MallOrderCalcRequest $request): JsonResponse
+    {
+        $order = MallOrder::query()
+            ->where('customer_id', $this->getCustomerId())
+            ->find($request->post('id'));
+
+        if (!$order) {
+            return $this->fail('订单不存在');
+        }
+
+        if (
+            $order->order_status->isNeq(MallOrderOrderStatusEnum::Checkout)
+            && $order->order_status->isNeq(MallOrderOrderStatusEnum::Order)
+        ) {
+            return $this->fail('订单状态异常');
+        }
+
+        $order->update($request->safe([
+            'name', 'phone', 'province', 'city',
+            'district', 'address', 'buyer_remark'
+        ]));
+
+        return $this->success([
+            'postage' => $order->postage,
+            'order_fact_money' => $order->order_fact_money,
+        ]);
+    }
+
+    /**
      * 提交支付
      */
     #[Post('payment')]
@@ -115,6 +145,17 @@ class OrderController extends Controller
             && $order->order_status->isNeq(MallOrderOrderStatusEnum::Order)
         ) {
             return $this->fail('订单状态异常');
+        }
+
+        // 检查是否设置地址
+        if (is_null($order->name)
+            || is_null($order->phone)
+            || is_null($order->province)
+            || is_null($order->city)
+            || is_null($order->district)
+            || is_null($order->address)
+        ) {
+            return $this->fail('未设置发货地址');
         }
 
         // 检查库存
@@ -165,7 +206,7 @@ class OrderController extends Controller
                 AllowedFilter::exact('order_status'),
             ])
             ->orderByDesc('id')
-            ->selectRaw('id,customer_id,order_no,order_status,order_money,order_fact_money,last_pay_time,created_at')
+            ->selectRaw('id,order_no,order_status,order_money,order_fact_money,last_pay_time,created_at')
             ->with([
                 'detail:id,order_id,goods_id,goods_sku_id,goods_name,goods_spec,goods_image,goods_price,goods_number',
             ])

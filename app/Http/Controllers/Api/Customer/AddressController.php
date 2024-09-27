@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Customer\AddressStoreRequest;
 use App\Http\Requests\IdsRequest;
-use App\Http\Requests\Mall\MallAddressStoreRequest;
 use App\Models\Customer\CustomerAddress;
 use Illuminate\Http\JsonResponse;
 use Spatie\RouteAttributes\Attributes\Middleware;
@@ -27,7 +27,7 @@ class AddressController extends Controller
     }
 
     #[Post('store')]
-    public function store(MallAddressStoreRequest $request): JsonResponse
+    public function store(AddressStoreRequest $request): JsonResponse
     {
         $storeData = $request->safe([
             'name', 'phone', 'province', 'city', 'district', 'address',

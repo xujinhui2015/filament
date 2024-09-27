@@ -131,12 +131,12 @@ return new class extends Migration
             $table->unsignedTinyInteger('order_source')->comment('订单来源0直接下单1购物车');
             $table->unsignedTinyInteger('payment')->nullable()->comment('支付方式1余额支付2微信支付');
 
-            $table->string('name', 32)->comment('收货人姓名');
-            $table->string('phone', 32)->comment('收货人电话');
-            $table->string('province', 32)->comment('省');
-            $table->string('city', 32)->comment('市');
-            $table->string('district', 32)->comment('区');
-            $table->string('address')->comment('详细地址');
+            $table->string('name', 32)->nullable()->comment('收货人姓名');
+            $table->string('phone', 32)->nullable()->comment('收货人电话');
+            $table->string('province', 32)->nullable()->comment('省');
+            $table->string('city', 32)->nullable()->comment('市');
+            $table->string('district', 32)->nullable()->comment('区');
+            $table->string('address')->nullable()->comment('详细地址');
 
             $table->dateTime('last_pay_time')->nullable()->comment('最后付款时间');
             $table->dateTime('pay_time')->nullable()->comment('付款时间');

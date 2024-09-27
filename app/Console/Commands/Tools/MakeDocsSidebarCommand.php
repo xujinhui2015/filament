@@ -8,7 +8,7 @@ use JetBrains\PhpStorm\NoReturn;
 
 class MakeDocsSidebarCommand extends Command implements Isolatable
 {
-    protected $signature = 'docs';
+    protected $signature = 'tool:sidebar';
 
     protected $description = '生成文档的侧边栏文件的代码';
 

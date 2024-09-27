@@ -20,7 +20,7 @@ class ModelPropertyCommand extends Command implements Isolatable
      *
      * @var string
      */
-    protected $signature = 'property';
+    protected $signature = 'tool:property';
 
     /**
      * The console command description.

@@ -39,7 +39,7 @@ class MallGoodsSku extends BaseModel
     {
         return Attribute::make(
             get: fn() => MallCacheKeyEnum::SkuSpec->cacheData([$this->spec], function () {
-                return MallAttrValue::query()
+                return MallGoodsAttrValue::query()
                     ->whereIn('id', explode('-', $this->spec))
                     ->pluck('attr_value_name')
                     ->implode('-');

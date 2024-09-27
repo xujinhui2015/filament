@@ -11,7 +11,7 @@ use Illuminate\Contracts\Console\Isolatable;
 
 class ClearTableCommand extends Command  implements Isolatable
 {
-    protected $signature = 'clear-table';
+    protected $signature = 'tool:clear-table';
 
     protected $description = '清理表数据';
 

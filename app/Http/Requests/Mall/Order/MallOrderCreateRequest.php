@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Mall;
+namespace App\Http\Requests\Mall\Order;
 
 use App\Enums\Mall\MallOrderOrderSourceEnum;
 use App\Models\Mall\MallGoodsSku;
@@ -27,12 +27,6 @@ class MallOrderCreateRequest extends FormRequest
                 'required',
                 Rule::in(MallOrderOrderSourceEnum::values()),
             ],
-            'name' => 'required|max:32',
-            'phone' => 'required|max:32',
-            'province' => 'required|max:32',
-            'city' => 'required|max:32',
-            'district' => 'required|max:32',
-            'address' => 'required|max:255',
             'detail' => 'required|array',
             'detail.*.goods_sku_id' => 'required|integer|exists:' . MallGoodsSku::getTableName() . ',id',
             'detail.*.goods_number' => 'required|integer|min:1',

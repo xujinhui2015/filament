@@ -27,12 +27,12 @@ use Illuminate\Support\Collection;
  * @property double $order_fact_money 订单实付金额
  * @property MallOrderOrderSourceEnum $order_source 订单来源0直接下单1购物车
  * @property MallOrderPaymentEnum|null $payment 支付方式0余额支付1微信支付
- * @property string $name 收货人姓名
- * @property string $phone 收货人电话
- * @property string $province 省
- * @property string $city 市
- * @property string $district 区
- * @property string $address 详细地址
+ * @property string|null $name 收货人姓名
+ * @property string|null $phone 收货人电话
+ * @property string|null $province 省
+ * @property string|null $city 市
+ * @property string|null $district 区
+ * @property string|null $address 详细地址
  * @property Carbon|null $last_pay_time 最后付款时间
  * @property Carbon|null $pay_time 付款时间
  * @property Carbon|null $delivery_time 发货时间
