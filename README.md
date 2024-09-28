@@ -64,6 +64,8 @@ php artisan property
 php artisan docs
 ```
 
+![输入图片说明](demo/doc1.png)
+
 ## 使用到的包
 ```bash
 filament后台权限管理： https://github.com/bezhanSalleh/filament-shield
