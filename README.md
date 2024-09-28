@@ -39,12 +39,17 @@ php artisan log-viewer:publish
 访问地址 {APP_URL}/log-viewer
 ```
 
+![输入图片说明](demo/log1.png)
+
 ## 性能监控
 ```bash
+# 使用文档：https://laravel.com/docs/11.x/pulse
+# 服务器记录器，需要长期异步执行：php artisan pulse:check
 # 必须登录users表ID=1的账户，才能查看
 访问地址 {APP_URL}/pulse
 ```
 
+![输入图片说明](demo/pulse1.png)
 
 ## 常用方法
 ```bash
