@@ -2,6 +2,7 @@
 
 namespace App\Models\Mall;
 
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
@@ -16,7 +17,7 @@ use Illuminate\Support\Carbon;
  *
  * @method static Builder|MallExpress query()
  */
-class MallExpress extends Model
+class MallExpress extends BaseModel
 {
     use SoftDeletes;
 
