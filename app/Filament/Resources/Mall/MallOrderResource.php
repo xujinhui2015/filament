@@ -214,7 +214,9 @@ class MallOrderResource extends MallResource implements HasShieldPermissions
 
     public static function getNavigationBadge(): ?string
     {
-        return MallOrder::query()->count();
+        return MallOrder::query()
+            ->whereNotIn('order_status', [MallOrderOrderStatusEnum::Checkout, MallOrderOrderStatusEnum::Close])
+            ->count();
     }
 
     public static function getDeliveryFromOption(EditAction|Tables\Actions\EditAction $object): EditAction|Tables\Actions\EditAction
