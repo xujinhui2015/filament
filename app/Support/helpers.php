@@ -40,12 +40,12 @@ function fake_phone(): string
 function format_large_number($number): string
 {
     if ($number < 10000) {
-        return (string) Number::format($number, 0);
+        return (string) Number::format((float)$number, 0);
     }
 
     if ($number < 100000000) {
-        return Number::format($number / 1000, 2) . '万';
+        return Number::format((float)$number / 1000, 2) . '万';
     }
 
-    return Number::format($number / 100000000, 2) . '亿';
+    return Number::format((float)$number / 100000000, 2) . '亿';
 }
