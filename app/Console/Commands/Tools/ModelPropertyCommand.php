@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands\Tools;
 
-use Doctrine\DBAL\Exception;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\Isolatable;
 use Illuminate\Database\Eloquent\Model;
