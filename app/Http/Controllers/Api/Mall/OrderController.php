@@ -18,6 +18,8 @@ use App\Services\Mall\MallOrderService;
 use App\Services\Mall\MallStockService;
 use App\Support\Helpers\AccuracyCalcHelper;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -230,6 +232,33 @@ class OrderController extends Controller
                 'detail:id,order_id,goods_id,goods_sku_id,goods_name,goods_spec,goods_image,goods_price,goods_number',
             ])
             ->find($request->post('id')));
+    }
+
+    /**
+     * 确认收货
+     */
+    #[Post('confirm')]
+    public function confirm(IdRequest $request)
+    {
+        $order = MallOrder::query()
+            ->where('customer_id', $this->getCustomerId())
+            ->find($request->post('id'));
+
+        if (!$order) {
+            return $this->fail('订单不存在');
+        }
+
+        // 检查订单状态
+        if ($order->order_status->isNeq(MallOrderOrderStatusEnum::Delivery)) {
+            return $this->fail('订单状态异常');
+        }
+
+        $order->update([
+            'order_status' => MallOrderOrderStatusEnum::Finish,
+            'finish_time' => Carbon::now(),
+        ]);
+
+        return $this->ok();
     }
 
 
