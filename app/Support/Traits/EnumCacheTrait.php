@@ -11,7 +11,7 @@ trait EnumCacheTrait
      */
     public function key($args): string
     {
-        return $this->prefix() . ':' . vsprintf($this->value, $args);
+        return $this->prefix() . ':' . ($args ? vsprintf($this->value, $args) : $this->value);
     }
 
     /**
