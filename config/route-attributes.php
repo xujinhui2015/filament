@@ -16,9 +16,6 @@ return [
         app_path('Http/Controllers/Api') => [
             'prefix' => 'api',
         ],
-        app_path('Http/Controllers/Develop') => [
-            'prefix' => 'develop',
-        ]
         //        app_path('Http/Controllers'),
         /*
         app_path('Http/Controllers/Api') => [
