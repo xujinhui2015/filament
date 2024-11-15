@@ -15,8 +15,6 @@ class TestController extends Controller
     #[Any('index')]
     public function index()
     {
-
-
         // https://github.com/spatie/laravel-query-builder 示例
         $list = QueryBuilder::for(Customer::class)
             // 请求传 filter[nickname]=aaaa，这里的phone表示精确过滤
