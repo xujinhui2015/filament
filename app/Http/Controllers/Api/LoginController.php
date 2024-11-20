@@ -9,7 +9,6 @@ use App\Models\Customer\Customer;
 use App\Models\Customer\CustomerWechat;
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Overtrue\LaravelWeChat\EasyWeChat;
 use Spatie\RouteAttributes\Attributes\Post;
