@@ -35,6 +35,5 @@ enum CustomerPointsSceneTypeEnum: int implements HasLabel
         } catch (UnhandledMatchError) {
             throw new UnhandledMatchError('积分未设置正负值符号');
         }
-
     }
 }

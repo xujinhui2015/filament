@@ -7,9 +7,9 @@ namespace App\Support\Helpers;
  * 精确计算类，支持链式调用
  * 调用方法
  * 保留两位小数的方式精确计算
- * $accuracyCal = new AccuracyCal(2);
- * 以下代表表达式：0.1 + 2 - 1.1
- * $result = $accuracyCal->number(0.1)->add(2)->sub(1.1)->result();
+ * $accuracyCal = new AccuracyCal(1);
+ * 以下代表表达式：1 + 2 - 1.1
+ * $result = $accuracyCal->add(2)->sub(1.1)->result();
  */
 class AccuracyCalcHelper
 {
