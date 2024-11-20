@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Mall\Order;
+namespace App\Http\Requests\Api\Mall\Order;
 
 use App\Enums\Mall\MallOrderOrderSourceEnum;
 use App\Models\Mall\MallGoodsSku;

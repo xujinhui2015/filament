@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Mall\Goods;
+namespace App\Http\Requests\Api\Mall\Cart;
 
 use App\Models\Mall\MallGoodsSku;
 use Illuminate\Foundation\Http\FormRequest;

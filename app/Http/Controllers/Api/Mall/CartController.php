@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\Mall;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Mall\Cart\MallCartStoreRequest;
 use App\Http\Requests\IdsRequest;
-use App\Http\Requests\Mall\Goods\MallCartStoreRequest;
 use App\Models\Mall\MallCart;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\JsonResponse;

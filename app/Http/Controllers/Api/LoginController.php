@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\TokenEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\LoginMiniRequest;
 use App\Models\Customer\Customer;
 use App\Models\Customer\CustomerWechat;
 use EasyWeChat\Kernel\Exceptions\HttpException;
@@ -26,12 +27,8 @@ class LoginController extends Controller
      * 小程序登录
      */
     #[Post('mini')]
-    public function mini(Request $request): JsonResponse
+    public function mini(LoginMiniRequest $request): JsonResponse
     {
-        $request->validate([
-            'code' => 'bail|required',
-        ]);
-
         $app = EasyWeChat::miniApp();
         try {
             $result = $app->getUtils()->codeToSession($request->post('code'));

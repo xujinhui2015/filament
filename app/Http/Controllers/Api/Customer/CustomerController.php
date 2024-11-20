@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Customer\Customer\CustomerUpdateRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Middleware;
@@ -28,7 +29,7 @@ class CustomerController extends Controller
      * 更新个人资料
      */
     #[Post('update')]
-    public function update(Request $request): JsonResponse
+    public function update(CustomerUpdateRequest $request): JsonResponse
     {
         $this->getCustomer()
             ->update($request->only([

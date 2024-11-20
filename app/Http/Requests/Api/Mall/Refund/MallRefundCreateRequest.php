@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Requests\Mall\Refund;
+namespace App\Http\Requests\Api\Mall\Refund;
 
-use App\Models\Mall\MallGoodsSku;
 use App\Models\Mall\MallOrderDetail;
 use Illuminate\Foundation\Http\FormRequest;
 

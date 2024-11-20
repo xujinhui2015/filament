@@ -7,7 +7,7 @@ use App\Enums\Mall\MallOrderOrderStatusEnum;
 use App\Enums\Mall\MallOrderRefundRefundStatusEnum;
 use App\Enums\Mall\MallOrderRefundRefundTypeEnum;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Mall\Refund\MallRefundCreateRequest;
+use App\Http\Requests\Api\Mall\Refund\MallRefundCreateRequest;
 use App\Models\Mall\MallOrder;
 use App\Models\Mall\MallOrderDetail;
 use App\Models\Mall\MallOrderRefund;
