@@ -45,7 +45,7 @@ return new class extends Migration
             $table->string('change_explain')->comment('说明');
             $table->string('scene_type', 32)->comment('场景类型');
             $table->integer('points')->comment('变动积分');
-            $table->foreignId('relation_id')->comment('关联ID');
+            $table->foreignId('relation_id')->nullable()->comment('关联ID');
             $table->string('remark')->nullable()->comment('备注');
 
             $table->comment('会员积分记录表');
@@ -60,7 +60,7 @@ return new class extends Migration
             $table->string('change_explain')->comment('说明');
             $table->string('scene_type', 32)->comment('场景类型');
             $table->integer('balance')->comment('变动金额');
-            $table->foreignId('relation_id')->comment('关联ID');
+            $table->foreignId('relation_id')->nullable()->comment('关联ID');
             $table->string('remark')->nullable()->comment('备注');
 
             $table->comment('会员金额记录表');
