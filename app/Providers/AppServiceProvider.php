@@ -7,6 +7,7 @@ use App\Models\Mall\MallOrderRefund;
 use App\Models\User;
 use App\Observers\Mall\MallOrderObserver;
 use App\Observers\Mall\MallOrderRefundObserver;
+use BezhanSalleh\PanelSwitch\PanelSwitch;
 use Filament\Tables\Table;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
@@ -63,6 +64,32 @@ class AppServiceProvider extends ServiceProvider
         // 自动注册策略
         Gate::guessPolicyNamesUsing(function (string $modelClass) {
             return Str::replace('App\\Models', 'App\\Policies', $modelClass) . 'Policy';
+        });
+
+        // 多面板处理
+        PanelSwitch::configureUsing(function (PanelSwitch $panelSwitch) {
+
+            $extends = config('extend.custom');
+
+            $panels = [];
+            $icons = [];
+            $labels = [];
+
+            foreach ($extends as  $panelName => $extend) {
+                if (!$extend['enabled']) {
+                    continue;
+                }
+                $panels[] = $panelName;
+                $icons[$panelName] = $extend['panel']['icon'];
+                $labels[$panelName] = $extend['panel']['label'];
+            }
+
+            $panelSwitch
+                ->panels($panels)
+                ->icons($icons)
+                ->labels($labels)
+                ->modalHeading('')
+                ->modalWidth('sm');
         });
 
     }

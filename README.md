@@ -80,6 +80,7 @@ filament实现表格布局的中继器组件：https://github.com/icetalker/fila
 filament富文本编辑器：https://github.com/rawilk/filament-quill
 filament实现点击图片展示大图的功能：https://github.com/hugomyb/filament-media-action
 filament全局搜索模态插件：https://github.com/CharrafiMed/global-search-modal
+filament面板切换插件：https://github.com/bezhanSalleh/filament-panel-switch
 API规范响应数据格式：https://github.com/jiannei/laravel-response
 Laravel的日志查看器：https://github.com/opcodesio/log-viewer
 Laravel的性能监控：https://github.com/laravel/pulse

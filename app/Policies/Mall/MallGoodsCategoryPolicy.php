@@ -15,7 +15,7 @@ class MallGoodsCategoryPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_mall::mall::goods::category');
+        return $user->can('view_any_goods::mall::goods::category');
     }
 
     /**
@@ -31,7 +31,7 @@ class MallGoodsCategoryPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_mall::mall::goods::category');
+        return $user->can('create_goods::mall::goods::category');
     }
 
     /**
@@ -39,7 +39,7 @@ class MallGoodsCategoryPolicy
      */
     public function update(User $user, MallGoodsCategory $mallGoodsCategory): bool
     {
-        return $user->can('update_mall::mall::goods::category');
+        return $user->can('update_goods::mall::goods::category');
     }
 
     /**
@@ -47,7 +47,7 @@ class MallGoodsCategoryPolicy
      */
     public function delete(User $user, MallGoodsCategory $mallGoodsCategory): bool
     {
-        return $user->can('delete_mall::mall::goods::category');
+        return $user->can('delete_goods::mall::goods::category');
     }
 
     /**
@@ -55,7 +55,7 @@ class MallGoodsCategoryPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_mall::mall::goods::category');
+        return $user->can('delete_any_goods::mall::goods::category');
     }
 
     /**
@@ -63,7 +63,7 @@ class MallGoodsCategoryPolicy
      */
     public function forceDelete(User $user, MallGoodsCategory $mallGoodsCategory): bool
     {
-        return $user->can('force_delete_mall::mall::goods::category');
+        return $user->can('force_delete_goods::mall::goods::category');
     }
 
     /**
@@ -71,7 +71,7 @@ class MallGoodsCategoryPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_mall::mall::goods::category');
+        return $user->can('force_delete_any_goods::mall::goods::category');
     }
 
     /**
@@ -79,7 +79,7 @@ class MallGoodsCategoryPolicy
      */
     public function restore(User $user, MallGoodsCategory $mallGoodsCategory): bool
     {
-        return $user->can('restore_mall::mall::goods::category');
+        return $user->can('restore_goods::mall::goods::category');
     }
 
     /**
@@ -87,7 +87,7 @@ class MallGoodsCategoryPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_mall::mall::goods::category');
+        return $user->can('restore_any_goods::mall::goods::category');
     }
 
     /**
@@ -103,6 +103,6 @@ class MallGoodsCategoryPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_mall::mall::goods::category');
+        return $user->can('reorder_goods::mall::goods::category');
     }
 }

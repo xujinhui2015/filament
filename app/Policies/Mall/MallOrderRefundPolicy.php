@@ -15,7 +15,7 @@ class MallOrderRefundPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_mall::mall::order::refund');
+        return $user->can('view_any_order::mall::order::refund');
     }
 
     /**
@@ -23,7 +23,7 @@ class MallOrderRefundPolicy
      */
     public function view(User $user, MallOrderRefund $mallOrderRefund): bool
     {
-        return $user->can('view_mall::mall::order::refund');
+        return $user->can('view_order::mall::order::refund');
     }
 
     /**
@@ -39,7 +39,7 @@ class MallOrderRefundPolicy
      */
     public function update(User $user, MallOrderRefund $mallOrderRefund): bool
     {
-        return $user->can('update_mall::mall::order::refund');
+        return $user->can('update_order::mall::order::refund');
     }
 
     /**

@@ -15,7 +15,7 @@ class MallGoodsPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_mall::mall::goods');
+        return $user->can('view_any_goods::mall::goods');
     }
 
     /**
@@ -31,7 +31,7 @@ class MallGoodsPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_mall::mall::goods');
+        return $user->can('create_goods::mall::goods');
     }
 
     /**
@@ -39,7 +39,7 @@ class MallGoodsPolicy
      */
     public function update(User $user, MallGoods $mallGoods): bool
     {
-        return $user->can('update_mall::mall::goods');
+        return $user->can('update_goods::mall::goods');
     }
 
     /**
@@ -47,7 +47,7 @@ class MallGoodsPolicy
      */
     public function delete(User $user, MallGoods $mallGoods): bool
     {
-        return $user->can('delete_mall::mall::goods');
+        return $user->can('delete_goods::mall::goods');
     }
 
     /**
@@ -55,7 +55,7 @@ class MallGoodsPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_mall::mall::goods');
+        return $user->can('delete_any_goods::mall::goods');
     }
 
     /**
@@ -63,7 +63,7 @@ class MallGoodsPolicy
      */
     public function forceDelete(User $user, MallGoods $mallGoods): bool
     {
-        return $user->can('force_delete_mall::mall::goods');
+        return $user->can('force_delete_goods::mall::goods');
     }
 
     /**
@@ -71,7 +71,7 @@ class MallGoodsPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_mall::mall::goods');
+        return $user->can('force_delete_any_goods::mall::goods');
     }
 
     /**
@@ -79,7 +79,7 @@ class MallGoodsPolicy
      */
     public function restore(User $user, MallGoods $mallGoods): bool
     {
-        return $user->can('restore_mall::mall::goods');
+        return $user->can('restore_goods::mall::goods');
     }
 
     /**
@@ -87,7 +87,7 @@ class MallGoodsPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_mall::mall::goods');
+        return $user->can('restore_any_goods::mall::goods');
     }
 
     /**
@@ -103,6 +103,6 @@ class MallGoodsPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_mall::mall::goods');
+        return $user->can('reorder_goods::mall::goods');
     }
 }

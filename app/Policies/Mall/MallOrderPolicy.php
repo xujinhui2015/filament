@@ -15,7 +15,7 @@ class MallOrderPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_mall::mall::order');
+        return $user->can('view_any_order::mall::order');
     }
 
     /**
@@ -23,7 +23,7 @@ class MallOrderPolicy
      */
     public function view(User $user, MallOrder $mallOrder): bool
     {
-        return $user->can('view_mall::mall::order');
+        return $user->can('view_order::mall::order');
     }
 
     /**
@@ -39,7 +39,7 @@ class MallOrderPolicy
      */
     public function update(User $user, MallOrder $mallOrder): bool
     {
-        return $user->can('update_mall::mall::order');
+        return $user->can('update_order::mall::order');
     }
 
     /**
