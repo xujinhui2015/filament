@@ -2,18 +2,18 @@
 
 namespace App\Filament\Admin\Resources\User;
 
+use App\Filament\Admin\Resources\AdminResource;
 use App\Filament\Resources\User\UserResource\Pages;
 use App\Models\User;
 use App\Support\Helpers\FilePathHelper;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
-class UserResource extends Resource implements HasShieldPermissions
+class UserResource extends AdminResource implements HasShieldPermissions
 {
     protected static ?string $model = User::class;
 

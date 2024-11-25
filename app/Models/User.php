@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Support\Traits\FormatModelDateTrait;
+use Exception;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
@@ -60,9 +61,15 @@ class User extends Authenticatable implements HasAvatar, FilamentUser
         return $this->avatar_url ? Storage::url($this->avatar_url) : null;
     }
 
+    /**
+     * @throws Exception
+     */
     public function canAccessPanel(Panel $panel): bool
     {
-        return true;
+        if ($panel->getId() == 'admin') {
+            return true;
+        }
+        return config('extend.custom.' . $panel->getId().'.enabled');
     }
 
     public function isAdmin(): bool

@@ -43,10 +43,10 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // 性能监控，设置用户卡片显示属性
-        Pulse::user(fn (User $user) => [
+        Pulse::user(fn(User $user) => [
             'name' => $user->name,
             'extra' => $user->phone,
-            'avatar' => asset('storage/'. $user->avatar_url),
+            'avatar' => asset('storage/' . $user->avatar_url),
         ]);
 
         // 富文本默认配置
@@ -70,12 +70,13 @@ class AppServiceProvider extends ServiceProvider
         PanelSwitch::configureUsing(function (PanelSwitch $panelSwitch) {
 
             $extends = config('extend.custom');
+            $adminExtend = config('extend.admin');
 
-            $panels = [];
-            $icons = [];
-            $labels = [];
+            $panels = ['admin'];
+            $icons = ['admin' => $adminExtend['panel']['icon']];
+            $labels = ['admin' => $adminExtend['panel']['label']];
 
-            foreach ($extends as  $panelName => $extend) {
+            foreach ($extends as $panelName => $extend) {
                 if (!$extend['enabled']) {
                     continue;
                 }

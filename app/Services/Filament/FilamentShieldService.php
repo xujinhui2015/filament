@@ -13,27 +13,28 @@ class FilamentShieldService
      */
     public static function getExcludeResources(): array
     {
-        $extends = config('extend.custom');
-        $excludes = [];
-        foreach ($extends as $panelName => $extendConfig) {
-            if ($extendConfig['enabled']) {
-                continue;
-            }
-            $extendPath = 'Filament' . DIRECTORY_SEPARATOR . ucfirst($panelName);
+        $filterExtends = array_filter(config('extend.custom'), fn($config) => !$config['enabled']);
 
-            // 资源文件过滤
-            $resources = glob(app_path($extendPath) . '/Resources/{,*/}/*Resource.php', GLOB_BRACE);
-            // 资源集群过滤
-            $clusters = glob(app_path($extendPath) . '/Clusters/MallGoodsCluster/Resources/*Resource.php');
-
-            $excludes = array_merge($excludes, array_map(function ($resource) {
-                return pathinfo($resource, PATHINFO_FILENAME);
-            }, [
-                ... $resources,
-                ... $clusters,
-            ]));
+        // 所有模块都已开启
+        if (!$filterExtends) {
+            return [];
         }
-        return $excludes;
+
+        // 拿到开启的模块并且设置首字母为大写
+        $excludes = implode(',', array_map(
+            fn($panelName) => ucfirst($panelName),
+            array_keys($filterExtends)
+        ));
+
+        // 渲染所有资源文件
+        $resources = glob(
+            app_path('Filament')
+            . '/{' . $excludes . '}/{Resources,Clusters}{,/*,/*/*}/*Resource.php', GLOB_BRACE
+        );
+
+        return array_map(function ($resource) {
+            return pathinfo($resource, PATHINFO_FILENAME);
+        }, $resources);
     }
 
 }

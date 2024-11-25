@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources\Customer;
 
+use App\Filament\Admin\Resources\AdminResource;
 use App\Filament\Admin\Resources\Customer\CustomerResource\RelationManagers\BalancesRecordsRelationManager;
 use App\Filament\Admin\Resources\Customer\CustomerResource\RelationManagers\PointsRecordsRelationManager;
 use App\Filament\Resources\Customer\CustomerResource\Pages;
@@ -15,7 +16,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
-class CustomerResource extends Resource implements HasShieldPermissions
+class CustomerResource extends AdminResource implements HasShieldPermissions
 {
     protected static ?string $model = Customer::class;
 
