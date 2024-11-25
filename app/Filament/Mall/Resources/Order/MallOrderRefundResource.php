@@ -37,7 +37,9 @@ class MallOrderRefundResource extends MallResource implements HasShieldPermissio
 
     protected static ?string $navigationLabel = '售后管理';
     protected static ?string $modelLabel = '售后';
-    protected static ?string $navigationGroup = '商城';
+    protected static ?string $navigationGroup = '订单';
+
+    protected static ?int $navigationSort = 2;
 
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 

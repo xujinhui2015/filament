@@ -39,7 +39,9 @@ class MallOrderResource extends MallResource implements HasShieldPermissions
 
     protected static ?string $navigationLabel = '订单管理';
     protected static ?string $modelLabel = '订单';
-    protected static ?string $navigationGroup = '商城';
+    protected static ?string $navigationGroup = '订单';
+
+    protected static ?int $navigationSort = 1;
 
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 

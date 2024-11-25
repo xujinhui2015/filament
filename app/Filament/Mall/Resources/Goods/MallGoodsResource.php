@@ -35,7 +35,7 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
 
     protected static ?string $navigationLabel = '商品管理';
     protected static ?string $modelLabel = '商品';
-    protected static ?string $navigationGroup = '商城';
+    protected static ?string $navigationGroup = '商品';
 
     public static function getPermissionPrefixes(): array
     {
