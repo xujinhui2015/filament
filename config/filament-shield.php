@@ -1,5 +1,8 @@
 <?php
 
+list($excludeResources, $excludePages, $excludeWidgets)
+    = \App\Services\Filament\FilamentShieldService::getExcludes();
+
 return [
     'shield_resource' => [
         'should_register_navigation' => true,
@@ -67,14 +70,16 @@ return [
 
         'pages' => [
             'Dashboard',
+            ... $excludePages,
         ],
 
         'widgets' => [
             'AccountWidget', 'FilamentInfoWidget',
+            ... $excludeWidgets
         ],
 
         'resources' => [
-            ... \App\Services\Filament\FilamentShieldService::getExcludeResources(),
+            ... $excludeResources,
         ],
     ],
 
