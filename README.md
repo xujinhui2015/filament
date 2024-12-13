@@ -22,13 +22,19 @@ php artisan shield:super-admin --user=1
 php artisan db:seed --class=UserSeeder # 生成会员数据以及积分余额记录
 ```
 
-## 七牛云对象存储配置
+## 多模块设定
 
 ```bash
-# 安装网址：
-https://github.com/overtrue/laravel-filesystem-qiniu
-# 安装完毕后在env文件配置即可
-FILAMENT_FILESYSTEM_DISK=qiniu
+1.首先你要先了解Filament中的多面板的使用，创建好后在 "extend.php" 配置文件中额外配置
+2.比如你要开发一个客户管理系统，可在 custom 里面新增一项 'crm' => [ ... ]，填写说明参考商城配置模块
+3.开发时需注意，你配置文件定义的key是 'crm' ，则你开发时Filament面板文件必须在 app/Filament/Crm 中，否则权限会识别不出来
+4.你的Models、Services、Observers等等里面都应该建一个Crm目录，以保持模块间的隔离，当然这并不是强制的
+```
+
+## 其它说明
+
+```bash
+1.缓存是通过 app/Enums/Cache 目录定义的，使用Enum管理是为了方便缓存key的维护，你可以参考代码自行创建
 ```
 
 ## 日志查询系统配置
@@ -67,6 +73,15 @@ php artisan property
 文档目录：/docs 的文件夹下面便是，如需要排序的话在文件或者目录前缀加上序号即可
 # 执行如下代码，自动根据文档目录覆盖 _sidebar.md 侧边栏
 php artisan docs
+```
+
+## 七牛云对象存储配置
+
+```bash
+# 安装网址：
+https://github.com/overtrue/laravel-filesystem-qiniu
+# 安装完毕后在env文件配置即可
+FILAMENT_FILESYSTEM_DISK=qiniu
 ```
 
 ![输入图片说明](demo/doc1.png)

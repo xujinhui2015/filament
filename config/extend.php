@@ -14,8 +14,8 @@ return [
         'mall' => [
             'enabled' => true, // 启用或者禁用模块
             'panel' => [ // 多面板定义
-                'label' => '商城',
-                'icon' => 'heroicon-c-wallet',
+                'label' => '商城', // 面板名称
+                'icon' => 'heroicon-c-wallet', // 面板切换按钮的图标
             ],
         ],
     ]
