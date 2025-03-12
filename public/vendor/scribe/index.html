@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="description" content="Description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+</head>
+<body>
+<div id="app"></div>
+<script>
+    window.$docsify = {
+        name: '',
+        repo: '',
+        loadSidebar: true,
+        alias: {
+            '/.*/_sidebar.md': '/_sidebar.md'
+        },
+        subMaxLevel: 2,
+        // 搜索
+        search: {
+            // maxAge: 86400000, // 过期时间，单位毫秒，默认一天
+            maxAge: 1000, // 不设置缓存
+            paths: 'auto',
+            placeholder: '搜索',
+        },
+        // 复制功能
+        copyCode: {
+            buttonText: '复制',
+            errorText: '复制失败',
+            successText: '复制成功!',
+        },
+    }
+</script>
+<!-- Docsify v4 -->
+<script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+<!-- 全局搜索 -->
+<script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+<!-- 代码块都加一个复制功能 -->
+<script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
+</body>
+</html>
