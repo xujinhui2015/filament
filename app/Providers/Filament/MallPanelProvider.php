@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use App\Filament\Admin\Pages\Auth\CustomEditProfile;
 use App\Filament\Admin\Pages\Auth\CustomLogin;
+use App\Filament\Mall\Resources\Goods\MallGoodsCategoryResource;
 use CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin;
 use Exception;
 use Filament\Enums\ThemeMode;
@@ -70,6 +71,9 @@ class MallPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Mall/Pages'), for: 'App\\Filament\\Mall\\Pages')
             ->discoverWidgets(in: app_path('Filament/Mall/Widgets'), for: 'App\\Filament\\Mall\\Widgets')
             ->discoverClusters(in: app_path('Filament/Mall/Clusters'), for: 'App\\Filament\\Mall\\Clusters')
-            ->spa();
+            ->spa()
+            ->spaUrlExceptions(fn (): array => [
+                MallGoodsCategoryResource::getUrl(), // 商品分类使用了Tree组件，需要禁用spa导航才能正常拖拽
+            ]);
     }
 }
