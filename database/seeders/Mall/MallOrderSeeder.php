@@ -32,6 +32,7 @@ class MallOrderSeeder extends Seeder
      */
     private function makeOrder(): void
     {
+        /** @var MallOrder $order */
         $order = MallOrder::query()
             ->create([
                 'customer_id' => Customer::query()->inRandomOrder()->value('id'),
