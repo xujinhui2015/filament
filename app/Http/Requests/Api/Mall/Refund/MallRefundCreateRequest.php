@@ -12,7 +12,6 @@ class MallRefundCreateRequest extends FormRequest
         $carts = $this->input('detail');
         $this->merge([
             'detail' => array_map(function ($cart) {
-                /** @var MallOrderDetail $detail */
                 $detail = MallOrderDetail::query()
                     ->whereId($cart['order_detail_id'])
                     ->selectRaw('goods_id,goods_sku_id')

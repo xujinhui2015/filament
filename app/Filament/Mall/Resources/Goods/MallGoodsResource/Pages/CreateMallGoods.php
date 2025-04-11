@@ -31,6 +31,7 @@ class CreateMallGoods extends CreateRecord
         $data = $this->form->getState();
 
         DB::transaction(function () use ($data) {
+            /** @var MallGoods $goods */
             $goods = MallGoods::query()->create([
                 'goods_sn' => $data['goods_sn'],
                 'goods_category_id' => $data['goods_category_id'],
@@ -47,6 +48,7 @@ class CreateMallGoods extends CreateRecord
 
             // 创建商品规格
             $mapAttrValues = [];
+            /** @var MallGoodsAttr $attr */
             foreach ($attrList as $attr) {
                 $attr->load([
                     'attrValue' => function (HasMany $query) use ($data, $attr) {
@@ -54,7 +56,6 @@ class CreateMallGoods extends CreateRecord
                     }
                 ]);
 
-                /** @var MallGoodsAttr|HasMany $goodsAttr */
                 $goodsAttr = $goods->attr()->create([
                     'attr_name' => $attr->attr_name,
                 ]);
