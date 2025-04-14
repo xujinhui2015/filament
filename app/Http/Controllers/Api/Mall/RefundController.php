@@ -29,29 +29,30 @@ class RefundController extends Controller
 {
 
     #[Post('index')]
-    public function index(Request $request): JsonResponse
+    public function index(): JsonResponse
     {
         return $this->success(QueryBuilder::for(MallOrderRefund::class)
-            ->allowedFilters([AllowedFilter::exact('id')])
+            ->allowedFilters([
+                AllowedFilter::exact('id'),
+                AllowedFilter::callback('refund_status', function ($query, $filterRefundStatus) {
+                    // 0退款中1退款成功2退款关闭
+                    if ($filterRefundStatus == 0) {
+                        $query->whereIn('refund_status', [
+                            MallOrderRefundRefundStatusEnum::Applied,
+                            MallOrderRefundRefundStatusEnum::Approved,
+                            MallOrderRefundRefundStatusEnum::BuyerReturned,
+                            MallOrderRefundRefundStatusEnum::ReturnReceived,
+                            MallOrderRefundRefundStatusEnum::Confirmed,
+                        ]);
+                    } elseif ($filterRefundStatus == 1) {
+                        $query->where('refund_status', MallOrderRefundRefundStatusEnum::Successful);
+                    } elseif ($filterRefundStatus == 2) {
+                        $query->where('refund_status', MallOrderRefundRefundStatusEnum::Closed);
+                    }
+                })
+            ])
             ->whereHas('order', function ($query) {
                 $query->where('customer_id', $this->getCustomerId());
-            })
-            ->when($request->has('filter_refund_status'), function (Builder $query) use ($request) {
-                $filterRefundStatus = $request->post('filter_refund_status');
-                // 0退款中1退款成功2退款关闭
-                if ($filterRefundStatus == 0) {
-                    $query->whereIn('refund_status', [
-                        MallOrderRefundRefundStatusEnum::Applied,
-                        MallOrderRefundRefundStatusEnum::Approved,
-                        MallOrderRefundRefundStatusEnum::BuyerReturned,
-                        MallOrderRefundRefundStatusEnum::ReturnReceived,
-                        MallOrderRefundRefundStatusEnum::Confirmed,
-                    ]);
-                } elseif ($filterRefundStatus == 1) {
-                    $query->where('refund_status', MallOrderRefundRefundStatusEnum::Successful);
-                } elseif ($filterRefundStatus == 2) {
-                    $query->where('refund_status', MallOrderRefundRefundStatusEnum::Closed);
-                }
             })
             ->with([
                 'detail:id,order_refund_id,order_detail_id,goods_id,goods_sku_id,refund_number',
