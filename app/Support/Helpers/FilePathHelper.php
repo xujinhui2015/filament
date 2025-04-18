@@ -15,6 +15,7 @@ class FilePathHelper
     const string DEFAULT = 'default';
     const string AVATAR = 'avatar'; // 头像相关
     const string MALL_GOODS = 'mall_goods'; // 商品图
+    const string MINI = 'mini'; // 小程序上传
 
     /**
      * 上传设置
