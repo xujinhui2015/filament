@@ -11,6 +11,7 @@ return [
     'alpha'                  => ':attribute 只能由字母组成。',
     'alpha_dash'             => ':attribute 只能由字母、数字、短划线(-)和下划线(_)组成。',
     'alpha_num'              => ':attribute 只能由字母和数字组成。',
+    'any_of'                 => 'The :attribute field is invalid.',
     'array'                  => ':attribute 必须是一个数组。',
     'ascii'                  => ':attribute 必须仅包含单字节字母数字字符和符号。',
     'before'                 => ':attribute 必须要早于 :date。',
