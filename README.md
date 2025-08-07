@@ -45,8 +45,6 @@ php artisan log-viewer:publish
 访问地址 {APP_URL}/log-viewer
 ```
 
-![输入图片说明](demo/log1.png)
-
 ## 性能监控
 ```bash
 # 使用文档：https://laravel.com/docs/11.x/pulse
@@ -54,8 +52,6 @@ php artisan log-viewer:publish
 # 必须登录users表ID=1的账户，才能查看
 访问地址 {APP_URL}/pulse
 ```
-
-![输入图片说明](demo/pulse1.png)
 
 ## 常用方法
 ```bash
@@ -85,8 +81,6 @@ https://github.com/overtrue/laravel-filesystem-qiniu
 FILAMENT_FILESYSTEM_DISK=qiniu
 ```
 
-![输入图片说明](demo/doc1.png)
-
 ## 使用到的包
 ```bash
 filament后台权限管理： https://github.com/bezhanSalleh/filament-shield
@@ -106,12 +100,3 @@ Laravel实现注册路由：https://github.com/spatie/laravel-route-attributes
 Laravel 图表数据生成工具：https://github.com/Flowframe/laravel-trend
 ```
 
-
-## 项目截图
-![输入图片说明](demo/image1.png)
-
-![输入图片说明](demo/image2.png)
-
-![输入图片说明](demo/image3.png)
-
-![输入图片说明](demo/image4.png)
