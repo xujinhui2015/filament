@@ -23,6 +23,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Rmsramos\Activitylog\ActivitylogPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -62,7 +63,13 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 FilamentShieldPlugin::make(),
-                GlobalSearchModalPlugin::make()
+                GlobalSearchModalPlugin::make(),
+                ActivitylogPlugin::make()
+                    ->navigationCountBadge()
+                    ->label('操作日志')
+                    ->pluralLabel('操作日志')
+                    ->navigationGroup('权限管理')
+                    ->navigationSort(3),
             ])
             ->globalSearch() // 开启全局搜索
             ->breadcrumbs(false) // 禁用面包屑

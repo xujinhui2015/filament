@@ -1,12 +1,15 @@
 <?php
+
 namespace App\Models;
 
 use App\Support\Traits\FormatModelDateTrait;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class BaseModel extends Model
 {
-    use FormatModelDateTrait;
+    use FormatModelDateTrait, LogsActivity;
 
     /**
      * 默认分页数量
@@ -29,5 +32,13 @@ class BaseModel extends Model
     public static function getTableName(): string
     {
         return (new static)->getTable();
+    }
+
+    /**
+     * 记录操作日志
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logAll()->logOnlyDirty();
     }
 }

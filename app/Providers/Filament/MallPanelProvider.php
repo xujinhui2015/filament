@@ -23,6 +23,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Rmsramos\Activitylog\ActivitylogPlugin;
 
 class MallPanelProvider extends PanelProvider
 {
@@ -60,7 +61,8 @@ class MallPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->plugins([
-                GlobalSearchModalPlugin::make()
+                GlobalSearchModalPlugin::make(),
+                ActivitylogPlugin::make()->navigationItem(false)
             ])
             ->globalSearch() // 开启全局搜索
             ->breadcrumbs(false) // 禁用面包屑
