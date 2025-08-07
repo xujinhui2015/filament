@@ -4,7 +4,7 @@ namespace App\Providers\Filament;
 
 use App\Filament\Admin\Pages\Auth\CustomEditProfile;
 use App\Filament\Admin\Pages\Auth\CustomLogin;
-use App\Filament\Mall\Resources\Goods\MallGoodsCategoryResource;
+use App\Filament\Mall\Clusters\MallGoodsCluster\Resources\MallGoodsCategoryResource;
 use CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin;
 use Exception;
 use Filament\Enums\ThemeMode;

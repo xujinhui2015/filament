@@ -111,4 +111,9 @@ class MallExpressResource extends MallResource implements HasShieldPermissions
                 SoftDeletingScope::class,
             ]);
     }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return app(self::$model)->count();
+    }
 }

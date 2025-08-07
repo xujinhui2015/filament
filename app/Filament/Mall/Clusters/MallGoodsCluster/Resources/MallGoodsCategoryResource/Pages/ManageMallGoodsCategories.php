@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Mall\Resources\Goods\MallGoodsCategoryResource\Pages;
+namespace App\Filament\Mall\Clusters\MallGoodsCluster\Resources\MallGoodsCategoryResource\Pages;
 
-use App\Filament\Mall\Resources\Goods\MallGoodsCategoryResource;
+use App\Filament\Mall\Clusters\MallGoodsCluster\Resources\MallGoodsCategoryResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ManageRecords;
 

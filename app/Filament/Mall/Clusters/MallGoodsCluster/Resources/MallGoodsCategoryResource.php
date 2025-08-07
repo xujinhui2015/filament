@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Filament\Mall\Resources\Goods;
+namespace App\Filament\Mall\Clusters\MallGoodsCluster\Resources;
 
+use App\Filament\Mall\Clusters\MallGoodsCluster;
+use App\Filament\Mall\Clusters\MallGoodsCluster\Resources\MallGoodsCategoryResource\Pages\MallGoodsCategoryTree;
 use App\Filament\Mall\Resources\MallResource;
-use App\Filament\Mall\Resources\Goods\MallGoodsCategoryResource\Pages;
 use App\Models\Mall\MallGoodsCategory;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
@@ -16,9 +17,10 @@ class MallGoodsCategoryResource extends MallResource implements HasShieldPermiss
 {
     protected static ?string $model = MallGoodsCategory::class;
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    protected static ?string $cluster = MallGoodsCluster::class;
     protected static ?string $navigationLabel = '商品分类';
     protected static ?string $modelLabel = '商品分类';
-    protected static ?string $navigationGroup = '商品';
 
     public static function getPermissionPrefixes(): array
     {
@@ -67,7 +69,7 @@ class MallGoodsCategoryResource extends MallResource implements HasShieldPermiss
     public static function getPages(): array
     {
         return [
-            'index' => Pages\MallGoodsCategoryTree::route('/'),
+            'index' => MallGoodsCategoryTree::route('/'),
         ];
     }
 

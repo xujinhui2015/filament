@@ -3,9 +3,14 @@
 namespace App\Filament\Mall\Clusters\MallGoodsCluster\Resources;
 
 use App\Filament\Mall\Clusters\MallGoodsCluster;
+use App\Filament\Mall\Clusters\MallGoodsCluster\Resources\MallAttrResource\Pages\CreateMallAttr;
+use App\Filament\Mall\Clusters\MallGoodsCluster\Resources\MallAttrResource\Pages\EditMallAttr;
+use App\Filament\Mall\Clusters\MallGoodsCluster\Resources\MallAttrResource\Pages\ListMallAttrs;
+use App\Filament\Mall\Clusters\MallGoodsCluster\Resources\MallAttrResource\RelationManagers\AttrValueRelationManager;
 use App\Filament\Mall\Resources\MallResource;
 use App\Models\Mall\MallAttr;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use Exception;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Tables;
@@ -62,6 +67,9 @@ class MallAttrResource extends MallResource implements HasShieldPermissions
             ]);
     }
 
+    /**
+     * @throws Exception
+     */
     public static function table(Table $table): Table
     {
         return $table
@@ -107,16 +115,16 @@ class MallAttrResource extends MallResource implements HasShieldPermissions
     public static function getRelations(): array
     {
         return [
-            \App\Filament\Mall\Clusters\MallGoodsCluster\Resources\MallAttrResource\RelationManagers\AttrValueRelationManager::class,
+            AttrValueRelationManager::class,
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => \App\Filament\Mall\Clusters\MallGoodsCluster\Resources\MallAttrResource\Pages\ListMallAttrs::route('/'),
-            'create' => \App\Filament\Mall\Clusters\MallGoodsCluster\Resources\MallAttrResource\Pages\CreateMallAttr::route('/create'),
-            'edit' => \App\Filament\Mall\Clusters\MallGoodsCluster\Resources\MallAttrResource\Pages\EditMallAttr::route('/{record}/edit'),
+            'index' => ListMallAttrs::route('/'),
+            'create' => CreateMallAttr::route('/create'),
+            'edit' => EditMallAttr::route('/{record}/edit'),
         ];
     }
 
@@ -126,5 +134,10 @@ class MallAttrResource extends MallResource implements HasShieldPermissions
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return app(self::$model)->count();
     }
 }

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Filament\Mall\Resources\Goods\MallGoodsCategoryResource\Pages;
+namespace App\Filament\Mall\Clusters\MallGoodsCluster\Resources\MallGoodsCategoryResource\Pages;
 
-use App\Filament\Mall\Resources\Goods\MallGoodsCategoryResource;
+use App\Filament\Mall\Clusters\MallGoodsCluster;
+use App\Filament\Mall\Clusters\MallGoodsCluster\Resources\MallGoodsCategoryResource;
 use SolutionForest\FilamentTree\Resources\Pages\TreePage;
 
 class MallGoodsCategoryTree extends TreePage
@@ -11,6 +12,8 @@ class MallGoodsCategoryTree extends TreePage
 
     protected static int $maxDepth = 2;
 
+    protected static ?string $cluster = MallGoodsCluster::class;
+
     protected function getActions(): array
     {
         return [
@@ -18,6 +21,11 @@ class MallGoodsCategoryTree extends TreePage
             // SAMPLE CODE, CAN DELETE
             //\Filament\Pages\Actions\Action::make('sampleAction'),
         ];
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
     }
 
     protected function hasDeleteAction(): bool
