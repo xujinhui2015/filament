@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Customer\Customer\CustomerUpdateRequest;
+use App\Http\Resources\CustomerProfileResource;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Spatie\RouteAttributes\Attributes\Middleware;
 use Spatie\RouteAttributes\Attributes\Post;
 use Spatie\RouteAttributes\Attributes\Prefix;
@@ -20,9 +20,7 @@ class CustomerController extends Controller
     #[Post('show')]
     public function show(): JsonResponse
     {
-        return $this->success($this->getCustomer()->only([
-            'nickname', 'avatar_url', 'phone', 'balance', 'points',
-        ]));
+        return $this->success(CustomerProfileResource::make($this->getCustomer()));
     }
 
     /**
@@ -35,6 +33,7 @@ class CustomerController extends Controller
             ->update($request->only([
                 'nickname', 'avatar_url',
             ]));
+
         return $this->ok();
     }
 
@@ -48,7 +47,7 @@ class CustomerController extends Controller
             ->balanceRecords()
             ->orderByDesc('id')
             ->select([
-                'id', 'customer_id', 'change_explain', 'balance', 'created_at'
+                'id', 'customer_id', 'change_explain', 'balance', 'created_at',
             ])->cursorPaginate(),
         );
     }
@@ -63,10 +62,8 @@ class CustomerController extends Controller
             ->pointsRecords()
             ->orderByDesc('id')
             ->select([
-                'id', 'customer_id', 'change_explain', 'points', 'created_at'
+                'id', 'customer_id', 'change_explain', 'points', 'created_at',
             ])->cursorPaginate(),
         );
     }
-
-
 }

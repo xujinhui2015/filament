@@ -8,6 +8,7 @@ use App\Enums\Mall\MallOrderRefundRefundStatusEnum;
 use App\Enums\Mall\MallOrderRefundRefundTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Mall\Refund\MallRefundCreateRequest;
+use App\Http\Resources\MallRefundResource;
 use App\Models\Mall\MallOrder;
 use App\Models\Mall\MallOrderDetail;
 use App\Models\Mall\MallOrderRefund;
@@ -27,40 +28,41 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 #[Middleware('auth:sanctum')]
 class RefundController extends Controller
 {
-
     #[Post('index')]
     public function index(): JsonResponse
     {
-        return $this->success(QueryBuilder::for(MallOrderRefund::class)
-            ->allowedFilters([
-                AllowedFilter::exact('id'),
-                AllowedFilter::callback('refund_status', function ($query, $filterRefundStatus) {
-                    // 0退款中1退款成功2退款关闭
-                    if ($filterRefundStatus == 0) {
-                        $query->whereIn('refund_status', [
-                            MallOrderRefundRefundStatusEnum::Applied,
-                            MallOrderRefundRefundStatusEnum::Approved,
-                            MallOrderRefundRefundStatusEnum::BuyerReturned,
-                            MallOrderRefundRefundStatusEnum::ReturnReceived,
-                            MallOrderRefundRefundStatusEnum::Confirmed,
-                        ]);
-                    } elseif ($filterRefundStatus == 1) {
-                        $query->where('refund_status', MallOrderRefundRefundStatusEnum::Successful);
-                    } elseif ($filterRefundStatus == 2) {
-                        $query->where('refund_status', MallOrderRefundRefundStatusEnum::Closed);
-                    }
+        return $this->success(MallRefundResource::collection(
+            QueryBuilder::for(MallOrderRefund::class)
+                ->allowedFilters([
+                    AllowedFilter::exact('id'),
+                    AllowedFilter::callback('refund_status', function ($query, $filterRefundStatus) {
+                        // 0退款中1退款成功2退款关闭
+                        if ($filterRefundStatus == 0) {
+                            $query->whereIn('refund_status', [
+                                MallOrderRefundRefundStatusEnum::Applied,
+                                MallOrderRefundRefundStatusEnum::Approved,
+                                MallOrderRefundRefundStatusEnum::BuyerReturned,
+                                MallOrderRefundRefundStatusEnum::ReturnReceived,
+                                MallOrderRefundRefundStatusEnum::Confirmed,
+                            ]);
+                        } elseif ($filterRefundStatus == 1) {
+                            $query->where('refund_status', MallOrderRefundRefundStatusEnum::Successful);
+                        } elseif ($filterRefundStatus == 2) {
+                            $query->where('refund_status', MallOrderRefundRefundStatusEnum::Closed);
+                        }
+                    }),
+                ])
+                ->whereHas('order', function ($query) {
+                    $query->where('customer_id', $this->getCustomerId());
                 })
-            ])
-            ->whereHas('order', function ($query) {
-                $query->where('customer_id', $this->getCustomerId());
-            })
-            ->with([
-                'detail:id,order_refund_id,order_detail_id,goods_id,goods_sku_id,refund_number',
-                'detail.orderDetail:id,order_id,goods_id,goods_sku_id,goods_name,goods_spec,goods_image,goods_price,goods_number',
-            ])
-            ->orderByDesc('id')
-            ->selectRaw('id,order_id,refund_order_no,refund_type,refund_status,refund_money,phone,refund_reason,buyer_message,seller_message,created_at')
-            ->cursorPaginate());
+                ->with([
+                    'detail:id,order_refund_id,order_detail_id,goods_id,goods_sku_id,refund_number',
+                    'detail.orderDetail:id,order_id,goods_id,goods_sku_id,goods_name,goods_spec,goods_image,goods_price,goods_number',
+                ])
+                ->orderByDesc('id')
+                ->selectRaw('id,order_id,refund_order_no,refund_type,refund_status,refund_money,phone,refund_reason,buyer_message,seller_message,created_at')
+                ->cursorPaginate()
+        ));
     }
 
     /**
@@ -73,7 +75,7 @@ class RefundController extends Controller
             ->where('customer_id', $this->getCustomerId())
             ->find($request->post('id'));
 
-        if (!$mallOrder) {
+        if (! $mallOrder) {
             return $this->fail('订单不存在');
         }
 
@@ -91,7 +93,7 @@ class RefundController extends Controller
         $mallOrder->load([
             'detail' => function (HasMany $query) use ($detail) {
                 $query->whereIn('goods_sku_id', $detail->pluck('goods_sku_id'));
-            }
+            },
         ]);
 
         // 获取退款总金额
@@ -106,8 +108,7 @@ class RefundController extends Controller
             $refund = MallOrderRefund::query()->create([
                 'order_id' => $mallOrder->id,
                 'refund_order_no' => MakeOrderNoEnum::MallRefundOrder->new(),
-                'refund_type' =>
-                    $mallOrder->order_status->isEq(MallOrderOrderStatusEnum::Pay)
+                'refund_type' => $mallOrder->order_status->isEq(MallOrderOrderStatusEnum::Pay)
                         ? MallOrderRefundRefundTypeEnum::Only : MallOrderRefundRefundTypeEnum::Return,
                 'refund_status' => MallOrderRefundRefundStatusEnum::Applied,
                 'refund_money' => $refundMoney,
@@ -140,7 +141,7 @@ class RefundController extends Controller
             })
             ->find($request->post('id'));
 
-        if (!$orderRefund) {
+        if (! $orderRefund) {
             return $this->fail('退款订单不存在');
         }
 
@@ -153,7 +154,7 @@ class RefundController extends Controller
 
         DB::transaction(function () use ($orderRefund, $request) {
             $orderRefund->logistics()->updateOrCreate([], $request->only([
-                'logistics_company_name', 'logistics_no'
+                'logistics_company_name', 'logistics_no',
             ]));
             $orderRefund->update([
                 'refund_status' => MallOrderRefundRefundStatusEnum::BuyerReturned,
@@ -162,5 +163,4 @@ class RefundController extends Controller
 
         return $this->ok();
     }
-
 }

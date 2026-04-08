@@ -19,11 +19,11 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Pages\Enums\SubNavigationPosition;
+use Filament\Resources\Pages\Page;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
-use Filament\Pages\Enums\SubNavigationPosition;
-use Filament\Resources\Pages\Page;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\TextSize;
 use Filament\Tables;
@@ -40,7 +40,9 @@ class MallOrderResource extends MallResource implements HasShieldPermissions
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = '订单管理';
+
     protected static ?string $modelLabel = '订单';
+
     protected static string|\UnitEnum|null $navigationGroup = '订单';
 
     protected static ?int $navigationSort = 1;
@@ -70,7 +72,7 @@ class MallOrderResource extends MallResource implements HasShieldPermissions
     {
         return $page->generateNavigationItems([
             Pages\ViewMallOrder::class,
-            Pages\OrderOperationLog::class
+            Pages\OrderOperationLog::class,
         ]);
     }
 
@@ -83,7 +85,10 @@ class MallOrderResource extends MallResource implements HasShieldPermissions
                         Grid::make(4)
                             ->schema([
                                 TextEntry::make('customer.nickname')->label('名称'),
-                                ImageEntry::make('customer.avatar_url')->circular()->height(30)->label('头像'),
+                                ImageEntry::make('customer.avatar_url')
+                                    ->circular()
+                                    ->height(30)
+                                    ->label('头像'),
                             ]),
                     ]),
                 Fieldset::make('订单信息')
@@ -176,11 +181,11 @@ class MallOrderResource extends MallResource implements HasShieldPermissions
             ])
             ->actions([
                 Actions\ViewAction::make(),
-                self::getDeliveryFromOption(Actions\EditAction::make()),
+                self::getDeliveryFromOption(EditAction::make()),
             ])
             ->headerActions([
                 Actions\ExportAction::make()
-                    ->exporter(MallOrderExporter::class)
+                    ->exporter(MallOrderExporter::class),
             ])
             ->defaultSort('id', 'desc')
             ->recordUrl(null);
@@ -196,7 +201,7 @@ class MallOrderResource extends MallResource implements HasShieldPermissions
     public static function getWidgets(): array
     {
         return [
-            MallOrderStats::class
+            MallOrderStats::class,
         ];
     }
 
@@ -239,15 +244,14 @@ class MallOrderResource extends MallResource implements HasShieldPermissions
             ->using(function (MallOrder $record, array $data): MallOrder {
 
                 $record->update([
-                    ... $data,
+                    ...$data,
                     'order_status' => MallOrderOrderStatusEnum::Delivery->value,
                     'delivery_time' => Carbon::now(),
                 ]);
 
                 return $record;
             })
-            ->hidden(fn(MallOrder $record) => $record->order_status->isNeq(MallOrderOrderStatusEnum::Pay))
+            ->hidden(fn (MallOrder $record) => $record->order_status->isNeq(MallOrderOrderStatusEnum::Pay))
             ->label('发货');
     }
-
 }

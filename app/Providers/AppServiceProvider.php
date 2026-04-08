@@ -9,17 +9,16 @@ use App\Observers\Mall\MallOrderObserver;
 use App\Observers\Mall\MallOrderRefundObserver;
 use BezhanSalleh\PanelSwitch\PanelSwitch;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Pulse\Facades\Pulse;
 use Opcodes\LogViewer\Facades\LogViewer;
-use Illuminate\Support\Facades\Gate;
 
 class AppServiceProvider extends ServiceProvider
 {
-    public function register(): void
-    {
-    }
+    public function register(): void {}
 
     public function boot(): void
     {
@@ -41,10 +40,14 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // 性能监控，设置用户卡片显示属性
-        Pulse::user(fn(User $user) => [
+        Pulse::user(fn (User $user) => [
             'name' => $user->name,
             'extra' => $user->phone,
-            'avatar' => asset('storage/' . $user->avatar_url),
+            'avatar' => blank($user->avatar_url)
+                ? null
+                : (filter_var($user->avatar_url, FILTER_VALIDATE_URL) !== false
+                    ? $user->avatar_url
+                    : Storage::disk(config('filament.default_filesystem_disk'))->url($user->avatar_url)),
         ]);
 
         // 商城模块
@@ -53,7 +56,7 @@ class AppServiceProvider extends ServiceProvider
 
         // 自动注册策略
         Gate::guessPolicyNamesUsing(function (string $modelClass) {
-            return Str::replace('App\\Models', 'App\\Policies', $modelClass) . 'Policy';
+            return Str::replace('App\\Models', 'App\\Policies', $modelClass).'Policy';
         });
 
         // 多面板处理
@@ -67,7 +70,7 @@ class AppServiceProvider extends ServiceProvider
             $labels = ['admin' => $adminExtend['panel']['label']];
 
             foreach ($extends as $panelName => $extend) {
-                if (!$extend['enabled']) {
+                if (! $extend['enabled']) {
                     continue;
                 }
                 $panels[] = $panelName;

@@ -8,11 +8,8 @@ use App\Models\Mall\MallAttrValue;
 use App\Models\Mall\MallGoods;
 use App\Models\Mall\MallGoodsAttr;
 use Filament\Resources\Pages\CreateRecord;
-use Filament\Support\Exceptions\Halt;
-use Filament\Support\Facades\FilamentView;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\DB;
-use function Filament\Support\is_app_url;
 
 class CreateMallGoods extends CreateRecord
 {
@@ -23,95 +20,75 @@ class CreateMallGoods extends CreateRecord
         return $this->previousUrl ?? MallGoodsResource::getUrl();
     }
 
-    /**
-     * @throws Halt
-     */
-    protected function beforeCreate(): void
+    protected function handleRecordCreation(array $data): Model
     {
-        $data = $this->form->getState();
+        /** @var MallGoods $goods */
+        $goods = MallGoods::query()->create([
+            'goods_sn' => $data['goods_sn'],
+            'goods_category_id' => $data['goods_category_id'],
+            'goods_name' => $data['goods_name'],
+            'subtitle' => $data['subtitle'],
+            'main_img' => $data['main_img'],
+            'images' => $data['images'],
+            'content' => $data['content'],
+        ]);
 
-        DB::transaction(function () use ($data) {
-            /** @var MallGoods $goods */
-            $goods = MallGoods::query()->create([
-                'goods_sn' => $data['goods_sn'],
-                'goods_category_id' => $data['goods_category_id'],
-                'goods_name' => $data['goods_name'],
-                'subtitle' => $data['subtitle'],
-                'main_img' => $data['main_img'],
-                'images' => $data['images'],
-                'content' => $data['content'],
+        $attrList = MallAttr::query()
+            ->whereIn('id', $data['attr'])
+            ->get();
+
+        $mapAttrValues = [];
+
+        /** @var MallGoodsAttr $attr */
+        foreach ($attrList as $attr) {
+            $attr->load([
+                'attrValue' => function (HasMany $query) use ($data, $attr) {
+                    $query->whereIn('id', $data['attr_value_'.$attr->id]);
+                },
             ]);
 
-            $attrList = MallAttr::query()
-                ->whereIn('id', $data['attr'])
-                ->get();
+            $goodsAttr = $goods->attr()->create([
+                'attr_name' => $attr->attr_name,
+            ]);
 
-            // 创建商品规格
-            $mapAttrValues = [];
-            /** @var MallGoodsAttr $attr */
-            foreach ($attrList as $attr) {
-                $attr->load([
-                    'attrValue' => function (HasMany $query) use ($data, $attr) {
-                        $query->whereIn('id', $data['attr_value_' . $attr->id]);
-                    }
-                ]);
+            $attr->attrValue->each(function (MallAttrValue $attrValue) use ($goodsAttr, &$mapAttrValues) {
+                $mapAttrValues[$attrValue->id] = $goodsAttr->attrValue()->create([
+                    'attr_value_name' => $attrValue->attr_value_name,
+                ])->id;
+            });
+        }
 
-                $goodsAttr = $goods->attr()->create([
-                    'attr_name' => $attr->attr_name,
-                ]);
+        $skuData = [];
 
-                $attr->attrValue->each(function (MallAttrValue $attrValue) use ($goodsAttr, &$mapAttrValues) {
-                    $mapAttrValues[$attrValue->id] = $goodsAttr->attrValue()->create([
-                        'attr_value_name' => $attrValue->attr_value_name,
-                    ])->id;
-                });
+        foreach ($data as $key => $value) {
+            if (! str_contains($key, ':')) {
+                continue;
             }
 
-            // 创建SKU数据
-            $skuData = [];
-            foreach ($data as $key => $value) {
-                if (!str_contains($key, ':')) {
-                    continue;
-                }
-                list($fieldName, $spec) = explode(":", $key);
-                // 排除掉忽略的属性
-                if (!in_array($fieldName, ['price', 'stock', 'sku_img'])) {
-                    continue;
-                }
+            [$fieldName, $spec] = explode(':', $key);
 
-                $skuData[$spec][$fieldName] = $value;
+            if (! in_array($fieldName, ['price', 'stock', 'sku_img'], true)) {
+                continue;
             }
 
-            foreach ($skuData as $skuKey => $sku) {
-                $parts = explode('-', $skuKey);
+            $skuData[$spec][$fieldName] = $value;
+        }
 
-                $newSkuKey = array_map(function ($part) use ($mapAttrValues) {
-                    return $mapAttrValues[$part];
-                }, $parts);
+        foreach ($skuData as $skuKey => $sku) {
+            $parts = explode('-', $skuKey);
 
-                $goods->sku()->create([
-                    'spec' => implode('-', $newSkuKey),
-                    'price' => $sku['price'],
-                    'sku_img' => $sku['sku_img'] ?? null,
-                    'stock' => $sku['stock'],
-                ]);
-            }
-        });
+            $newSkuKey = array_map(function ($part) use ($mapAttrValues) {
+                return $mapAttrValues[$part];
+            }, $parts);
 
-        $this->callHook('afterCreate');
+            $goods->sku()->create([
+                'spec' => implode('-', $newSkuKey),
+                'price' => $sku['price'],
+                'sku_img' => $sku['sku_img'] ?? null,
+                'stock' => $sku['stock'],
+            ]);
+        }
 
-        $this->commitDatabaseTransaction();
-
-        $this->rememberData();
-
-        $this->getCreatedNotification()?->send();
-
-        $redirectUrl = $this->getRedirectUrl();
-
-        $this->redirect($redirectUrl, navigate: FilamentView::hasSpaMode() && is_app_url($redirectUrl));
-
-        // 停止接下来的操作
-        $this->halt();
+        return $goods;
     }
-
 }

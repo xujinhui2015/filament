@@ -10,7 +10,7 @@ class DetailRelationManager extends RelationManager
 {
     protected static string $relationship = 'detail';
 
-    protected static ?string $title =  '';
+    protected static ?string $title = '';
 
     protected static bool $isLazy = false; // 禁止延迟加载
 
@@ -21,7 +21,10 @@ class DetailRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('goods.goods_sn')->label('商品编号'),
                 Tables\Columns\TextColumn::make('goods_name')->label('商品名称'),
                 Tables\Columns\TextColumn::make('goods_spec')->label('商品规格'),
-                Tables\Columns\ImageColumn::make('goods_image')->square()->height(30)->label('商品图片'),
+                Tables\Columns\ImageColumn::make('goods_image')
+                    ->square()
+                    ->height(30)
+                    ->label('商品图片'),
                 Tables\Columns\TextColumn::make('goods_number')->label('数量'),
                 Tables\Columns\TextColumn::make('goods_price')->prefix('￥')->label('实际付款金额'),
             ])

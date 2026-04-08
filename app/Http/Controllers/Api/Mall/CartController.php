@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Mall;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Mall\Cart\MallCartStoreRequest;
 use App\Http\Requests\IdsRequest;
+use App\Http\Resources\MallCartResource;
 use App\Models\Mall\MallCart;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\JsonResponse;
@@ -19,19 +20,20 @@ class CartController extends Controller
     #[Post('index')]
     public function index(): JsonResponse
     {
-        $list = MallCart::query()
-            ->where('customer_id', $this->getCustomerId())
-            ->select([
-                'id', 'goods_id', 'goods_sku_id', 'goods_number'
-            ])
-            ->with([
-                'sku' => function (BelongsTo $query) {
-                    $query->selectRaw('id,spec,price,sku_img,stock');
-                },
-                'goods:id,goods_name,main_img,is_sale',
-            ])
-            ->get();
-        return $this->success($list);
+        return $this->success(MallCartResource::collection(
+            MallCart::query()
+                ->where('customer_id', $this->getCustomerId())
+                ->select([
+                    'id', 'goods_id', 'goods_sku_id', 'goods_number',
+                ])
+                ->with([
+                    'sku' => function (BelongsTo $query) {
+                        $query->selectRaw('id,spec,price,sku_img,stock');
+                    },
+                    'goods:id,goods_name,main_img,is_sale',
+                ])
+                ->get()
+        ));
     }
 
     #[Post('store')]
@@ -67,5 +69,4 @@ class CartController extends Controller
 
         return $this->ok();
     }
-
 }

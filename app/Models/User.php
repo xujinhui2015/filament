@@ -29,9 +29,9 @@ use Spatie\Permission\Traits\HasRoles;
  *
  * @method static Builder|User query()
  */
-class User extends Authenticatable implements HasAvatar, FilamentUser
+class User extends Authenticatable implements FilamentUser, HasAvatar
 {
-    use HasFactory, HasRoles, Notifiable, FormatModelDateTrait;
+    use FormatModelDateTrait, HasFactory, HasRoles, Notifiable;
 
     protected $table = 'users';
 
@@ -58,7 +58,15 @@ class User extends Authenticatable implements HasAvatar, FilamentUser
 
     public function getFilamentAvatarUrl(): ?string
     {
-        return $this->avatar_url ? Storage::url($this->avatar_url) : null;
+        if (blank($this->avatar_url)) {
+            return null;
+        }
+
+        if (filter_var($this->avatar_url, FILTER_VALIDATE_URL) !== false) {
+            return $this->avatar_url;
+        }
+
+        return Storage::disk(config('filament.default_filesystem_disk'))->url($this->avatar_url);
     }
 
     /**
@@ -69,7 +77,8 @@ class User extends Authenticatable implements HasAvatar, FilamentUser
         if ($panel->getId() == 'admin') {
             return true;
         }
-        return config('extend.custom.' . $panel->getId().'.enabled');
+
+        return config('extend.custom.'.$panel->getId().'.enabled');
     }
 
     public function isAdmin(): bool

@@ -3,9 +3,9 @@
 namespace App\Filament\Admin\Pages\Auth;
 
 use App\Support\Helpers\FilePathHelper;
+use Filament\Auth\Pages\EditProfile;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
-use Filament\Auth\Pages\EditProfile;
 use Filament\Schemas\Components\Component;
 use Filament\Schemas\Schema;
 

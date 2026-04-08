@@ -14,6 +14,7 @@ use Hugomyb\FilamentMediaAction\Actions\MediaAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Storage;
 
 class FilamentService
 {
@@ -102,7 +103,19 @@ class FilamentService
     public static function actionShowMedia($attribute)
     {
         return MediaAction::make()
-            ->media(fn (Model $record) => asset('storage/'.data_get($record, $attribute)))
+            ->media(function (Model $record) use ($attribute): ?string {
+                $media = data_get($record, $attribute);
+
+                if (blank($media)) {
+                    return null;
+                }
+
+                if (filter_var($media, FILTER_VALIDATE_URL) !== false) {
+                    return $media;
+                }
+
+                return Storage::disk(config('filament.default_filesystem_disk'))->url($media);
+            })
             ->label('');
     }
 }

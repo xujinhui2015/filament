@@ -11,6 +11,7 @@ use App\Http\Requests\Api\Mall\Order\MallOrderCalcRequest;
 use App\Http\Requests\Api\Mall\Order\MallOrderCreateRequest;
 use App\Http\Requests\Api\Mall\Order\MallOrderPaymentRequest;
 use App\Http\Requests\IdRequest;
+use App\Http\Resources\MallOrderResource;
 use App\Models\Mall\MallGoodsSku;
 use App\Models\Mall\MallOrder;
 use App\Services\Customer\CustomerService;
@@ -39,7 +40,7 @@ class OrderController extends Controller
         $detail = $request->post('detail');
         // 检查库存
         foreach ($detail as $item) {
-            if (!MallStockService::checkStock($item['goods_sku_id'], $item['goods_number'])) {
+            if (! MallStockService::checkStock($item['goods_sku_id'], $item['goods_number'])) {
                 return $this->fail('库存不足');
             }
         }
@@ -104,7 +105,7 @@ class OrderController extends Controller
             ->where('customer_id', $this->getCustomerId())
             ->find($request->post('id'));
 
-        if (!$order) {
+        if (! $order) {
             return $this->fail('订单不存在');
         }
 
@@ -117,7 +118,7 @@ class OrderController extends Controller
 
         $order->update($request->safe([
             'name', 'phone', 'province', 'city',
-            'district', 'address', 'buyer_remark'
+            'district', 'address', 'buyer_remark',
         ]));
 
         return $this->success([
@@ -136,7 +137,7 @@ class OrderController extends Controller
             ->where('customer_id', $this->getCustomerId())
             ->find($request->post('id'));
 
-        if (!$order) {
+        if (! $order) {
             return $this->fail('订单不存在');
         }
 
@@ -161,14 +162,14 @@ class OrderController extends Controller
 
         // 检查库存
         foreach ($order->detail as $orderDetail) {
-            if (!MallStockService::checkStock($orderDetail->goods_sku_id, $orderDetail->goods_number)) {
+            if (! MallStockService::checkStock($orderDetail->goods_sku_id, $orderDetail->goods_number)) {
                 return $this->fail('库存不足');
             }
         }
         $payment = $request->post('payment');
         if (MallOrderPaymentEnum::Balance->isEq($payment)) {
 
-            Db::transaction(function () use ($order, $payment) {
+            DB::transaction(function () use ($order) {
                 // 扣除余额
                 CustomerService::setBalance(
                     $this->getCustomer(),
@@ -181,6 +182,7 @@ class OrderController extends Controller
                 // 扣除库存
                 MallStockService::handleOrderStock($order);
             });
+
             return $this->success();
         } elseif (MallOrderPaymentEnum::Wechat->isEq($payment)) {
 
@@ -198,20 +200,22 @@ class OrderController extends Controller
     #[Post('index')]
     public function index()
     {
-        return $this->success(QueryBuilder::for(MallOrder::class)
-            ->where('customer_id', $this->getCustomerId())
-            ->whereNotIn('order_status', [
-                MallOrderOrderStatusEnum::Checkout,
-            ])
-            ->allowedFilters([
-                AllowedFilter::exact('order_status'),
-            ])
-            ->orderByDesc('id')
-            ->selectRaw('id,order_no,order_status,order_money,order_fact_money,last_pay_time,created_at')
-            ->with([
-                'detail:id,order_id,goods_id,goods_sku_id,goods_name,goods_spec,goods_image,goods_price,goods_number',
-            ])
-            ->cursorPaginate());
+        return $this->success(MallOrderResource::collection(
+            QueryBuilder::for(MallOrder::class)
+                ->where('customer_id', $this->getCustomerId())
+                ->whereNotIn('order_status', [
+                    MallOrderOrderStatusEnum::Checkout,
+                ])
+                ->allowedFilters([
+                    AllowedFilter::exact('order_status'),
+                ])
+                ->orderByDesc('id')
+                ->selectRaw('id,order_no,order_status,order_money,order_fact_money,last_pay_time,created_at')
+                ->with([
+                    'detail:id,order_id,goods_id,goods_sku_id,goods_name,goods_spec,goods_image,goods_price,goods_number',
+                ])
+                ->cursorPaginate()
+        ));
     }
 
     /**
@@ -220,7 +224,7 @@ class OrderController extends Controller
     #[Post('show')]
     public function show(IdRequest $request)
     {
-        return $this->success(MallOrder::query()
+        $order = MallOrder::query()
             ->where('customer_id', $this->getCustomerId())
             ->select([
                 'id', 'customer_id', 'order_no', 'order_status', 'order_money', 'order_fact_money',
@@ -230,7 +234,9 @@ class OrderController extends Controller
             ->with([
                 'detail:id,order_id,goods_id,goods_sku_id,goods_name,goods_spec,goods_image,goods_price,goods_number',
             ])
-            ->find($request->post('id')));
+            ->find($request->post('id'));
+
+        return $this->success($order ? MallOrderResource::make($order) : null);
     }
 
     /**
@@ -243,7 +249,7 @@ class OrderController extends Controller
             ->where('customer_id', $this->getCustomerId())
             ->find($request->post('id'));
 
-        if (!$order) {
+        if (! $order) {
             return $this->fail('订单不存在');
         }
 
@@ -259,6 +265,4 @@ class OrderController extends Controller
 
         return $this->ok();
     }
-
-
 }

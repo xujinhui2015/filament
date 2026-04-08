@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Mall;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IdRequest;
+use App\Http\Resources\MallGoodsResource;
 use App\Models\Mall\MallGoods;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\JsonResponse;
@@ -17,19 +18,21 @@ class GoodsController extends Controller
     #[Post('index')]
     public function index(): JsonResponse
     {
-        return $this->success(QueryBuilder::for(MallGoods::class)
-            ->allowedFilters(['goods_name'])
-            ->selectRaw('id,goods_sn,goods_name,goods_category_id,goods_name,main_img')
-            ->where('is_sale', true)
-            ->withMin('sku', 'price')
-            ->orderByDesc('id')
-            ->cursorPaginate());
+        return $this->success(MallGoodsResource::collection(
+            QueryBuilder::for(MallGoods::class)
+                ->allowedFilters(['goods_name'])
+                ->selectRaw('id,goods_sn,goods_name,goods_category_id,goods_name,main_img')
+                ->where('is_sale', true)
+                ->withMin('sku', 'price')
+                ->orderByDesc('id')
+                ->cursorPaginate()
+        ));
     }
 
     #[Post('show')]
     public function show(IdRequest $request): JsonResponse
     {
-        return $this->success(MallGoods::query()
+        $goods = MallGoods::query()
             ->selectRaw('id,goods_sn,goods_name,subtitle,main_img,images,content,is_sale')
             ->with([
                 'sku:id,goods_id,spec,price,sku_img,stock',
@@ -42,9 +45,10 @@ class GoodsController extends Controller
                     $query->selectRaw('id,goods_attr_id,attr_value_name')
                         ->where('is_disabled', false)
                         ->orderBy('sort');
-                }
+                },
             ])
-            ->find($request->post('id')));
-    }
+            ->find($request->post('id'));
 
+        return $this->success($goods ? MallGoodsResource::make($goods) : null);
+    }
 }

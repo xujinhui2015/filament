@@ -3,9 +3,10 @@
 namespace App\Filament\Admin\Resources\Customer;
 
 use App\Filament\Admin\Resources\AdminResource;
+use App\Filament\Admin\Resources\Customer\CustomerResource\Pages\ListCustomers;
+use App\Filament\Admin\Resources\Customer\CustomerResource\Pages\ViewCustomer;
 use App\Filament\Admin\Resources\Customer\CustomerResource\RelationManagers\BalancesRecordsRelationManager;
 use App\Filament\Admin\Resources\Customer\CustomerResource\RelationManagers\PointsRecordsRelationManager;
-use App\Filament\Resources\Customer\CustomerResource\Pages;
 use App\Models\Customer\Customer;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Exception;
@@ -90,7 +91,7 @@ class CustomerResource extends AdminResource implements HasShieldPermissions
                         Grid::make(4)
                             ->schema([
                                 Infolists\Components\TextEntry::make('nickname')->label('名称'),
-                                //Infolists\Components\ImageEntry::make('avatar_url')->circular()->label('头像'),
+                                // Infolists\Components\ImageEntry::make('avatar_url')->circular()->label('头像'),
                                 Infolists\Components\TextEntry::make('balance')->prefix('￥')->label('余额'),
                                 Infolists\Components\TextEntry::make('points')->label('积分'),
                                 Infolists\Components\TextEntry::make('created_at')->label('注册时间'),
@@ -110,8 +111,8 @@ class CustomerResource extends AdminResource implements HasShieldPermissions
     public static function getPages(): array
     {
         return [
-            'index' => \App\Filament\Admin\Resources\Customer\CustomerResource\Pages\ListCustomers::route('/'),
-            'view' => \App\Filament\Admin\Resources\Customer\CustomerResource\Pages\ViewCustomer::route('/{record}'),
+            'index' => ListCustomers::route('/'),
+            'view' => ViewCustomer::route('/{record}'),
         ];
     }
 

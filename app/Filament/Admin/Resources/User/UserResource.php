@@ -3,7 +3,7 @@
 namespace App\Filament\Admin\Resources\User;
 
 use App\Filament\Admin\Resources\AdminResource;
-use App\Filament\Resources\User\UserResource\Pages;
+use App\Filament\Admin\Resources\User\UserResource\Pages\ManageUsers;
 use App\Models\User;
 use App\Support\Helpers\FilePathHelper;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
@@ -128,7 +128,7 @@ class UserResource extends AdminResource implements HasShieldPermissions
     public static function getPages(): array
     {
         return [
-            'index' => \App\Filament\Admin\Resources\User\UserResource\Pages\ManageUsers::route('/'),
+            'index' => ManageUsers::route('/'),
         ];
     }
 
