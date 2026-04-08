@@ -1,0 +1,5 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@source '../../../../app/Filament/Mall/**/*';
+@source '../../../../resources/views/filament/mall/**/*';
+@source '../../../../vendor/bezhansalleh/filament-panel-switch/resources/views/**/*';

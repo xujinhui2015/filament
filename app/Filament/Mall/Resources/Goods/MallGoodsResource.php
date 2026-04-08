@@ -3,8 +3,8 @@
 namespace App\Filament\Mall\Resources\Goods;
 
 use App\Enums\IsYesOrNoEnum;
-use App\Filament\Mall\Resources\MallResource;
 use App\Filament\Mall\Resources\Goods\MallGoodsResource\Pages;
+use App\Filament\Mall\Resources\MallResource;
 use App\Models\Mall\MallAttr;
 use App\Models\Mall\MallAttrValue;
 use App\Models\Mall\MallGoods;
@@ -17,6 +17,9 @@ use CodeWithDennis\FilamentSelectTree\SelectTree;
 use Exception;
 use Filament\Actions;
 use Filament\Forms;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -33,7 +36,9 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = '商品管理';
+
     protected static ?string $modelLabel = '商品';
+
     protected static string|\UnitEnum|null $navigationGroup = '商品';
 
     public static function getPermissionPrefixes(): array
@@ -110,27 +115,28 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
                         ->minItems(1)
                         ->maxItems(2)
                         ->live()
-                        ->afterStateUpdated(fn(Forms\Components\Select $component) => $component
+                        ->afterStateUpdated(fn (Forms\Components\Select $component) => $component
                             ->getContainer()
                             ->getComponent('attrValue')
                             ->getChildComponentContainer()
                             ->fill())
                         ->label('商品规格'),
-                    Forms\Components\Grid::make(3)
-                        ->schema(function (Forms\Get $get): array {
-                            if (!$get('attr')) {
+                    Grid::make(3)
+                        ->schema(function (Get $get): array {
+                            if (! $get('attr')) {
                                 return [];
                             }
+
                             return MallAttr::query()
                                 ->whereIn('id', $get('attr'))
                                 ->with([
                                     'attrValue' => function (HasMany $query) {
                                         $query->where('is_disabled', false);
-                                    }
+                                    },
                                 ])
                                 ->get()
                                 ->map(function (MallAttr $mallAttr) {
-                                    return Forms\Components\Select::make('attr_value_' . $mallAttr->id)
+                                    return Forms\Components\Select::make('attr_value_'.$mallAttr->id)
                                         ->multiple()
                                         ->required()
                                         ->minItems(1)
@@ -142,21 +148,21 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
                                                 ->maxLength(100)
                                                 ->label('规格值名称'),
                                         ])
-                                        ->createOptionUsing(function (array $data) use ($mallAttr) : int {
+                                        ->createOptionUsing(function (array $data) use ($mallAttr): int {
                                             return $mallAttr->attrValue()->create($data)->getKey();
                                         })
                                         ->live()
                                         ->label($mallAttr->attr_name);
                                 })->toArray();
                         })->key('attrValue'),
-                    Forms\Components\Grid::make()
-                        ->schema(function (Forms\Get $get): array {
+                    Grid::make()
+                        ->schema(function (Get $get): array {
                             // 处理无限极分类
 
                             // 获取所有接收的规格属性
                             $attr = $get('attr');
                             $attrArray = collect($attr)->map(function ($attrId) use ($get) {
-                                return $get('attr_value_' . $attrId);
+                                return $get('attr_value_'.$attrId);
                             });
                             if (is_null($attrArray->first())) {
                                 return [];
@@ -183,13 +189,13 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
                                     ->pluck('attr_value_name')
                                     ->implode('-');
 
-                                return Forms\Components\Fieldset::make($spec)
+                                return Fieldset::make($spec)
                                     ->schema([
-                                        Forms\Components\TextInput::make('price:' . $specKey)
+                                        Forms\Components\TextInput::make('price:'.$specKey)
                                             ->required()
                                             ->prefix('￥')
                                             ->label('商品价格'),
-                                        Forms\Components\TextInput::make('stock:' . $specKey)
+                                        Forms\Components\TextInput::make('stock:'.$specKey)
                                             ->required()
                                             ->label('商品库存'),
                                     ]);
@@ -252,19 +258,19 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
                                     Forms\Components\Radio::make('is_disabled')
                                         ->options(IsYesOrNoEnum::options())
                                         ->inline()
-                                        ->label('是否禁用')
+                                        ->label('是否禁用'),
                                 ])
                                 ->deletable(false)
                                 ->addable(false)
                                 ->orderColumn()
-                                ->label('')
+                                ->label(''),
                         ])
                         ->deletable(false)
                         ->addable(false)
                         ->grid()
                         ->columnSpanFull()
                         ->collapsed()
-                        ->itemLabel(fn(array $state): string => $state['attr_name'])
+                        ->itemLabel(fn (array $state): string => $state['attr_name'])
                         ->label('商品规格'),
                     Forms\Components\Repeater::make('sku')
                         ->relationship()
@@ -293,7 +299,6 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
                         ->label('内容'),
                 ]);
         }
-
 
     }
 

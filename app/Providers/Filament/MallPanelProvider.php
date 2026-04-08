@@ -32,8 +32,12 @@ class MallPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->colors([
+                'primary' => Color::Gray,
+            ])
             ->id('mall')
             ->path('mall')
+            ->viteTheme('resources/css/filament/mall/theme.css')
             ->login(CustomLogin::class) // 登录页配置
             ->pages([
                 Pages\Dashboard::class,
