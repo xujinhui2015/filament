@@ -254,7 +254,7 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
                                 ->schema([
                                     Forms\Components\Placeholder::make('attr_value_name')
                                         ->content(fn (MallGoodsAttrValue $record): string => $record->attr_value_name)
-                                        ->label(''),
+                                        ->hiddenLabel(),
                                     Forms\Components\Radio::make('is_disabled')
                                         ->options(IsYesOrNoEnum::options())
                                         ->inline()
@@ -263,7 +263,7 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
                                 ->deletable(false)
                                 ->addable(false)
                                 ->orderColumn()
-                                ->label(''),
+                                ->hiddenLabel(),
                         ])
                         ->deletable(false)
                         ->addable(false)
@@ -277,7 +277,7 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
                         ->schema([
                             Forms\Components\Placeholder::make('spec_text')
                                 ->content(fn (MallGoodsSku $record): string => $record->getAttribute('spec_text'))
-                                ->label(''),
+                                ->hiddenLabel(),
                             Forms\Components\TextInput::make('price')
                                 ->required()
                                 ->prefix('￥')
