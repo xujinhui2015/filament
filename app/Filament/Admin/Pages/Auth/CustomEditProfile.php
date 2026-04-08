@@ -3,10 +3,10 @@
 namespace App\Filament\Admin\Pages\Auth;
 
 use App\Support\Helpers\FilePathHelper;
-use Filament\Forms\Components\Component;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Auth\Pages\EditProfile;
+use Filament\Schemas\Components\Component;
 use Filament\Schemas\Schema;
 
 class CustomEditProfile extends EditProfile

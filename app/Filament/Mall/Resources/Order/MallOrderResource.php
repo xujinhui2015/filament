@@ -17,14 +17,15 @@ use Filament\Actions;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Infolists\Components\Fieldset;
-use Filament\Infolists\Components\Grid;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
 use Filament\Pages\Enums\SubNavigationPosition;
 use Filament\Resources\Pages\Page;
 use Filament\Support\Colors\Color;
+use Filament\Support\Enums\TextSize;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -116,7 +117,7 @@ class MallOrderResource extends MallResource implements HasShieldPermissions
                         TextEntry::make('order_fact_money')->prefix('￥')
                             ->inlineLabel()
                             ->columnSpanFull()
-                            ->size(TextEntry\TextEntrySize::Large)
+                            ->size(TextSize::Large)
                             ->color(Color::Red)
                             ->label('实收金额'),
                     ]),

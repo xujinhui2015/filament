@@ -11,6 +11,8 @@ use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Exception;
 use Filament\Actions;
 use Filament\Infolists;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -83,9 +85,9 @@ class CustomerResource extends AdminResource implements HasShieldPermissions
     {
         return $schema
             ->schema([
-                Infolists\Components\Fieldset::make('用户信息')
+                Fieldset::make('用户信息')
                     ->schema([
-                        Infolists\Components\Grid::make(4)
+                        Grid::make(4)
                             ->schema([
                                 Infolists\Components\TextEntry::make('nickname')->label('名称'),
                                 //Infolists\Components\ImageEntry::make('avatar_url')->circular()->label('头像'),

@@ -2,9 +2,9 @@
 
 namespace App\Filament\Admin\Pages\Auth;
 
-use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
 use Filament\Auth\Pages\Login;
+use Filament\Schemas\Components\Component;
 use Filament\Schemas\Schema;
 use Illuminate\Validation\ValidationException;
 

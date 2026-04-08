@@ -15,14 +15,15 @@ use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Actions;
 use Filament\Actions\MountableAction;
 use Filament\Forms;
-use Filament\Infolists\Components\Fieldset;
-use Filament\Infolists\Components\Grid;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
 use Filament\Pages\Enums\SubNavigationPosition;
 use Filament\Resources\Pages\Page;
 use Filament\Support\Colors\Color;
+use Filament\Support\Enums\TextSize;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -94,7 +95,7 @@ class MallOrderRefundResource extends MallResource implements HasShieldPermissio
                             ]),
                         TextEntry::make('refund_reason')->columnSpanFull()->label('退款原因'),
                         TextEntry::make('buyer_message')->columnSpanFull()->label('买家留言'),
-                        TextEntry::make('refund_money')->prefix('￥')->columnSpanFull()->size(TextEntry\TextEntrySize::Large)->color(Color::Red)->label('退款金额'),
+                        TextEntry::make('refund_money')->prefix('￥')->columnSpanFull()->size(TextSize::Large)->color(Color::Red)->label('退款金额'),
                         ImageEntry::make('buyer_images')->columnSpanFull()->label('买家图片凭证'),
                         TextEntry::make('seller_message')->columnSpanFull()->default('无')->label('卖家留言'),
 
