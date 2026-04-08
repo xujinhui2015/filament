@@ -36,9 +36,6 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login(CustomLogin::class) // 登录页配置
-            ->colors([
-                'primary' => Color::Green,
-            ])
             ->pages([
                 Dashboard::class,
             ])

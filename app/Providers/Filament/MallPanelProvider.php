@@ -35,9 +35,6 @@ class MallPanelProvider extends PanelProvider
             ->id('mall')
             ->path('mall')
             ->login(CustomLogin::class) // 登录页配置
-            ->colors([
-                'primary' => Color::Green,
-            ])
             ->pages([
                 Pages\Dashboard::class,
             ])
