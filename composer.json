@@ -10,7 +10,7 @@
     "require": {
         "php": "^8.3",
         "ext-bcmath": "*",
-        "bezhansalleh/filament-panel-switch": "^3.1.0",
+        "bezhansalleh/filament-panel-switch": "^3.1",
         "bezhansalleh/filament-shield": "^4.2.0",
         "charrafimed/global-search-modal": "^v5.0.0",
         "codewithdennis/filament-select-tree": "^v4.0.18",

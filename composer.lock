@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "50994c9820f512f7c651f187a2f93ca3",
+    "content-hash": "3aa878058d8a73890d81b9d19146dfc6",
     "packages": [
         {
             "name": "bezhansalleh/filament-panel-switch",
