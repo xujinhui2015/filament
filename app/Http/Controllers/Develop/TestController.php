@@ -19,14 +19,6 @@ class TestController extends Controller
             ->allowedSorts(['id', 'points'])
             ->paginate();
 
-
-        // 富文本编辑器, 放到Resource中的form里面
-//        QuillEditor::make('content')
-//            ->required()
-//            ->label('内容')
-//            ->fileAttachmentsDirectory(FilePathDispose::uploadDir(FilePathDispose::DEFAULT))
-//            ->columnSpanFull(),
-
         return $this->success($list);
 
     }

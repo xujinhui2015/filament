@@ -5,10 +5,10 @@ namespace App\Services\Filament;
 use App\Models\Common\Area;
 use Exception;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Tables\Filters\Filter;
 use Hugomyb\FilamentMediaAction\Actions\MediaAction;
 use Illuminate\Database\Eloquent\Builder;
@@ -24,10 +24,11 @@ class FilamentService
      */
     public static function getFilterDateRange($datetimeFieldName): Filter
     {
-        $fromKey = $datetimeFieldName . '_from';
-        $untilKey = $datetimeFieldName . '_until';
+        $fromKey = $datetimeFieldName.'_from';
+        $untilKey = $datetimeFieldName.'_until';
+
         return Filter::make($datetimeFieldName)
-            ->form([
+            ->schema([
                 DatePicker::make($fromKey)->label('起始时间'),
                 DatePicker::make($untilKey)->label('结束时间'),
             ])
@@ -35,11 +36,11 @@ class FilamentService
                 return $query
                     ->when(
                         $data[$fromKey],
-                        fn(Builder $query, $date): Builder => $query->whereDate($datetimeFieldName, '>=', $date),
+                        fn (Builder $query, $date): Builder => $query->whereDate($datetimeFieldName, '>=', $date),
                     )
                     ->when(
                         $data[$untilKey],
-                        fn(Builder $query, $date): Builder => $query->whereDate($datetimeFieldName, '<=', $date),
+                        fn (Builder $query, $date): Builder => $query->whereDate($datetimeFieldName, '<=', $date),
                     );
             });
     }
@@ -62,7 +63,7 @@ class FilamentService
                     ->searchable()
                     ->label('省'),
                 Select::make('city')
-                    ->options(fn(Get $get) => Area::query()
+                    ->options(fn (Get $get) => Area::query()
                         ->where('parent_id', function (QueryBuilder $query) use ($get) {
                             $query->where('parent_id', 0)
                                 ->where('name', $get('province'))
@@ -78,7 +79,7 @@ class FilamentService
                     ->label('市'),
                 Select::make('district')
                     ->live()
-                    ->options(fn(Get $get) => Area::query()
+                    ->options(fn (Get $get) => Area::query()
                         ->where('parent_id', function (QueryBuilder $query) use ($get) {
                             $query->where('parent_id', function (QueryBuilder $query) use ($get) {
                                 $query->where('parent_id', 0)
@@ -101,7 +102,7 @@ class FilamentService
     public static function actionShowMedia($attribute)
     {
         return MediaAction::make()
-            ->media(fn(Model $record) => asset('storage/' . data_get($record, $attribute)))
+            ->media(fn (Model $record) => asset('storage/'.data_get($record, $attribute)))
             ->label('');
     }
 }

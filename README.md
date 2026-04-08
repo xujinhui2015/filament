@@ -47,7 +47,7 @@ php artisan log-viewer:publish
 
 ## 性能监控
 ```bash
-# 使用文档：https://laravel.com/docs/11.x/pulse
+# 使用文档：https://laravel.com/docs/12.x/pulse
 # 服务器记录器，需要长期异步执行：php artisan pulse:check
 # 必须登录users表ID=1的账户，才能查看
 访问地址 {APP_URL}/pulse
@@ -86,12 +86,9 @@ FILAMENT_FILESYSTEM_DISK=qiniu
 filament后台权限管理： https://github.com/bezhanSalleh/filament-shield
 filament实现tree列表：https://github.com/solutionforest/filament-tree
 filament实现select组件渲染tree节点：https://github.com/codewithdennis/filament-select-tree
-filament实现表格布局的中继器组件：https://github.com/icetalker/filament-table-repeater
-filament富文本编辑器：https://github.com/rawilk/filament-quill
 filament实现点击图片展示大图的功能：https://github.com/hugomyb/filament-media-action
 filament全局搜索模态插件：https://github.com/CharrafiMed/global-search-modal
 filament面板切换插件：https://github.com/bezhanSalleh/filament-panel-switch
-filament活动日志记录查看面板：https://github.com/rmsramos/activitylog
 API规范响应数据格式：https://github.com/jiannei/laravel-response
 Laravel的日志查看器：https://github.com/opcodesio/log-viewer
 Laravel的性能监控：https://github.com/laravel/pulse
