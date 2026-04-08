@@ -5,8 +5,8 @@ namespace App\Filament\Mall\Resources\Order\MallOrderRefundResource\Pages;
 use App\Enums\Mall\MallOrderRefundRefundStatusEnum;
 use App\Filament\Mall\Resources\Order\MallOrderRefundResource;
 use App\Models\Mall\MallOrderRefund;
-use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
 
 class ListMallOrderRefunds extends ListRecords

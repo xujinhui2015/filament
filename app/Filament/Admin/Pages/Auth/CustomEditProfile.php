@@ -3,37 +3,27 @@
 namespace App\Filament\Admin\Pages\Auth;
 
 use App\Support\Helpers\FilePathHelper;
-use Exception;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
-use Filament\Pages\Auth\EditProfile;
+use Filament\Auth\Pages\EditProfile;
+use Filament\Schemas\Schema;
 
 class CustomEditProfile extends EditProfile
 {
-    /**
-     * @throws Exception
-     */
-    protected function getForms(): array
+    public function form(Schema $schema): Schema
     {
-        return [
-            'form' => $this->form(
-                $this->makeForm()
-                    ->schema([
-                        $this->getAvatarUrlFormComponent(),
-                        $this->getNameFormComponent(),
-                        $this->getPhoneFormComponent(),
-                        $this->getEmailFormComponent(),
-                        $this->getPasswordFormComponent(),
-                        $this->getPasswordConfirmationFormComponent(),
-                    ])
-                    ->operation('edit')
-                    ->model($this->getUser())
-                    ->statePath('data')
-                    ->inlineLabel(! static::isSimple()),
-            ),
-        ];
+        return $schema
+            ->components([
+                $this->getAvatarUrlFormComponent(),
+                $this->getNameFormComponent(),
+                $this->getPhoneFormComponent(),
+                $this->getEmailFormComponent(),
+                $this->getPasswordFormComponent(),
+                $this->getPasswordConfirmationFormComponent(),
+            ]);
     }
+
     protected function getAvatarUrlFormComponent(): FileUpload
     {
         return FileUpload::make('avatar_url')
@@ -43,8 +33,6 @@ class CustomEditProfile extends EditProfile
             ->label('头像');
     }
 
-
-
     protected function getPhoneFormComponent(): Component
     {
         return TextInput::make('phone')
@@ -53,5 +41,4 @@ class CustomEditProfile extends EditProfile
             ->disabled()
             ->helperText('修改手机号请联系管理员');
     }
-
 }

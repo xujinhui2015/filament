@@ -13,7 +13,7 @@ class OrderRefundOperationLog extends ManageRelatedRecords
 
     protected static string $relationship = 'operationLog';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $title =  '订单状态变更日志';
 

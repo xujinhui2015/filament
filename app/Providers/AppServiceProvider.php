@@ -13,8 +13,6 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Pulse\Facades\Pulse;
 use Opcodes\LogViewer\Facades\LogViewer;
-use Rawilk\FilamentQuill\Enums\ToolbarButton;
-use Rawilk\FilamentQuill\Filament\Forms\Components\QuillEditor;
 use Illuminate\Support\Facades\Gate;
 
 class AppServiceProvider extends ServiceProvider
@@ -48,14 +46,6 @@ class AppServiceProvider extends ServiceProvider
             'extra' => $user->phone,
             'avatar' => asset('storage/' . $user->avatar_url),
         ]);
-
-        // 富文本默认配置
-        QuillEditor::configureUsing(function (QuillEditor $quillEditor) {
-            // 默认禁用字体
-            $quillEditor->disableToolbarButtons([
-                ToolbarButton::Font,
-            ]);
-        });
 
         // 商城模块
         MallOrder::observe(MallOrderObserver::class);

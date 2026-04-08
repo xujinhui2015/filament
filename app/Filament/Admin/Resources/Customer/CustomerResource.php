@@ -9,13 +9,12 @@ use App\Filament\Resources\Customer\CustomerResource\Pages;
 use App\Models\Customer\Customer;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Exception;
+use Filament\Actions;
 use Filament\Infolists;
-use Filament\Infolists\Infolist;
-use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use Rmsramos\Activitylog\Actions\ActivityLogTimelineTableAction;
 
 class CustomerResource extends AdminResource implements HasShieldPermissions
 {
@@ -23,11 +22,11 @@ class CustomerResource extends AdminResource implements HasShieldPermissions
 
     protected static ?string $navigationLabel = '会员管理';
 
-    protected static ?string $navigationGroup = '会员';
+    protected static string|\UnitEnum|null $navigationGroup = '会员';
 
     protected static ?string $modelLabel = '会员';
 
-    protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-users';
 
     public static function getPermissionPrefixes(): array
     {
@@ -71,18 +70,18 @@ class CustomerResource extends AdminResource implements HasShieldPermissions
 
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
+                Actions\ViewAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                Actions\BulkActionGroup::make([
+                    Actions\DeleteBulkAction::make(),
                 ]),
             ])->recordUrl(null)->defaultSort('id', 'desc');
     }
 
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
+        return $schema
             ->schema([
                 Infolists\Components\Fieldset::make('用户信息')
                     ->schema([

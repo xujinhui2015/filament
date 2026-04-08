@@ -8,7 +8,7 @@ use App\Filament\Mall\Resources\MallResource;
 use App\Models\Mall\MallGoodsCategory;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class MallGoodsCategoryResource extends MallResource implements HasShieldPermissions
 {
     protected static ?string $model = MallGoodsCategory::class;
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $cluster = MallGoodsCluster::class;
     protected static ?string $navigationLabel = '商品分类';
@@ -48,9 +48,9 @@ class MallGoodsCategoryResource extends MallResource implements HasShieldPermiss
         return ['title'];
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Forms\Components\Select::make('parent_id')
                     ->label('上级分类')

@@ -12,14 +12,15 @@ use App\Models\Mall\MallRefundAddress;
 use App\Services\Mall\MallRefundService;
 use App\Support\Exceptions\ResponseException;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use Filament\Actions;
 use Filament\Actions\MountableAction;
 use Filament\Forms;
 use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\Grid;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Infolist;
-use Filament\Pages\SubNavigationPosition;
+use Filament\Schemas\Schema;
+use Filament\Pages\Enums\SubNavigationPosition;
 use Filament\Resources\Pages\Page;
 use Filament\Support\Colors\Color;
 use Filament\Tables;
@@ -33,15 +34,15 @@ class MallOrderRefundResource extends MallResource implements HasShieldPermissio
 {
     protected static ?string $model = MallOrderRefund::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = '售后管理';
     protected static ?string $modelLabel = '售后';
-    protected static ?string $navigationGroup = '订单';
+    protected static string|\UnitEnum|null $navigationGroup = '订单';
 
     protected static ?int $navigationSort = 2;
 
-    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
+    protected static ?SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
     public static function getPermissionPrefixes(): array
     {
@@ -70,9 +71,9 @@ class MallOrderRefundResource extends MallResource implements HasShieldPermissio
         ]);
     }
 
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
+        return $schema
             ->schema([
                 Fieldset::make('会员信息')
                     ->schema([
@@ -151,8 +152,8 @@ class MallOrderRefundResource extends MallResource implements HasShieldPermissio
 
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                ... self::getOrderOperationActions(Tables\Actions\Action::class),
+                Actions\ViewAction::make(),
+                ... self::getOrderOperationActions(Actions\Action::class),
             ])
             ->bulkActions([
 

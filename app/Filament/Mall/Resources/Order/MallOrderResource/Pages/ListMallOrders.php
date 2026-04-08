@@ -6,8 +6,8 @@ use App\Enums\Mall\MallOrderOrderStatusEnum;
 use App\Filament\Mall\Resources\Order\MallOrderResource;
 use App\Models\Mall\MallOrder;
 use Filament\Pages\Concerns\ExposesTableToWidgets;
-use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
 
 class ListMallOrders extends ListRecords

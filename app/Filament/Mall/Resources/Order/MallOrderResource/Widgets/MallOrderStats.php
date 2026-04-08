@@ -13,7 +13,7 @@ use Flowframe\Trend\TrendValue;
 class MallOrderStats extends BaseWidget
 {
     use InteractsWithPageTable;
-    protected static ?string $pollingInterval = null;
+    protected ?string $pollingInterval = null;
     protected function getTablePage(): string
     {
         return ListMallOrders::class;

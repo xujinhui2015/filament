@@ -9,7 +9,7 @@ use Flowframe\Trend\Trend;
 class CustomersChart extends ChartWidget
 {
 //    protected int | string | array $columnSpan = 'full';
-    protected static ?string $heading = '用户数';
+    protected ?string $heading = '用户数';
 
     protected static ?int $sort = 1;
 

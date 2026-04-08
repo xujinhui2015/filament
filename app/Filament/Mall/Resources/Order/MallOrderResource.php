@@ -13,6 +13,7 @@ use App\Models\Mall\MallOrder;
 use App\Services\Filament\FilamentService;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Exception;
+use Filament\Actions;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -20,8 +21,8 @@ use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\Grid;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Infolist;
-use Filament\Pages\SubNavigationPosition;
+use Filament\Schemas\Schema;
+use Filament\Pages\Enums\SubNavigationPosition;
 use Filament\Resources\Pages\Page;
 use Filament\Support\Colors\Color;
 use Filament\Tables;
@@ -35,15 +36,15 @@ class MallOrderResource extends MallResource implements HasShieldPermissions
 {
     protected static ?string $model = MallOrder::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = '订单管理';
     protected static ?string $modelLabel = '订单';
-    protected static ?string $navigationGroup = '订单';
+    protected static string|\UnitEnum|null $navigationGroup = '订单';
 
     protected static ?int $navigationSort = 1;
 
-    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
+    protected static ?SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
     public static function getPermissionPrefixes(): array
     {
@@ -72,9 +73,9 @@ class MallOrderResource extends MallResource implements HasShieldPermissions
         ]);
     }
 
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
+        return $schema
             ->schema([
                 Fieldset::make('会员信息')
                     ->schema([
@@ -173,11 +174,11 @@ class MallOrderResource extends MallResource implements HasShieldPermissions
                 FilamentService::getFilterDateRange('created_at'),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                self::getDeliveryFromOption(Tables\Actions\EditAction::make()),
+                Actions\ViewAction::make(),
+                self::getDeliveryFromOption(Actions\EditAction::make()),
             ])
             ->headerActions([
-                Tables\Actions\ExportAction::make()
+                Actions\ExportAction::make()
                     ->exporter(MallOrderExporter::class)
             ])
             ->defaultSort('id', 'desc')
@@ -222,7 +223,7 @@ class MallOrderResource extends MallResource implements HasShieldPermissions
             ->count();
     }
 
-    public static function getDeliveryFromOption(EditAction|Tables\Actions\EditAction $object): EditAction|Tables\Actions\EditAction
+    public static function getDeliveryFromOption(EditAction $object): EditAction
     {
         return $object->form([
             Select::make('logistics_name')

@@ -15,27 +15,26 @@ use App\Support\Helpers\FilePathHelper;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use CodeWithDennis\FilamentSelectTree\SelectTree;
 use Exception;
+use Filament\Actions;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Icetalker\FilamentTableRepeater\Forms\Components\TableRepeater;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Rawilk\FilamentQuill\Filament\Forms\Components\QuillEditor;
 
 class MallGoodsResource extends MallResource implements HasShieldPermissions
 {
     protected static ?string $model = MallGoods::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = '商品管理';
     protected static ?string $modelLabel = '商品';
-    protected static ?string $navigationGroup = '商品';
+    protected static string|\UnitEnum|null $navigationGroup = '商品';
 
     public static function getPermissionPrefixes(): array
     {
@@ -63,11 +62,11 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
         return ['goods_sn', 'goods_name', 'subtitle', 'content'];
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        if ($form->getOperation() == 'create') {
+        if ($schema->getOperation() == 'create') {
             // 创建表单
-            return $form
+            return $schema
                 ->schema([
                     SelectTree::make('goods_category_id')
                         ->required()
@@ -196,7 +195,7 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
                                     ]);
                             })->toArray();
                         }),
-                    QuillEditor::make('content')
+                    Forms\Components\RichEditor::make('content')
                         ->required()
                         ->fileAttachmentsDirectory(FilePathHelper::uploadDir(FilePathHelper::MALL_GOODS))
                         ->columnSpanFull()
@@ -204,7 +203,7 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
                 ]);
         } else {
             // 编辑
-            return $form
+            return $schema
                 ->schema([
                     Forms\Components\TextInput::make('goods_sn')
                         ->required()
@@ -244,7 +243,7 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
                     Forms\Components\Repeater::make('attr')
                         ->relationship()
                         ->schema([
-                            TableRepeater::make('attrValue')
+                            Forms\Components\Repeater::make('attrValue')
                                 ->relationship()
                                 ->schema([
                                     Forms\Components\Placeholder::make('attr_value_name')
@@ -267,7 +266,7 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
                         ->collapsed()
                         ->itemLabel(fn(array $state): string => $state['attr_name'])
                         ->label('商品规格'),
-                    TableRepeater::make('sku')
+                    Forms\Components\Repeater::make('sku')
                         ->relationship()
                         ->schema([
                             Forms\Components\Placeholder::make('spec_text')
@@ -287,7 +286,7 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
                         ->columnSpanFull()
                         ->label('商品SKU'),
 
-                    QuillEditor::make('content')
+                    Forms\Components\RichEditor::make('content')
                         ->required()
                         ->fileAttachmentsDirectory(FilePathHelper::uploadDir(FilePathHelper::MALL_GOODS))
                         ->columnSpanFull()
@@ -342,12 +341,12 @@ class MallGoodsResource extends MallResource implements HasShieldPermissions
 
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\ForceDeleteAction::make(),
-                Tables\Actions\RestoreAction::make(),
+                Actions\EditAction::make(),
+                Actions\ForceDeleteAction::make(),
+                Actions\RestoreAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkAction::make('批量上架')
+                Actions\BulkAction::make('批量上架')
                     ->button()
                     ->action(function (Collection $records) {
                         $records->each(function (MallGoods $mallGoods) {

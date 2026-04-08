@@ -11,8 +11,9 @@ use App\Filament\Mall\Resources\MallResource;
 use App\Models\Mall\MallAttr;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Exception;
+use Filament\Actions;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -24,7 +25,7 @@ class MallAttrResource extends MallResource implements HasShieldPermissions
     protected static ?string $model = MallAttr::class;
     protected static ?string $cluster = MallGoodsCluster::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = '商品规格';
     protected static ?string $modelLabel = '商品规格';
@@ -55,9 +56,9 @@ class MallAttrResource extends MallResource implements HasShieldPermissions
         return ['attr_name'];
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Forms\Components\TextInput::make('attr_name')
                     ->required()
@@ -98,14 +99,14 @@ class MallAttrResource extends MallResource implements HasShieldPermissions
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Actions\EditAction::make(),
+                Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+                Actions\BulkActionGroup::make([
+                    Actions\DeleteBulkAction::make(),
+                    Actions\ForceDeleteBulkAction::make(),
+                    Actions\RestoreBulkAction::make(),
                 ]),
             ])
             ->defaultSort('sort')

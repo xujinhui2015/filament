@@ -7,8 +7,9 @@ use App\Filament\Resources\User\UserResource\Pages;
 use App\Models\User;
 use App\Support\Helpers\FilePathHelper;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use Filament\Actions;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
@@ -17,11 +18,11 @@ class UserResource extends AdminResource implements HasShieldPermissions
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = '系统用户';
 
-    protected static ?string $navigationGroup = '权限管理';
+    protected static string|\UnitEnum|null $navigationGroup = '权限管理';
 
     protected static ?string $modelLabel = '系统用户';
 
@@ -47,9 +48,9 @@ class UserResource extends AdminResource implements HasShieldPermissions
         return ['name', 'phone', 'email'];
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Forms\Components\FileUpload::make('avatar_url')
                     ->avatar()
@@ -120,7 +121,7 @@ class UserResource extends AdminResource implements HasShieldPermissions
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Actions\EditAction::make(),
             ]);
     }
 
