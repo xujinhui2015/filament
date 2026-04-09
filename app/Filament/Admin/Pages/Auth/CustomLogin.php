@@ -2,8 +2,8 @@
 
 namespace App\Filament\Admin\Pages\Auth;
 
-use Filament\Forms\Components\TextInput;
 use Filament\Auth\Pages\Login;
+use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Component;
 use Filament\Schemas\Schema;
 use Illuminate\Validation\ValidationException;
@@ -33,7 +33,7 @@ class CustomLogin extends Login
     protected function throwFailureValidationException(): never
     {
         throw ValidationException::withMessages([
-            'data.phone' => __('filament-panels::pages/auth/login.messages.failed'),
+            'data.phone' => __('filament-panels::auth/pages/login.messages.failed'),
         ]);
     }
 

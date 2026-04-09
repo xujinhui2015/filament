@@ -92,7 +92,7 @@ This project has domain-specific skills available. You MUST activate the relevan
 
 - Execute PHP in app context for debugging and testing code. Do not create models without user approval, prefer tests with factories instead. Prefer existing Artisan commands over custom tinker code.
 - Always use single quotes to prevent shell expansion: `php artisan tinker --execute 'Your::code();'`
-  - Double quotes for PHP strings inside: `php artisan tinker --execute 'User::where("active", true)->count();'`
+    - Double quotes for PHP strings inside: `php artisan tinker --execute 'User::where("active", true)->count();'`
 
 === php rules ===
 
@@ -175,16 +175,18 @@ This project has domain-specific skills available. You MUST activate the relevan
 
 # PHPUnit
 
+- Do not run tests by default. Only run tests when the user explicitly asks you to run them.
 - This application uses PHPUnit for testing. All tests must be written as PHPUnit classes. Use `php artisan make:test --phpunit {name}` to create a new test.
 - If you see a test using "Pest", convert it to PHPUnit.
-- Every time a test has been updated, run that singular test.
-- When the tests relating to your feature are passing, ask the user if they would like to also run the entire test suite to make sure everything is still passing.
+- If the user explicitly asks for testing, run the smallest relevant test scope first.
+- Only ask about running the full test suite after the user has already asked you to run tests for the change.
 - Tests should cover all happy paths, failure paths, and edge cases.
 - You must not remove any tests or test files from the tests directory without approval. These are not temporary or helper files; these are core to the application.
 
 ## Running Tests
 
-- Run the minimal number of tests, using an appropriate filter, before finalizing.
+- Do not run tests unless the user explicitly requests test execution.
+- If the user requests tests, run the minimal number of tests first, using an appropriate filter.
 - To run all tests: `php artisan test --compact`.
 - To run all tests in a file: `php artisan test --compact tests/Feature/ExampleTest.php`.
 - To filter on a particular test name: `php artisan test --compact --filter=testName` (recommended after making a change to a related file).
@@ -214,13 +216,13 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Utilities\Get;
 
 Select::make('type')
-    ->options(CompanyType::class)
-    ->required()
-    ->live(),
+->options(CompanyType::class)
+->required()
+->live(),
 
 TextInput::make('company_name')
-    ->required()
-    ->visible(fn (Get $get): bool => $get('type') === 'business'),
+->required()
+->visible(fn (Get $get): bool => $get('type') === 'business'),
 
 </code-snippet>
 
@@ -230,7 +232,7 @@ Use `state()` with a `Closure` to compute derived column values:
 use Filament\Tables\Columns\TextColumn;
 
 TextColumn::make('full_name')
-    ->state(fn (User $record): string => "{$record->first_name} {$record->last_name}"),
+->state(fn (User $record): string => "{$record->first_name} {$record->last_name}"),
 
 </code-snippet>
 
@@ -241,12 +243,12 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\TextInput;
 
 Action::make('updateEmail')
-    ->schema([
-        TextInput::make('email')
-            ->email()
-            ->required(),
-    ])
-    ->action(fn (array $data, User $record) => $record->update($data))
+->schema([
+TextInput::make('email')
+->email()
+->required(),
+])
+->action(fn (array $data, User $record) => $record->update($data))
 
 </code-snippet>
 
@@ -258,10 +260,10 @@ Always authenticate before testing panel functionality. Filament uses Livewire, 
 use function Pest\Livewire\livewire;
 
 livewire(ListUsers::class)
-    ->assertCanSeeTableRecords($users)
-    ->searchTable($users->first()->name)
-    ->assertCanSeeTableRecords($users->take(1))
-    ->assertCanNotSeeTableRecords($users->skip(1));
+->assertCanSeeTableRecords($users)
+->searchTable($users->first()->name)
+->assertCanSeeTableRecords($users->take(1))
+->assertCanNotSeeTableRecords($users->skip(1));
 
 </code-snippet>
 
@@ -270,17 +272,17 @@ use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Livewire\livewire;
 
 livewire(CreateUser::class)
-    ->fillForm([
-        'name' => 'Test',
-        'email' => 'test@example.com',
-    ])
-    ->call('create')
-    ->assertNotified()
-    ->assertRedirect();
+->fillForm([
+'name' => 'Test',
+'email' => 'test@example.com',
+])
+->call('create')
+->assertNotified()
+->assertRedirect();
 
 assertDatabaseHas(User::class, [
-    'name' => 'Test',
-    'email' => 'test@example.com',
+'name' => 'Test',
+'email' => 'test@example.com',
 ]);
 
 </code-snippet>
@@ -289,16 +291,16 @@ assertDatabaseHas(User::class, [
 use function Pest\Livewire\livewire;
 
 livewire(CreateUser::class)
-    ->fillForm([
-        'name' => null,
-        'email' => 'invalid-email',
-    ])
-    ->call('create')
-    ->assertHasFormErrors([
-        'name' => 'required',
-        'email' => 'email',
-    ])
-    ->assertNotNotified();
+->fillForm([
+'name' => null,
+'email' => 'invalid-email',
+])
+->call('create')
+->assertHasFormErrors([
+'name' => 'required',
+'email' => 'email',
+])
+->assertNotNotified();
 
 </code-snippet>
 
@@ -307,9 +309,9 @@ use Filament\Actions\DeleteAction;
 use function Pest\Livewire\livewire;
 
 livewire(EditUser::class, ['record' => $user->id])
-    ->callAction(DeleteAction::class)
-    ->assertNotified()
-    ->assertRedirect();
+->callAction(DeleteAction::class)
+->assertNotified()
+->assertRedirect();
 
 </code-snippet>
 
@@ -318,10 +320,10 @@ use Filament\Actions\Testing\TestAction;
 use function Pest\Livewire\livewire;
 
 livewire(ListUsers::class)
-    ->callAction(TestAction::make('promote')->table($user), [
-        'role' => 'admin',
-    ])
-    ->assertNotified();
+->callAction(TestAction::make('promote')->table($user), [
+'role' => 'admin',
+])
+->assertNotified();
 
 </code-snippet>
 
